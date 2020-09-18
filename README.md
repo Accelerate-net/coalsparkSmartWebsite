@@ -1,2 +1,2 @@
 # Accelerate Smart Menu
-The smart menu for restaurants to accept self orders from the guests
+The QR based smart menu for restaurants to accept self orders from the guests

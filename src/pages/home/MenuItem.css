@@ -1,0 +1,157 @@
+.menuItemMainWrapper {
+    -webkit-box-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    /* padding: 10px 16px; */
+}
+
+.subCategoryTitle {
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+    color: rgb(175, 0, 0);
+    /* text-decoration: underline; */
+}
+
+.nonVegSymbol {
+    width: 20px;
+    position: relative;
+    top: 5px;
+}
+
+.itemAdjective {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #ee9c00;
+    font-weight: 500;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.styles_ribbonStar__18yyu {
+    font-size: 0.86rem;
+}
+
+.itemNameWrapper {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #282c3f;
+    margin-top: 4px;
+}
+
+.itemNameText {
+    margin-right: 4px;
+}
+
+.itemPriceWrapper {
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.itemPrice {
+    font-size: 1rem;
+    margin-right: 8px;
+    color: #282c3f;
+    font-family: 'roboto';
+    font-weight: 500;
+}
+
+.itemPrice::before {
+    content: '\20B9';
+}
+
+.extraDetailsDisplay {
+    display: flex;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: #535353;
+}
+
+.servesNumberWrapper {
+    display: flex;
+}
+
+.prepTime p {
+    padding-left: 7px;
+    display: inline-block;
+}
+
+.servesNumber p {
+    padding-left: 7px;
+    display: inline-block;
+}
+
+ion-icon {
+    vertical-align: middle;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    background-color: #999999;
+    border-radius: 50%;
+    margin: 8px 1rem 0;
+}
+
+
+.itemRightSectionWrapper {
+    position: relative;
+    margin-left: 16px;
+    min-width: 128px;
+    height: 132px;
+}
+
+.itemImageWrapper {
+    width: 128px;
+    height: 108px;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.itemAddButton {
+    position: relative;
+    bottom: 20px;
+    min-height: 34px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    transform: translateX(-50%);
+    width: 80px;
+    border: 1px solid #d4d5d9;
+    background-color: #fff;
+    contain: content;
+    overflow: hidden;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.itemAddButton span {
+    font-size: .93rem;
+    font-weight: 600;
+    color: #60b246;
+    line-height: 30px;
+}
+
+.customiseText {
+    text-align: center;
+    /* position: relative; */
+    /* top: 0; */
+    margin-top: -1rem;
+}
+
+.customiseText p {
+    font-size: 10px;
+    color: #535353;
+}
+
+.seperationLine {
+    border-bottom: .5px solid #d4d5d9;
+    height: 1px;
+    padding: 0 12px;
+    margin: 20px 0;
+}

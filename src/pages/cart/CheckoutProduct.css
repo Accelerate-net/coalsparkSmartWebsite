@@ -1,0 +1,118 @@
+.checkoutProduct {
+    padding: 0 1.4rem 1rem;
+    width: 100%;
+}
+
+.checkoutProduct__info {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+}
+
+.checkoutProduct__info .nonVegSymbol {
+    width: 16px;
+}
+
+.checkoutProduct__title {
+    color: #000;
+    font-size: 1rem;
+    font-weight: 300;
+    margin-left: 10px;
+    flex: 1;
+    overflow: hidden;
+    padding-top: 1px;
+}
+
+.checkoutProduct__info button {
+    background-color: #E86565;
+    border: none;
+    outline: none;
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.checkoutProduct__remove {
+    align-self: center;
+    font-size: 10px;
+}
+
+.YtkFu {
+    width: 82px;
+    height: 26px;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+}
+
+._2pWL- {
+    width: 80px;
+    height: 28px;
+    background: #fff;
+    border: 1px solid #e9e9eb;
+    margin-left: 16px;
+    font-size: .86rem;
+    color: #7e808c;
+    position: relative;
+    contain: content;
+}
+
+._1H238 {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    width: 26.66667px;
+    height: 100%;
+    text-align: center;
+}
+
+._1H238:before {
+    content: "";
+    display: block;
+    height: 2px;
+    width: 10px;
+    background-color: #bebfc5;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate3d(-50%, -50%, 0);
+    transform: translate3d(-50%, -50%, 0);
+}
+
+.QSzbj {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    width: 26.66667px;
+    color: #E86565;
+    font-weight: 600;
+    height: 100%;
+    text-align: center;
+    line-height: 26px;
+    font-size: 1.4rem;
+}
+
+._33Vfv {
+    position: absolute;
+    left: 26.66667px;
+    width: 26.66667px;
+    text-align: center;
+    height: 100%;
+    line-height: 26px;
+    color: #E86565;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.checkoutProduct__price {
+    font-family: 'roboto', sans-serif;
+    color: #3d4152;
+    padding-top: 6px;
+    margin-left: 2rem;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+.checkoutProduct__price::before {
+    content: '\20B9';
+}

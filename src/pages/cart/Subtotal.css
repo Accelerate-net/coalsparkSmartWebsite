@@ -1,0 +1,72 @@
+.itemTotal {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+}
+
+.itemTotal p {
+    color: #5a5a5a;
+    font-size: 14px;
+}
+
+.taxPrice p {
+    color: #5a5a5a;
+    font-size: 14px;
+}
+
+.itemTotal .cartItemPrice {
+    position: absolute;
+    right: 0;
+    font-family: 'roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: right;
+    color: #000;
+}
+
+.itemTotal .cartItemPrice:before {
+    content: '\20B9';
+}
+
+.taxPrice {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 14px;
+}
+
+.taxPrice .tax {
+    position: absolute;
+    right: 0;
+    font-family: 'roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: right;
+    color: #000;
+}
+
+.taxPrice .tax:before {
+    content: '\20B9';
+}
+
+.toPay {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    border-top: 1px solid #e8e8e8;
+    padding-top: 14px;
+}
+
+.toPay .toPayTotal {
+    position: absolute;
+    right: 0;
+    font-family: 'roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    text-align: right;
+}
+
+.toPay .toPayTotal:before {
+    content: '\20B9';
+}

@@ -1,0 +1,93 @@
+.buttonShow {
+    display: block;
+}
+
+.buttonHide {
+    display: none;
+}
+
+.menuButtonWrapper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.menuButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 24px;
+    cursor: pointer;
+}
+
+.menuButton span {
+    height: 64px;
+    z-index: 1;
+    width: 110px;
+    height: 40px;
+    border-radius: 30px;
+    background: #E86565;
+    color: #fff;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3),
+        0 2px 1px 0 rgba(93, 141, 213, 0.2);
+    padding-top: 8px;
+    font-weight: 600;
+    font-size: 0.93rem;
+}
+
+.menuButton span i {
+    margin-right: 8px;
+}
+
+.popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* margin: auto; */
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    /* transition: all 1s ease-in-out; */
+}
+
+@keyframes popup {
+    0% {
+        transform: scale(0);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.innerwrapper {
+    position: fixed;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+.popup_inner {
+    width: 220px;
+    height: 300px;
+    overflow: auto;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    background: white;
+    animation: popup 0.25s;
+}
+
+.categoryText {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #5c5c5c;
+    margin-bottom: 5px;
+    display: block;
+    text-decoration: none;
+}

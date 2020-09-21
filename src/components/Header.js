@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import { useStateValue } from "../contexts/StateProvider";
+import { getItemCount } from "../contexts/reducer";
 
 function Header() {
   const [{ basket }] = useStateValue();
+  let itemc = getItemCount(basket);
+  console.log(itemc);
   return (
     <nav className="header">
       {/* Zaitoon text on left*/}
@@ -21,7 +24,7 @@ function Header() {
           <div className="header__cart">
             <ion-icon name="restaurant-outline"></ion-icon>
             <div className="header__dot"></div>
-            <span className="header__cartValue">{basket?.length}</span>
+            <span className="header__cartValue">{itemc}</span>
           </div>
         </Link>
       </div>

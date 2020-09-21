@@ -1,3 +1,12 @@
+.subtotal {
+    /* min-height: 100vh; */
+    position: relative;
+}
+
+.billDetails {
+    margin-bottom: 5rem;
+}
+
 .itemTotal {
     margin-top: 10px;
     position: relative;
@@ -69,4 +78,23 @@
 
 .toPay .toPayTotal:before {
     content: '\20B9';
+}
+
+.checkoutBtnWrapper {
+    position: absolute;
+    /* top: 10px; */
+    /* bottom: 0px; */
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.checkoutBtn {
+    width: 100%;
+    height: 40px;
+    background-color: #e86565;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #fff;
 }

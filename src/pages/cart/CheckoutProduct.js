@@ -21,6 +21,20 @@ function CheckoutProduct({
     });
   };
 
+  const incrementItem = () => {
+    dispatch({
+      type: "INCREASE_ITEM",
+      itemCode: itemCode,
+    });
+  };
+
+  const decrementItem = () => {
+    dispatch({
+      type: "DECREASE_ITEM",
+      itemCode: itemCode,
+    });
+  };
+
   return (
     <div className="checkoutProduct">
       <div className="checkoutProduct__info">
@@ -32,9 +46,11 @@ function CheckoutProduct({
         <p className="checkoutProduct__title">{itemName}</p>
         {/* <button className="checkoutProduct__remove">Remove</button> */}
         <div className="_2pWL- YtkFu" data-cy="item-quantity-button">
-          <div className="_1H238" onClick={removeFromBasket}></div>
+          <div className="_1H238" onClick={decrementItem}></div>
           <div className="_33Vfv">{itemCount}</div>
-          <div className="QSzbj">+</div>
+          <div className="QSzbj" onClick={incrementItem}>
+            +
+          </div>
         </div>
         <p className="checkoutProduct__price">
           <span>{itemOriginalPrice}</span>

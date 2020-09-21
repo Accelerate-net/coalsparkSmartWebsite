@@ -1,6 +1,13 @@
 // To track the basket
 import React, { createContext, useContext, useReducer } from "react";
 
+const storage = localStorage.getItem("cartItem")
+  ? JSON.parse(localStorage.getItem("cartItem"))
+  : [];
+
+export const initialState = {
+  basket: storage,
+};
 // this is the data layer
 export const StateContext = createContext();
 

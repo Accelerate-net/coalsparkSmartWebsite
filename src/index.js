@@ -4,14 +4,15 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { StateProvider } from "./contexts/StateProvider";
-import reducer, { initialState } from "./contexts/reducer";
+import reducer from "./contexts/reducer";
+import { initialState } from "./contexts/StateProvider";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
-      <App />
-    </StateProvider>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <StateProvider initialState={initialState} reducer={reducer}>
+    <App />
+  </StateProvider>,
+  // </React.StrictMode>,
   document.getElementById("root")
 );
 

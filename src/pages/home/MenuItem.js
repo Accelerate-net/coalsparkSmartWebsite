@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import "./MenuItem.css";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
 import { useStateValue } from "../../contexts/StateProvider";
+import { getItemCount } from "../../contexts/reducer";
 
 function MenuItem({
-  menuSubCat,
   itemCode,
   itemName,
   itemPrice,
@@ -17,7 +17,18 @@ function MenuItem({
   itemAvailable,
   itemLabel,
 }) {
-  const [{}, dispatch] = useStateValue();
+  const [{ basket }, dispatch] = useStateValue();
+  const [addBtnClick, changeState] = useState(false);
+
+  basket.forEach((item) => {
+    var i = item.itemCount;
+    console.log(i);
+  });
+  for (var i = 0; i <= basket?.length; i++) {
+    var itemC = basket[i];
+    console.log(itemC);
+  }
+
   const addToBasket = () => {
     dispatch({
       type: "ADD_TO_BASKET",
@@ -26,8 +37,22 @@ function MenuItem({
         itemName: itemName,
         itemPrice: itemPrice,
         itemVeg: itemVeg,
-        itemCount: 1,
       },
+    });
+  };
+  console.log(addBtnClick);
+
+  const incrementItem = () => {
+    dispatch({
+      type: "INCREASE_ITEM",
+      itemCode: itemCode,
+    });
+  };
+
+  const decrementItem = () => {
+    dispatch({
+      type: "DECREASE_ITEM",
+      itemCode: itemCode,
     });
   };
 
@@ -44,7 +69,6 @@ function MenuItem({
                   ) : (
                     <img className="nonVegSymbol" src={nonVegSymbol} alt="" />
                   )}
-                  {/* <img className="nonVegSymbol" src={foodLabel} alt="" /> */}
                   <span className="itemAdjective">{itemLabel}</span>
                 </div>
                 <div className="itemNameWrapper">
@@ -88,12 +112,36 @@ function MenuItem({
                 <div className="itemAddButtonWrapper">
                   <div className="itemAddButton">
                     {/* <AddBtn addItem={itemA} /> */}
-                    <span
-                      className="addBtn"
-                      style={{ color: "#ee9c00" }}
-                      onClick={addToBasket}>
-                      ADD
-                    </span>
+
+                    {addBtnClick === true ? (
+                      // <div
+                      //   className="_2pWL- YtkFu"
+                      //   data-cy="item-quantity-button">
+                      //   <div className="_1H238" onClick={decrementItem}></div>
+                      //   <div className="_33Vfv"></div>
+                      //   <div className="QSzbj" onClick={incrementItem}>
+                      //     +
+                      //   </div>
+                      // </div>
+                      <span
+                        className="addBtn"
+                        style={{ color: "#ee9c00", fontSize: "12px" }}
+                        onClick={() => {
+                          addToBasket();
+                        }}>
+                        ADD MORE
+                      </span>
+                    ) : (
+                      <span
+                        className="addBtn"
+                        style={{ color: "#ee9c00" }}
+                        onClick={() => {
+                          addToBasket();
+                          changeState(!addBtnClick);
+                        }}>
+                        ADD
+                      </span>
+                    )}
                     {/* <MainButton itemDetails={itemA} /> */}
                   </div>
                   {itemCustom ? (

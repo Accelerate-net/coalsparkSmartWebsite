@@ -1,0 +1,134 @@
+.custom nav {
+    position: sticky;
+    top: 0;
+    background-color: #f2f6fc;
+    box-shadow: 0px 3px 6px #e8e8e8;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 1rem 1rem;
+    z-index: 100;
+    margin-bottom: 2rem;
+    color: #000;
+}
+
+.custom nav ion-icon {
+    font-size: 1.8rem;
+    color: #000;
+}
+
+.custom__navTitle {
+    display: flex;
+    align-items: center;
+}
+
+.custom__navTitle .nonVegSymbol {
+    width: 20px;
+    margin: -18px 8px 0 5px;
+}
+
+.custom__navTitle h1 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* display: inline-block; */
+    margin-top: 10px;
+}
+
+.custom__navTitle p {
+    font-family: 'roboto', sans-serif;
+}
+
+.custom__navTitle p::before {
+    content: '\20B9'
+}
+
+.custom__Options {
+    padding: 0 1.4rem;
+}
+
+.custom__Options h4 {
+    font-size: 1rem;
+    color: #7e7e7e;
+    margin-bottom: 1rem;
+}
+
+.custom__Options label {
+    display: flex;
+}
+
+.vegOrNon img {
+    margin-right: 10px;
+}
+
+.option__Check {
+    margin-right: 10px;
+    margin-top: 7px;
+}
+
+.option__Details {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2px;
+    margin-bottom: 1rem;
+}
+
+.option__Details .option__Name {
+    margin-right: 8px;
+}
+
+.option__Details .option__Price span {
+    font-family: 'roboto', sans-serif;
+    margin-right: 8px;
+    color: #7c7c7c;
+}
+
+.option__Details .option__Price span::before {
+    content: '\20b9';
+}
+
+.custom .servesNumber {
+    color: #7e7e7e;
+}
+
+.custom .servesNumber ion-icon {
+    align-items: center;
+    margin-top: -3px;
+}
+
+.custom .servesNumber p {
+    padding-left: 2px;
+}
+
+.custom__AddBtnWrapper {
+    padding: 0 1.4rem;
+}
+
+.custom__AddBtnWrapper {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 100px;
+    padding: 8px 1rem 1rem;
+    background-color: #fff;
+    box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, .04);
+}
+
+.add_Quantity span {
+    font-size: 12px;
+}
+
+.add__Btn {
+    width: 100%;
+    background-color: #60b246;
+    text-align: center;
+    padding: 8px 0;
+    margin-top: 0.7rem;
+    color: #fff;
+    outline: none;
+    border: none;
+}
+
+.add__Btn span {
+    font-size: 16px;
+}

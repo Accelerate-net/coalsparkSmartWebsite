@@ -13,32 +13,47 @@ export const getBasketTotal = (basket) => (
 
 const reducer = (state, action) => {
 
-    console.log(action);
     switch (action.type) {
         case "ADD_TO_BASKET":
             // Logic for adding item to basket
-            // console.log('added')
             const bas = [...state.basket]
 
             let productAlready = false
-            bas.forEach(item => {
-                console.log(item.itemCount)
-                if (item.itemCode === action.item.itemCode) {
-                    productAlready = true;
-                    item.itemCount = item.itemCount + 1;
-                    item.itemPrice = item.itemCount * item.itemOriginalPrice
+            let itemIsCustom = action.item.isCustom
+            if (itemIsCustom) {
+                bas.forEach(item => {
+                    if (item.customVariant === action.item.customVariant) {
+                        productAlready = true;
+                        item.itemCount = item.itemCount + 1;
+                        item.itemPrice = item.itemCount * item.itemOriginalPrice
+                    }
+                });
+                if (!productAlready) {
+                    bas.push({
+                        ...action.item,
+                        itemCount: 1,
+                        itemOriginalPrice: action.item.itemPrice,
+                        itemOptions: action.item.customOpt
+                    })
                 }
-                console.log(item.itemCount)
-            });
-            if (!productAlready) {
-                bas.push({
-                    ...action.item,
-                    itemCount: 1,
-                    itemOriginalPrice: action.item.itemPrice
-                })
+            } else {
+                bas.forEach(item => {
+                    if (item.itemCode === action.item.itemCode) {
+                        productAlready = true;
+                        item.itemCount = item.itemCount + 1;
+                        item.itemPrice = item.itemCount * item.itemOriginalPrice
+                    }
+                });
+                if (!productAlready) {
+                    bas.push({
+                        ...action.item,
+                        itemCount: 1,
+                        itemOriginalPrice: action.item.itemPrice,
+                        itemOptions: action.item.customOpt
+                    })
+                }
             }
             // localStorage.setItem("cartItem", JSON.stringify(bas))
-            // console.log(bas)
             Storage(bas)
             return {
                 ...state,
@@ -51,7 +66,6 @@ const reducer = (state, action) => {
             const index = state.basket.findIndex(
                 (basketItem) => basketItem.itemCode === action.itemCode
             );
-            //   console.log(index);
 
             if (index >= 0) {
                 // item exists in basket, so remove
@@ -66,45 +80,77 @@ const reducer = (state, action) => {
                 basket: newBasket,
             };
         case "DECREASE_ITEM":
-            console.log('clicked')
             let decreaseItemBasket = [...state.basket]
-            decreaseItemBasket.forEach((item) => {
-                if (item.itemCode === action.itemCode) {
-                    // item.itemCount === 1 ? item.itemCount = 1 : item.itemCount -= 1;
-                    if (item.itemCount === 1) {
-                        const index = state.basket.findIndex(
-                            (basketItem) => basketItem.itemCode === action.itemCode
-                        );
-                        if (index >= 0) {
-                            // item exists in basket, so remove
-                            decreaseItemBasket.splice(index, 1);
-                        } else {
-                            console.warn(
-                                "Cant remove product (id: ${action.itemCode}) as its not in basket"
+            let itemIsCustomDecrese = action.isCustom
+            if (itemIsCustomDecrese) {
+                decreaseItemBasket.forEach((item) => {
+                    if (item.customVariant === action.customVariant) {
+                        // item.itemCount === 1 ? item.itemCount = 1 : item.itemCount -= 1;
+                        if (item.itemCount === 1) {
+                            const index = state.basket.findIndex(
+                                (basketItem) => basketItem.customVariant === action.customVariant
                             );
+                            if (index >= 0) {
+                                // item exists in basket, so remove
+                                decreaseItemBasket.splice(index, 1);
+                            } else {
+                                console.warn(
+                                    "Cant remove product (id: ${action.itemCode}) as its not in basket"
+                                );
+                            }
+                        } else {
+                            item.itemCount -= 1
+                            item.itemPrice = item.itemCount * item.itemOriginalPrice
                         }
-                    } else {
-                        item.itemCount -= 1
-                        item.itemPrice = item.itemCount * item.itemOriginalPrice
                     }
-                }
-            })
+                })
+            } else {
+                decreaseItemBasket.forEach((item) => {
+                    if (item.itemCode === action.itemCode) {
+                        // item.itemCount === 1 ? item.itemCount = 1 : item.itemCount -= 1;
+                        if (item.itemCount === 1) {
+                            const index = state.basket.findIndex(
+                                (basketItem) => basketItem.itemCode === action.itemCode
+                            );
+                            if (index >= 0) {
+                                // item exists in basket, so remove
+                                decreaseItemBasket.splice(index, 1);
+                            } else {
+                                console.warn(
+                                    "Cant remove product (id: ${action.itemCode}) as its not in basket"
+                                );
+                            }
+                        } else {
+                            item.itemCount -= 1
+                            item.itemPrice = item.itemCount * item.itemOriginalPrice
+                        }
+                    }
+                })
+            }
             Storage(decreaseItemBasket)
-            // localStorage.setItem("cartItem", decreaseItemBasket)
             return {
                 ...state,
                 basket: decreaseItemBasket
             };
 
         case "INCREASE_ITEM":
-            console.log('clicked')
             let increaseItemBasket = [...state.basket]
-            increaseItemBasket.forEach((item) => {
-                if (item.itemCode === action.itemCode) {
-                    item.itemCount += 1;
-                    item.itemPrice = item.itemCount * item.itemOriginalPrice
-                }
-            })
+            let itemIsCustomAdd = action.isCustom
+            if (itemIsCustomAdd) {
+                increaseItemBasket.forEach((item) => {
+                    if (item.customVariant === action.customVariant) {
+                        item.itemCount += 1;
+                        item.itemPrice = item.itemCount * item.itemOriginalPrice
+                    }
+                })
+            } else {
+                increaseItemBasket.forEach((item) => {
+                    if (item.itemCode === action.itemCode) {
+                        item.itemCount += 1;
+                        item.itemPrice = item.itemCount * item.itemOriginalPrice
+                    }
+                })
+            }
             Storage(increaseItemBasket)
             return {
                 ...state,

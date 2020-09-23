@@ -6,7 +6,8 @@
 .checkoutProduct__info {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    /* align-items: flex-start; */
+    align-items: center;
 
 }
 
@@ -22,6 +23,17 @@
     flex: 1;
     overflow: hidden;
     padding-top: 1px;
+    display: flex;
+    flex-direction: column;
+}
+
+.checkoutCustomizedLink {
+    text-decoration: none;
+    font-size: 12px;
+    color: #E86565;
+    font-weight: 500;
+    align-items: center;
+
 }
 
 .checkoutProduct__info button {
@@ -107,7 +119,7 @@
 .checkoutProduct__price {
     font-family: 'roboto', sans-serif;
     color: #3d4152;
-    padding-top: 6px;
+    margin-top: 6px;
     margin-left: 2rem;
     font-weight: 400;
     font-size: 12px;

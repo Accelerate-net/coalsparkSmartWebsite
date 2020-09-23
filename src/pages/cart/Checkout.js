@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useStateValue } from "../../contexts/StateProvider";
 import { Link } from "react-router-dom";
 import "./Checkout.css";
@@ -7,7 +7,6 @@ import Subtotal from "./Subtotal";
 
 function Checkout() {
   const [{ basket }, dispatch] = useStateValue();
-  // console.log(basket);
   return (
     <div className="checkout">
       <nav>
@@ -42,6 +41,9 @@ function Checkout() {
                 itemPrice={item.itemPrice}
                 itemVeg={item.itemVeg}
                 itemCount={item.itemCount}
+                customOpt={item.itemOptions}
+                customVariant={item.customVariant}
+                isCustom={item.isCustom}
               />
             ))}
           </div>

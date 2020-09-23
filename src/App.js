@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Home from "./pages/home/Home";
 import Checkout from "./pages/cart/Checkout";
 import MenuButton from "./components/Menubutton";
+import Custom from "./pages/custom/Custom";
 
 const brandId = "zaitoon";
 
@@ -20,12 +21,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    var post;
-
     // Call the API
     fetch(
-      "https://jsonblob.com/api/jsonBlob/37850320-f982-11ea-a18d-69ca0607fcc5/" +
-        brandId
+      "https://jsonblob.com/api/jsonBlob/37850320-f982-11ea-a18d-69ca0607fcc5/"
     )
       .then((response) => {
         if (response.ok) {
@@ -85,6 +83,10 @@ class App extends Component {
         <Router>
           <div>
             <Switch>
+              <Route exact path="/customised">
+                <Custom />
+              </Route>
+              {/* </Route> */}
               <Route path="/checkout">
                 <Checkout />
               </Route>

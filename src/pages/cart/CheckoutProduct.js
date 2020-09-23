@@ -3,6 +3,7 @@ import "./CheckoutProduct.css";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
 import { useStateValue } from "../../contexts/StateProvider";
+import { Link } from "react-router-dom";
 
 function CheckoutProduct({
   itemCode,
@@ -11,20 +12,19 @@ function CheckoutProduct({
   itemOriginalPrice,
   itemVeg,
   itemCount,
+  customVariant,
+  customOpt,
+  isCustom,
 }) {
   const [{ basket }, dispatch] = useStateValue();
-  const removeFromBasket = () => {
-    // remove from basket
-    dispatch({
-      type: "REMOVE_FROM_BASKET",
-      itemCode: itemCode,
-    });
-  };
 
   const incrementItem = () => {
     dispatch({
       type: "INCREASE_ITEM",
       itemCode: itemCode,
+      customVariant: customVariant,
+      customOpt: customOpt,
+      isCustom: isCustom,
     });
   };
 
@@ -32,6 +32,9 @@ function CheckoutProduct({
     dispatch({
       type: "DECREASE_ITEM",
       itemCode: itemCode,
+      customVariant: customVariant,
+      customOpt: customOpt,
+      isCustom: isCustom,
     });
   };
 
@@ -43,8 +46,35 @@ function CheckoutProduct({
         ) : (
           <img className="nonVegSymbol" src={nonVegSymbol} alt="" />
         )}
-        <p className="checkoutProduct__title">{itemName}</p>
+        <p className="checkoutProduct__title">
+          {itemName}
+          {isCustom ? (
+            <>
+              <span
+                className="variantName"
+                style={{ fontSize: "12px", color: "#000" }}>
+                {customVariant}
+              </span>
+              <Link
+                to={{
+                  pathname: "/customised",
+                  state: {
+                    itemCode: itemCode,
+                    itemName: itemName,
+                    customOpt: customOpt,
+                    itemPrice: itemOriginalPrice,
+                    itemVeg: itemVeg,
+                    isCustom: isCustom,
+                  },
+                }}
+                className="checkoutCustomizedLink">
+                CUSTOMISE <ion-icon name="arrow-down-outline"></ion-icon>
+              </Link>
+            </>
+          ) : null}
+        </p>
         {/* <button className="checkoutProduct__remove">Remove</button> */}
+
         <div className="_2pWL- YtkFu" data-cy="item-quantity-button">
           <div className="_1H238" onClick={decrementItem}></div>
           <div className="_33Vfv">{itemCount}</div>

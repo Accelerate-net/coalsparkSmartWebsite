@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import { BrowserRouter as Route, Link } from "react-router-dom";
 import "./MenuItem.css";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
 import { useStateValue } from "../../contexts/StateProvider";
-import { getItemCount } from "../../contexts/reducer";
 
 function MenuItem({
   itemCode,
@@ -16,18 +16,10 @@ function MenuItem({
   itemVeg,
   itemAvailable,
   itemLabel,
+  customOpt,
 }) {
   const [{ basket }, dispatch] = useStateValue();
   const [addBtnClick, changeState] = useState(false);
-
-  basket.forEach((item) => {
-    var i = item.itemCount;
-    console.log(i);
-  });
-  for (var i = 0; i <= basket?.length; i++) {
-    var itemC = basket[i];
-    console.log(itemC);
-  }
 
   const addToBasket = () => {
     dispatch({
@@ -40,7 +32,6 @@ function MenuItem({
       },
     });
   };
-  console.log(addBtnClick);
 
   const incrementItem = () => {
     dispatch({
@@ -112,36 +103,69 @@ function MenuItem({
                 <div className="itemAddButtonWrapper">
                   <div className="itemAddButton">
                     {/* <AddBtn addItem={itemA} /> */}
-
-                    {addBtnClick === true ? (
-                      // <div
-                      //   className="_2pWL- YtkFu"
-                      //   data-cy="item-quantity-button">
-                      //   <div className="_1H238" onClick={decrementItem}></div>
-                      //   <div className="_33Vfv"></div>
-                      //   <div className="QSzbj" onClick={incrementItem}>
-                      //     +
-                      //   </div>
-                      // </div>
-                      <span
-                        className="addBtn"
-                        style={{ color: "#ee9c00", fontSize: "12px" }}
-                        onClick={() => {
-                          addToBasket();
-                        }}>
-                        ADD MORE
-                      </span>
+                    {itemCustom ? (
+                      <>
+                        <Link
+                          to={{
+                            pathname: "/customised",
+                            state: {
+                              itemCode: itemCode,
+                              itemName: itemName,
+                              customOpt: customOpt,
+                              itemPrice: itemPrice,
+                              itemVeg: itemVeg,
+                              isCustom: itemCustom,
+                            },
+                          }}
+                          style={{ textDecoration: "none" }}>
+                          <span
+                            className="addBtn"
+                            style={{
+                              color: "#ee9c00",
+                              fontSize: "16px",
+                            }}>
+                            ADD
+                          </span>
+                        </Link>
+                        {/* <Route
+                          path="/customised"
+                          render={(props) => <Custom ></Custom>}
+                        /> */}
+                      </>
                     ) : (
-                      <span
-                        className="addBtn"
-                        style={{ color: "#ee9c00" }}
-                        onClick={() => {
-                          addToBasket();
-                          changeState(!addBtnClick);
-                        }}>
-                        ADD
-                      </span>
+                      <>
+                        {addBtnClick === true ? (
+                          // <div
+                          //   className="_2pWL- YtkFu"
+                          //   data-cy="item-quantity-button">
+                          //   <div className="_1H238" onClick={decrementItem}></div>
+                          //   <div className="_33Vfv"></div>
+                          //   <div className="QSzbj" onClick={incrementItem}>
+                          //     +
+                          //   </div>
+                          // </div>
+                          <span
+                            className="addBtn"
+                            style={{ color: "#ee9c00", fontSize: "12px" }}
+                            onClick={() => {
+                              addToBasket();
+                            }}>
+                            ADD MORE
+                          </span>
+                        ) : (
+                          <span
+                            className="addBtn"
+                            style={{ color: "#ee9c00" }}
+                            onClick={() => {
+                              addToBasket();
+                              changeState(!addBtnClick);
+                            }}>
+                            ADD
+                          </span>
+                        )}
+                      </>
                     )}
+
                     {/* <MainButton itemDetails={itemA} /> */}
                   </div>
                   {itemCustom ? (

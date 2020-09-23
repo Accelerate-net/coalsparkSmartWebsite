@@ -7,7 +7,6 @@ import { getItemCount } from "../contexts/reducer";
 function Header() {
   const [{ basket }] = useStateValue();
   let itemc = getItemCount(basket);
-  console.log(itemc);
   return (
     <nav className="header">
       {/* Zaitoon text on left*/}

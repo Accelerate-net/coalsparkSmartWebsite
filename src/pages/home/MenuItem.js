@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { BrowserRouter as Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
+import LazyLoad from "react-lazyload";
 import "./MenuItem.css";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
@@ -21,6 +22,12 @@ function MenuItem({
   const [{ basket }, dispatch] = useStateValue();
   const [addBtnClick, changeState] = useState(false);
 
+  const Loading = () => (
+    <div className="post loading">
+      <h5>Loading....</h5>
+    </div>
+  );
+
   const addToBasket = () => {
     dispatch({
       type: "ADD_TO_BASKET",
@@ -33,25 +40,154 @@ function MenuItem({
     });
   };
 
-  const incrementItem = () => {
-    dispatch({
-      type: "INCREASE_ITEM",
-      itemCode: itemCode,
-    });
-  };
+  // const incrementItem = () => {
+  //   dispatch({
+  //     type: "INCREASE_ITEM",
+  //     itemCode: itemCode,
+  //   });
+  // };
 
-  const decrementItem = () => {
-    dispatch({
-      type: "DECREASE_ITEM",
-      itemCode: itemCode,
-    });
-  };
+  // const decrementItem = () => {
+  //   dispatch({
+  //     type: "DECREASE_ITEM",
+  //     itemCode: itemCode,
+  //   });
+  // };
 
   return (
     <>
-      <div>
-        {itemAvailable ? (
-          <>
+      <LazyLoad placeholder={<Loading />}>
+        <div>
+          {itemAvailable ? (
+            <>
+              <div className="menuItemMainWrapper">
+                <div>
+                  <div>
+                    {itemVeg === true ? (
+                      <img className="nonVegSymbol" src={vegSymbol} alt="" />
+                    ) : (
+                      <img className="nonVegSymbol" src={nonVegSymbol} alt="" />
+                    )}
+                    <span className="itemAdjective">{itemLabel}</span>
+                  </div>
+                  <div className="itemNameWrapper">
+                    <span className="itemNameText">{itemName}</span>
+                  </div>
+                  <div className="itemPriceWrapper">
+                    <span className="itemPrice">{itemPrice}</span>
+                  </div>
+                  <div className="extraDetailsDisplay">
+                    <div className="prepTimeWrapper">
+                      <span className="prepTime">
+                        <ion-icon name="time-outline"></ion-icon>
+                        <p>{itemPrep + " mins"}</p>
+                      </span>
+                    </div>
+                    <div className="dot"></div>
+                    <div className="servesNumberWrapper">
+                      <span className="servesNumber">
+                        <ion-icon name="people-outline"></ion-icon>{" "}
+                        <p>{itemServes}</p>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="itemRightSectionWrapper">
+                  {itemImg.length === 0 ? (
+                    <img
+                      alt=""
+                      className="itemImageWrapper"
+                      src={itemImg}
+                      style={{ visibility: "hidden" }}
+                    />
+                  ) : (
+                    <img
+                      alt=""
+                      className="itemImageWrapper"
+                      src={itemImg}
+                      style={{ display: "block" }}
+                    />
+                  )}
+                  <div className="itemAddButtonWrapper">
+                    <div className="itemAddButton">
+                      {/* <AddBtn addItem={itemA} /> */}
+                      {itemCustom ? (
+                        <>
+                          <Link
+                            to={{
+                              pathname: "/customised",
+                              state: {
+                                itemCode: itemCode,
+                                itemName: itemName,
+                                customOpt: customOpt,
+                                itemPrice: itemPrice,
+                                itemVeg: itemVeg,
+                                isCustom: itemCustom,
+                              },
+                            }}
+                            style={{ textDecoration: "none" }}>
+                            <span
+                              className="addBtn"
+                              style={{
+                                color: "#ee9c00",
+                                fontSize: "16px",
+                              }}>
+                              ADD
+                            </span>
+                          </Link>
+                          {/* <Route
+                          path="/customised"
+                          render={(props) => <Custom ></Custom>}
+                        /> */}
+                        </>
+                      ) : (
+                        <>
+                          {addBtnClick === true ? (
+                            // <div
+                            //   className="_2pWL- YtkFu"
+                            //   data-cy="item-quantity-button">
+                            //   <div className="_1H238" onClick={decrementItem}></div>
+                            //   <div className="_33Vfv"></div>
+                            //   <div className="QSzbj" onClick={incrementItem}>
+                            //     +
+                            //   </div>
+                            // </div>
+                            <span
+                              className="addBtn"
+                              style={{ color: "#ee9c00", fontSize: "12px" }}
+                              onClick={() => {
+                                addToBasket();
+                              }}>
+                              ADD MORE
+                            </span>
+                          ) : (
+                            <span
+                              className="addBtn"
+                              style={{ color: "#ee9c00" }}
+                              onClick={() => {
+                                addToBasket();
+                                changeState(!addBtnClick);
+                              }}>
+                              ADD
+                            </span>
+                          )}
+                        </>
+                      )}
+
+                      {/* <MainButton itemDetails={itemA} /> */}
+                    </div>
+                    {itemCustom ? (
+                      <div className="customiseText">
+                        {" "}
+                        <p>Customisable</p>{" "}
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                {/* <div className="seperationLine"></div> */}
+              </div>
+            </>
+          ) : (
             <div className="menuItemMainWrapper">
               <div>
                 <div>
@@ -60,19 +196,26 @@ function MenuItem({
                   ) : (
                     <img className="nonVegSymbol" src={nonVegSymbol} alt="" />
                   )}
-                  <span className="itemAdjective">{itemLabel}</span>
+                  {/* <img className="nonVegSymbol" src={foodLabel} alt="" /> */}
+                  <span className="itemAdjective" style={{ color: "#999999" }}>
+                    {itemLabel}
+                  </span>
                 </div>
                 <div className="itemNameWrapper">
-                  <span className="itemNameText">{itemName}</span>
+                  <span className="itemNameText" style={{ color: "#999999" }}>
+                    {itemName}
+                  </span>
                 </div>
                 <div className="itemPriceWrapper">
-                  <span className="itemPrice">{itemPrice}</span>
+                  <span className="itemPrice" style={{ color: "#999999" }}>
+                    {itemPrice}
+                  </span>
                 </div>
                 <div className="extraDetailsDisplay">
                   <div className="prepTimeWrapper">
                     <span className="prepTime">
                       <ion-icon name="time-outline"></ion-icon>
-                      <p>{itemPrep + " mins"}</p>
+                      <p style={{ color: "#999999" }}>{itemPrep + " mins"}</p>
                     </span>
                   </div>
                   <div className="dot"></div>
@@ -97,75 +240,15 @@ function MenuItem({
                     alt=""
                     className="itemImageWrapper"
                     src={itemImg}
-                    style={{ display: "block" }}
+                    style={{ display: "block", filter: "grayscale(100%)" }}
                   />
                 )}
                 <div className="itemAddButtonWrapper">
                   <div className="itemAddButton">
                     {/* <AddBtn addItem={itemA} /> */}
-                    {itemCustom ? (
-                      <>
-                        <Link
-                          to={{
-                            pathname: "/customised",
-                            state: {
-                              itemCode: itemCode,
-                              itemName: itemName,
-                              customOpt: customOpt,
-                              itemPrice: itemPrice,
-                              itemVeg: itemVeg,
-                              isCustom: itemCustom,
-                            },
-                          }}
-                          style={{ textDecoration: "none" }}>
-                          <span
-                            className="addBtn"
-                            style={{
-                              color: "#ee9c00",
-                              fontSize: "16px",
-                            }}>
-                            ADD
-                          </span>
-                        </Link>
-                        {/* <Route
-                          path="/customised"
-                          render={(props) => <Custom ></Custom>}
-                        /> */}
-                      </>
-                    ) : (
-                      <>
-                        {addBtnClick === true ? (
-                          // <div
-                          //   className="_2pWL- YtkFu"
-                          //   data-cy="item-quantity-button">
-                          //   <div className="_1H238" onClick={decrementItem}></div>
-                          //   <div className="_33Vfv"></div>
-                          //   <div className="QSzbj" onClick={incrementItem}>
-                          //     +
-                          //   </div>
-                          // </div>
-                          <span
-                            className="addBtn"
-                            style={{ color: "#ee9c00", fontSize: "12px" }}
-                            onClick={() => {
-                              addToBasket();
-                            }}>
-                            ADD MORE
-                          </span>
-                        ) : (
-                          <span
-                            className="addBtn"
-                            style={{ color: "#ee9c00" }}
-                            onClick={() => {
-                              addToBasket();
-                              changeState(!addBtnClick);
-                            }}>
-                            ADD
-                          </span>
-                        )}
-                      </>
-                    )}
-
+                    <span className="addBtn" style={{ color: "#999999" }}>
+                      ADD
+                    </span>
                     {/* <MainButton itemDetails={itemA} /> */}
                   </div>
                   {itemCustom ? (
@@ -176,84 +259,10 @@ function MenuItem({
                   ) : null}
                 </div>
               </div>
-              {/* <div className="seperationLine"></div> */}
             </div>
-          </>
-        ) : (
-          <div className="menuItemMainWrapper">
-            <div>
-              <div>
-                {itemVeg === true ? (
-                  <img className="nonVegSymbol" src={vegSymbol} alt="" />
-                ) : (
-                  <img className="nonVegSymbol" src={nonVegSymbol} alt="" />
-                )}
-                {/* <img className="nonVegSymbol" src={foodLabel} alt="" /> */}
-                <span className="itemAdjective" style={{ color: "#999999" }}>
-                  {itemLabel}
-                </span>
-              </div>
-              <div className="itemNameWrapper">
-                <span className="itemNameText" style={{ color: "#999999" }}>
-                  {itemName}
-                </span>
-              </div>
-              <div className="itemPriceWrapper">
-                <span className="itemPrice" style={{ color: "#999999" }}>
-                  {itemPrice}
-                </span>
-              </div>
-              <div className="extraDetailsDisplay">
-                <div className="prepTimeWrapper">
-                  <span className="prepTime">
-                    <ion-icon name="time-outline"></ion-icon>
-                    <p style={{ color: "#999999" }}>{itemPrep + " mins"}</p>
-                  </span>
-                </div>
-                <div className="dot"></div>
-                <div className="servesNumberWrapper">
-                  <span className="servesNumber">
-                    <ion-icon name="people-outline"></ion-icon>{" "}
-                    <p>{itemServes}</p>
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="itemRightSectionWrapper">
-              {itemImg.length === 0 ? (
-                <img
-                  alt=""
-                  className="itemImageWrapper"
-                  src={itemImg}
-                  style={{ visibility: "hidden" }}
-                />
-              ) : (
-                <img
-                  alt=""
-                  className="itemImageWrapper"
-                  src={itemImg}
-                  style={{ display: "block", filter: "grayscale(100%)" }}
-                />
-              )}
-              <div className="itemAddButtonWrapper">
-                <div className="itemAddButton">
-                  {/* <AddBtn addItem={itemA} /> */}
-                  <span className="addBtn" style={{ color: "#999999" }}>
-                    ADD
-                  </span>
-                  {/* <MainButton itemDetails={itemA} /> */}
-                </div>
-                {itemCustom ? (
-                  <div className="customiseText">
-                    {" "}
-                    <p>Customisable</p>{" "}
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </LazyLoad>
     </>
   );
 }

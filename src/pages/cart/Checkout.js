@@ -6,7 +6,7 @@ import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 
 function Checkout() {
-  const [{ basket }, dispatch] = useStateValue();
+  const [{ basket }] = useStateValue();
   return (
     <div className="checkout">
       <nav>
@@ -33,8 +33,9 @@ function Checkout() {
       ) : (
         <>
           <div>
-            {basket?.map((item) => (
+            {basket?.map((item, k) => (
               <CheckoutProduct
+                key={k}
                 itemCode={item.itemCode}
                 itemName={item.itemName}
                 itemOriginalPrice={item.itemOriginalPrice}

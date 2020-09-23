@@ -41,7 +41,8 @@ class App extends Component {
         });
         // Fetch another API
         return fetch(
-          "https://jsonblob.com/api/jsonBlob/fd947b2d-f7e1-11ea-aed3-e943147a178d/"
+          "https://jsonblob.com/api/jsonBlob/fd947b2d-f7e1-11ea-aed3-e943147a178d/" +
+            brandId
         );
       })
       .then((response) => {
@@ -70,6 +71,7 @@ class App extends Component {
 
   render() {
     const { error, menuLoaded, menu, brand } = this.state;
+
     if (error) {
       return (
         <div className="loadingStyle"> Error in loading. Try Refreshing. </div>
@@ -92,6 +94,7 @@ class App extends Component {
               </Route>
               <Route exact path="/">
                 <Header />
+
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
                 {/* <h1>Home</h1> */}

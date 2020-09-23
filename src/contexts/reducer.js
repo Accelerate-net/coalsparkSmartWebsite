@@ -72,7 +72,7 @@ const reducer = (state, action) => {
                 newBasket.splice(index, 1);
             } else {
                 console.warn(
-                    "Cant remove product (id: ${action.itemCode}) as its not in basket"
+                    "Cant remove product as its not in basket"
                 );
             }
             return {
@@ -95,7 +95,7 @@ const reducer = (state, action) => {
                                 decreaseItemBasket.splice(index, 1);
                             } else {
                                 console.warn(
-                                    "Cant remove product (id: ${action.itemCode}) as its not in basket"
+                                    "Cant remove product as its not in basket"
                                 );
                             }
                         } else {
@@ -117,7 +117,7 @@ const reducer = (state, action) => {
                                 decreaseItemBasket.splice(index, 1);
                             } else {
                                 console.warn(
-                                    "Cant remove product (id: ${action.itemCode}) as its not in basket"
+                                    "Cant remove product as its not in basket"
                                 );
                             }
                         } else {

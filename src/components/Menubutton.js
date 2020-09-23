@@ -9,8 +9,9 @@ class Popup extends React.Component {
         <div className="innerwrapper">
           <div className="popup_inner">
             {" "}
-            {this.props.text.map((main) => (
+            {this.props.text.map((main, i) => (
               <Link
+                key={i}
                 to={main.categoryName}
                 duration={1000}
                 smooth={true}

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
@@ -10,7 +10,7 @@ function Custom() {
   let location = useLocation();
   const itemCode = location.state.itemCode;
   const itemName = location.state.itemName;
-  const itemPrice = location.state.itemPrice;
+  // const itemPrice = location.state.itemPrice;
   const customOption = location.state.customOpt;
   const isCustom = location.state.isCustom;
   const isVeg = location.state.itemVeg;
@@ -20,7 +20,6 @@ function Custom() {
 
   const handleVariant = (e) => {
     if (e.target.checked) {
-      console.log("selected", e.target.value);
       handleOnChange(e.target.value);
     }
   };

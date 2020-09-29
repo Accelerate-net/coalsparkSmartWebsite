@@ -21,13 +21,13 @@ function Header() {
           </div>
         </Link>
         {/* Cart icon with number*/}
-        <Link to="/checkout">
+        {/* <Link to="/checkout">
           <div className="header__cart">
             <ion-icon name="restaurant-outline"></ion-icon>
             <div className="header__dot"></div>
             <span className="header__cartValue">{itemc}</span>
           </div>
-        </Link>
+        </Link> */}
       </div>
     </nav>
   );

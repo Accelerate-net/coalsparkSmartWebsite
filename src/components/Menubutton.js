@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Menubutton.css";
 import { Link } from "react-scroll";
+import CartBanner from "./CartBanner.js";
 
 class Popup extends React.Component {
   render() {
@@ -16,7 +17,8 @@ class Popup extends React.Component {
                 duration={1000}
                 smooth={true}
                 className="categoryText"
-                onClick={this.props.closePopup}>
+                onClick={this.props.closePopup}
+              >
                 {main.categoryName}{" "}
               </Link>
             ))}{" "}
@@ -45,12 +47,14 @@ class MenuButton extends Component {
       <>
         <div
           className="menuButtonWrapper animate__animated animate__fadeInUp"
-          id="menuButtonWrapper">
+          id="menuButtonWrapper"
+        >
           <div className="menuButton">
             <span onClick={this.togglePopup}>
               <i className="fas fa-utensils"> </i>MENU
             </span>
           </div>
+          <CartBanner />
         </div>
 
         {this.state.showPopup ? (

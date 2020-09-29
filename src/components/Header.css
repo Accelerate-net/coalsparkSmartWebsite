@@ -21,7 +21,6 @@
 
 .header__logo {
     color: #E86565;
-    padding: 2px 0;
 }
 
 .header__rightSection {
@@ -34,7 +33,7 @@
 
 .header__search {
     font-size: 1.4rem;
-    margin-right: 1rem;
+    /* margin-right: 1rem; */
     align-items: center;
     display: flex;
 }

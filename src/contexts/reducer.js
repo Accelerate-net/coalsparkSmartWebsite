@@ -7,6 +7,9 @@ export const getItemCount = (basket) => (
 
 )
 
+export const getInCount = (basket, itemCode) => (
+    basket.map(itemI => (itemI.itemCode === itemCode ? itemI.itemCount : null)))
+
 export const getBasketTotal = (basket) => (
     basket?.reduce((amount, item) => item.itemPrice + amount, 0)
 )
@@ -57,7 +60,7 @@ const reducer = (state, action) => {
             Storage(bas)
             return {
                 ...state,
-                basket: bas
+                basket: bas,
             };
 
         case "REMOVE_FROM_BASKET":
@@ -156,7 +159,6 @@ const reducer = (state, action) => {
                 ...state,
                 basket: increaseItemBasket
             };
-
 
         default:
             return state;

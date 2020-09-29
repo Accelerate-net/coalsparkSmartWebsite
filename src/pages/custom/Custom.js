@@ -10,7 +10,6 @@ function Custom() {
   let location = useLocation();
   const itemCode = location.state.itemCode;
   const itemName = location.state.itemName;
-  // const itemPrice = location.state.itemPrice;
   const customOption = location.state.customOpt;
   const isCustom = location.state.isCustom;
   const isVeg = location.state.itemVeg;
@@ -130,7 +129,8 @@ function Custom() {
             addToBasket();
             fetchDatad();
           }}
-          disabled={loading}>
+          disabled={loading}
+        >
           {loading === true ? <span>Adding...</span> : <span>Add</span>}
         </button>
       </div>

@@ -20,7 +20,8 @@ function Checkout() {
             left: "50%",
             transform: "translateX(-50%)",
             color: "#E86565",
-          }}>
+          }}
+        >
           {" "}
           Your Basket
         </h2>

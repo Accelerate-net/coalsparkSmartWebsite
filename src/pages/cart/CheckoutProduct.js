@@ -52,7 +52,8 @@ function CheckoutProduct({
             <>
               <span
                 className="variantName"
-                style={{ fontSize: "12px", color: "#000" }}>
+                style={{ fontSize: "12px", color: "#000" }}
+              >
                 {customVariant}
               </span>
               <Link
@@ -67,7 +68,8 @@ function CheckoutProduct({
                     isCustom: isCustom,
                   },
                 }}
-                className="checkoutCustomizedLink">
+                className="checkoutCustomizedLink"
+              >
                 CUSTOMISE <ion-icon name="arrow-down-outline"></ion-icon>
               </Link>
             </>

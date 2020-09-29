@@ -6,6 +6,7 @@ import Home from "./pages/home/Home";
 import Checkout from "./pages/cart/Checkout";
 import MenuButton from "./components/Menubutton";
 import Custom from "./pages/custom/Custom";
+import Search from "./pages/search/Search";
 
 const brandId = "zaitoon";
 
@@ -78,7 +79,14 @@ class App extends Component {
       );
     } else if (!menuLoaded) {
       return (
-        <div className="loadingStyle"> Fetching our Amazing Dishes 😋... </div>
+        <div className="loadingStyle">
+          {" "}
+          Fetching our Amazing Dishes{" "}
+          <span role="img" aria-label="emoji">
+            😋
+          </span>
+          ...{" "}
+        </div>
       );
     } else {
       return (
@@ -88,16 +96,16 @@ class App extends Component {
               <Route exact path="/customised">
                 <Custom />
               </Route>
-              {/* </Route> */}
+              <Route path="/search">
+                <Search searchItem={menu} />
+              </Route>
               <Route path="/checkout">
                 <Checkout />
               </Route>
               <Route exact path="/">
                 <Header />
-
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
-                {/* <h1>Home</h1> */}
               </Route>
             </Switch>
           </div>

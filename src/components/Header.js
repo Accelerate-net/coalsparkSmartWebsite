@@ -15,9 +15,11 @@ function Header() {
       </Link>
       <div className="header__rightSection">
         {/* Search Icon */}
-        <div className="header__search">
-          <ion-icon name="search-outline"></ion-icon>
-        </div>
+        <Link to="/search">
+          <div className="header__search">
+            <ion-icon name="search-outline"></ion-icon>
+          </div>
+        </Link>
         {/* Cart icon with number*/}
         <Link to="/checkout">
           <div className="header__cart">

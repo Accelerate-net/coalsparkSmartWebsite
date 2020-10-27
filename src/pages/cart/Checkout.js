@@ -10,7 +10,7 @@ function Checkout() {
   return (
     <div className="checkout">
       <nav>
-        <Link to="/">
+        <Link to="/menu">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
         <h2

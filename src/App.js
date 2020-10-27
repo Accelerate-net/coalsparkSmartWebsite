@@ -7,6 +7,7 @@ import Checkout from "./pages/cart/Checkout";
 import MenuButton from "./components/Menubutton";
 import Custom from "./pages/custom/Custom";
 import Search from "./pages/search/Search";
+import Login from './pages/login/Login'
 
 const brandId = "zaitoon";
 
@@ -102,10 +103,13 @@ class App extends Component {
               <Route path="/checkout">
                 <Checkout />
               </Route>
-              <Route exact path="/">
+              <Route exact path="/menu">
                 <Header />
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
+              </Route>
+              <Route exact path = "/">
+                <Login />
               </Route>
             </Switch>
           </div>

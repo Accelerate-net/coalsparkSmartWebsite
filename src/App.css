@@ -6,7 +6,8 @@
 
 body {
   width: 100%;
-  font-family: 'poppins', 'roboto', sans-serif;
+  /* height: 100%; */
+  font-family: "poppins", "roboto", sans-serif;
   background-color: #fff;
   scroll-behavior: smooth;
 }

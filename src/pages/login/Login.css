@@ -1,0 +1,311 @@
+.login {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  overflow: hidden;
+}
+
+.login__Bg {
+  height: 100%;
+  background-color: #e86565;
+}
+
+.login img {
+  width: 100%;
+}
+
+.login__LogoWrapper {
+  width: 200px;
+  margin: 0 auto;
+  position: relative;
+  top: 8%;
+}
+
+.login__bgWrapper {
+  display: none;
+}
+
+.login__bgWrapper img {
+  display: none;
+}
+
+.start_btn {
+  display: none;
+}
+
+.login_Form {
+  display: none;
+}
+
+.touchNone {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 5;
+}
+
+.desktop_Msg {
+  width: 80%;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+.desktop_Msg img {
+  width: 300px;
+  margin: 2rem auto;
+}
+
+.desktop_Msg h3 {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+@media only screen and (max-width: 426px) {
+  .desktop_Msg {
+    display: none;
+  }
+
+  .login__bgWrapper {
+    display: block;
+  }
+
+  .login__bgWrapper img {
+    display: block;
+  }
+
+  .start_btn {
+    display: block;
+  }
+
+  .login_Form {
+    display: block;
+  }
+
+  .login__bgWrapper {
+    position: relative;
+    top: 100px;
+    width: 90%;
+    margin: 0 auto;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    /* height: 250px; */
+  }
+
+  .lady_Wrapper {
+    width: 120px;
+    position: absolute;
+    z-index: 2;
+    animation: ladymove 1s ease-in;
+    animation-delay: 0.5s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes ladymove {
+    from {
+      top: 100px;
+      left: 40px;
+    }
+    to {
+      top: 95px;
+      left: 50px;
+    }
+  }
+
+  .table_Wrapper {
+    width: 250px;
+    position: absolute;
+    left: 70px;
+    top: 100px;
+    z-index: 1;
+  }
+
+  .man_Wrapper {
+    width: 120px;
+    position: absolute;
+    z-index: 2;
+    transform: rotate(-2deg);
+    animation: manmove 0.6s ease-in;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes manmove {
+    from {
+      top: 10px;
+      left: 195px;
+    }
+    to {
+      top: 10px;
+      left: 193px;
+    }
+  }
+
+  .flower_Wrapper {
+    position: relative;
+    top: 115px;
+    left: 190px;
+    z-index: 2;
+    visibility: hidden;
+    animation: flowermove 2s ease-in;
+    animation-delay: 2s;
+    animation-fill-mode: both;
+  }
+
+  @keyframes flowermove {
+    from {
+      visibility: hidden;
+    }
+    to {
+      visibility: visible;
+    }
+  }
+
+  .flower_Wrapper img {
+    width: 30px;
+  }
+
+  .start_btn {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 8;
+  }
+
+  .start_btn button {
+    outline: none;
+    border: none;
+    background-color: #fff;
+    width: 100%;
+    height: 50px;
+    border-radius: 20px 20px 0 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #e86565;
+  }
+
+  .login_Form {
+    position: fixed;
+    bottom: -100%;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    z-index: 10;
+    padding: 1rem 2rem;
+    transition: all 650ms cubic-bezier(0, 0.52, 0.7, 1);
+  }
+
+  .login_Form.open {
+    /* display: block; */
+    bottom: 0;
+  }
+
+  .login_Form .login_Title h3 {
+    color: #e86565;
+    text-align: center;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+  }
+
+  .login_Form form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .login_Form form input {
+    padding: 14px 10px;
+    margin-bottom: 1.2rem;
+    font-size: 14px;
+    border: 1px solid #e86565;
+    border-radius: 10px;
+  }
+
+  .login_Form form input:focus {
+    outline: none;
+  }
+
+  .login_Form form button {
+    outline: none;
+    border: none;
+    background-color: #e86565;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .login__bgWrapper {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .lady_Wrapper {
+    width: 110px;
+    position: absolute;
+    z-index: 2;
+  }
+
+  @keyframes ladymove {
+    from {
+      top: 100px;
+      left: 15px;
+    }
+    to {
+      top: 95px;
+      left: 20px;
+    }
+  }
+
+  .table_Wrapper {
+    width: 250px;
+    position: absolute;
+    left: 35px;
+    top: 90px;
+    z-index: 1;
+  }
+
+  .man_Wrapper {
+    width: 110px;
+    position: absolute;
+    z-index: 2;
+    transform: rotate(-2deg);
+  }
+
+  @keyframes manmove {
+    from {
+      top: 10px;
+      left: 167px;
+    }
+    to {
+      top: 10px;
+      left: 165px;
+    }
+  }
+
+  .flower_Wrapper {
+    position: relative;
+    top: 115px;
+    left: 160px;
+    z-index: 2;
+  }
+  .flower_Wrapper img {
+    width: 30px;
+  }
+}

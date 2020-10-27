@@ -53,7 +53,7 @@ function Search({ searchItem }) {
   return (
     <div className="search">
       <nav className="search__Header">
-        <Link to="/" className="search__Back">
+        <Link to="/menu" className="search__Back">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
         <input

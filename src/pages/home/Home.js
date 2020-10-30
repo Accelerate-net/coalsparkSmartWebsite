@@ -52,6 +52,9 @@ function Home({ menu }) {
           </div>
         </div>
       ))}
+      <div className="lastSpace">
+        
+      </div>
     </div>
   );
 }

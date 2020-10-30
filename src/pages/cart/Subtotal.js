@@ -22,7 +22,7 @@ function Subtotal({ outletD }) {
   console.log(fullDetails);
 
   outletD.modes.map((modeCheck) => {
-    if (metaGetData.mode == modeCheck.type) {
+    if (metaGetData.mode === modeCheck.type) {
       modeCheck.taxSlabs.map((taxSlab) => {
         if (taxSlab.type === "PERCENTAGE") {
           taxPrice = taxPrice + taxSlab.value * 100;
@@ -50,7 +50,7 @@ function Subtotal({ outletD }) {
           </div>
           <span></span>
           {outletD.modes.map((modeCheck) =>
-            metaGetData.mode == modeCheck.type
+            metaGetData.mode === modeCheck.type
               ? modeCheck.taxSlabs.map((taxSlab) => (
                   <div className="taxPrice">
                     <p>{taxSlab.label}</p>
@@ -65,7 +65,7 @@ function Subtotal({ outletD }) {
           )}
           <span></span>
           {outletD.modes.map((modeCheck) =>
-            metaGetData.mode == modeCheck.type
+            metaGetData.mode === modeCheck.type
               ? modeCheck.otherCharges.map((otherCh) => (
                   <div className="taxPrice">
                     <p>{otherCh.label}</p>

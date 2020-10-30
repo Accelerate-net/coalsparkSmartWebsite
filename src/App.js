@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/home/Home";
 import Checkout from "./pages/cart/Checkout";
@@ -29,17 +23,7 @@ class App extends Component {
   componentDidMount() {
     // Call the API
     let urlParams = JSON.parse(localStorage.getItem("metaData"));
-    // if (
-    //   urlParams.branchCode ||
-    //   urlParams.tableNumber ||
-    //   urlParams.qrCodeReference ||
-    //   urlParams.mode == null
-    // ) {
-    //   this.setState({
-    //     readyToRedirect: true,
-    //   });
-    // }
-    // console.log(urlParams, this.state.readyToRedirect);
+
     fetch(
       "https://jsonblob.com/api/jsonBlob/c93505a6-1a16-11eb-b486-f3ef648c1054/?branchCode=" +
         urlParams.branchCode +

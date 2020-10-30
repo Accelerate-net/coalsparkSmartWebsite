@@ -70,9 +70,9 @@ function Search({ searchItem }) {
           placeholder="Search in Zaitoon"
           onChange={(e) => searchSpace(e)}
         />
-        <Link className="search__SearchIcon">
+        <div className="search__SearchIcon">
           <ion-icon name="search-outline"></ion-icon>
-        </Link>
+        </div>
       </nav>
       <div>
         <div

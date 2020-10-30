@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import "./Login.css";
 import logo from "../../assets/imgs/logo_white.png";
 import man from "../../assets/imgs/man.png";
@@ -6,7 +6,7 @@ import lady from "../../assets/imgs/lady.png";
 import table from "../../assets/imgs/table.png";
 import flower from "../../assets/imgs/flower.png";
 import bbq from "../../assets/imgs/bbq.svg";
-import { Link, withRouter, useHistory } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 
 function Login() {
   const [name, handleName] = useState("");
@@ -14,7 +14,6 @@ function Login() {
   const history = useHistory();
 
   const queryString = window.location.search;
-  console.log(queryString);
   const urlParams = new URLSearchParams(queryString);
   const branchCode = urlParams.get("branchCode");
   const tableNumber = urlParams.get("tableNumber");

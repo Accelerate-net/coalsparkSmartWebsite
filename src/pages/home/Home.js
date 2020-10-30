@@ -1,7 +1,19 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import MenuItem from "./MenuItem";
 
 function Home({ menu }) {
+  const history = useHistory();
+  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  if (
+    !urlParams.branchCode ||
+    !urlParams.tableNumber ||
+    !urlParams.qrCodeReference ||
+    !urlParams.mode
+  ) {
+    history.push("*");
+  }
+
   return (
     <div className="home">
       {menu.map((menuA, k) => (

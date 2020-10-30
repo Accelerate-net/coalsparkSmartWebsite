@@ -1,31 +1,50 @@
 import React, { Component } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  withRouter,
+  Redirect,
+} from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/home/Home";
 import Checkout from "./pages/cart/Checkout";
 import MenuButton from "./components/Menubutton";
 import Custom from "./pages/custom/Custom";
 import Search from "./pages/search/Search";
-import Login from './pages/login/Login'
-
-const brandId = "zaitoon";
-
+import Login from "./pages/login/Login";
+import Error from "./pages/error/Error";
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       error: null,
       isLoaded: false,
+      // readyToRedirect: false,
       menu: [],
     };
   }
 
   componentDidMount() {
     // Call the API
+    let urlParams = JSON.parse(localStorage.getItem("metaData"));
+    // if (
+    //   urlParams.branchCode ||
+    //   urlParams.tableNumber ||
+    //   urlParams.qrCodeReference ||
+    //   urlParams.mode == null
+    // ) {
+    //   this.setState({
+    //     readyToRedirect: true,
+    //   });
+    // }
+    // console.log(urlParams, this.state.readyToRedirect);
     fetch(
-      "https://jsonblob.com/api/jsonBlob/37850320-f982-11ea-a18d-69ca0607fcc5/"
+      "https://jsonblob.com/api/jsonBlob/c93505a6-1a16-11eb-b486-f3ef648c1054/?branchCode=" +
+        urlParams.branchCode +
+        "&mode=" +
+        urlParams.mode
     )
       .then((response) => {
         if (response.ok) {
@@ -39,12 +58,14 @@ class App extends Component {
         // post = data;
         this.setState({
           brandLoaded: true,
-          brand: data,
+          brand: data.outletData,
         });
         // Fetch another API
         return fetch(
-          "https://jsonblob.com/api/jsonBlob/fd947b2d-f7e1-11ea-aed3-e943147a178d/" +
-            brandId
+          "https://jsonblob.com/api/jsonBlob/c93505a6-1a16-11eb-b486-f3ef648c1054/?branchCode=" +
+            urlParams.branchCode +
+            "&mode=" +
+            urlParams.mode
         );
       })
       .then((response) => {
@@ -56,10 +77,10 @@ class App extends Component {
       })
       .then(
         (userData) => {
-          userData.sort((a, b) => a.rank - b.rank);
+          userData.menuData.sort((a, b) => a.rank - b.rank);
           this.setState({
             menuLoaded: true,
-            menu: userData,
+            menu: userData.menuData,
           });
         },
         (error) => {
@@ -73,7 +94,6 @@ class App extends Component {
 
   render() {
     const { error, menuLoaded, menu, brand } = this.state;
-
     if (error) {
       return (
         <div className="loadingStyle"> Error in loading. Try Refreshing. </div>
@@ -101,15 +121,18 @@ class App extends Component {
                 <Search searchItem={menu} />
               </Route>
               <Route path="/checkout">
-                <Checkout />
+                <Checkout outletData={brand} />
               </Route>
               <Route exact path="/menu">
                 <Header />
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
               </Route>
-              <Route exact path = "/">
+              <Route exact path="/">
                 <Login />
+              </Route>
+              <Route>
+                <Error path="*" />
               </Route>
             </Switch>
           </div>

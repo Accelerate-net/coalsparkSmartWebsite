@@ -1,21 +1,32 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
-import { useLocation } from "react-router-dom";
 import "./Custom.css";
 import { useStateValue } from "../../contexts/StateProvider";
 
 function Custom() {
   let location = useLocation();
+  const history = useHistory();
   const itemCode = location.state.itemCode;
   const itemName = location.state.itemName;
   const customOption = location.state.customOpt;
   const isCustom = location.state.isCustom;
   const isVeg = location.state.itemVeg;
+
   const [{ basket }, dispatch] = useStateValue();
   const [selectedValue, handleOnChange] = useState("Small");
   let selectedVariantprice = 100;
+
+  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  if (
+    !urlParams.branchCode ||
+    !urlParams.tableNumber ||
+    !urlParams.qrCodeReference ||
+    !urlParams.mode
+  ) {
+    history.push("*");
+  }
 
   const handleVariant = (e) => {
     if (e.target.checked) {

@@ -1,11 +1,20 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Search.css";
 import MenuItem from "../home/MenuItem";
 
 function Search({ searchItem }) {
   const [typedWord, handleInput] = useState("");
-
+  const history = useHistory();
+  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  if (
+    !urlParams.branchCode ||
+    !urlParams.tableNumber ||
+    !urlParams.qrCodeReference ||
+    !urlParams.mode
+  ) {
+    history.push("*");
+  }
   const searchSpace = (e) => {
     let keyword = e.target.value;
     handleInput(keyword);

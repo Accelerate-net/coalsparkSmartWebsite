@@ -1,12 +1,23 @@
 import React from "react";
 import { useStateValue } from "../../contexts/StateProvider";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./Checkout.css";
 import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 
-function Checkout() {
+function Checkout({ outletData }) {
   const [{ basket }] = useStateValue();
+  const history = useHistory();
+  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  if (
+    !urlParams.branchCode ||
+    !urlParams.tableNumber ||
+    !urlParams.qrCodeReference ||
+    !urlParams.mode
+  ) {
+    history.push("*");
+  }
+
   return (
     <div className="checkout">
       <nav>
@@ -55,7 +66,7 @@ function Checkout() {
       {basket.length > 0 && (
         <div className="checkout__Total">
           <h1>Bill details</h1>
-          <Subtotal />
+          <Subtotal outletD={outletData} />
         </div>
       )}
     </div>

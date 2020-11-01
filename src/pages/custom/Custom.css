@@ -79,8 +79,9 @@
 
 .option__Details .option__Price span {
     font-family: 'roboto', sans-serif;
-    margin-right: 8px;
     color: #7c7c7c;
+    position: absolute;
+    right: 15px;
 }
 
 .option__Details .option__Price span::before {
@@ -89,15 +90,12 @@
 
 .custom .servesNumber {
     color: #7e7e7e;
+    padding: 4px 0 0 0;
 }
 
 .custom .servesNumber ion-icon {
     align-items: center;
     margin-top: -3px;
-}
-
-.custom .servesNumber p {
-    padding-left: 2px;
 }
 
 .custom__AddBtnWrapper {

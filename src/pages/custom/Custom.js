@@ -122,8 +122,7 @@ function Custom() {
               </div>
               <div className="servesNumberWrapper">
                 <span className="servesNumber">
-                  <ion-icon name="people-outline"></ion-icon>{" "}
-                  <p>{item.serves}</p>
+                  <p>Serves {item.serves}</p>
                 </span>
               </div>
             </div>

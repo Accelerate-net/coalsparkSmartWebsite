@@ -22,58 +22,35 @@ class App extends Component {
 
   componentDidMount() {
     // Call the API
-    let urlParams = JSON.parse(localStorage.getItem("metaData"));
+    let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
 
-    fetch(
-      "https://jsonblob.com/api/jsonBlob/c93505a6-1a16-11eb-b486-f3ef648c1054/?branchCode=" +
-        urlParams.branchCode +
-        "&mode=" +
-        urlParams.mode
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject(response);
-        }
-      })
-      .then((data) => {
-        // Store the post data to a variable
-        // post = data;
-        this.setState({
-          brandLoaded: true,
-          brand: data.outletData,
+      const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
+      
+      fetch(menu_api_url)
+        .then((response) => response.json())
+        .then((data) => {
+
+          if(data.status){
+
+            this.setState({
+              brandLoaded: true,
+              brand: data.outletData,
+            });
+
+            let menuData = data.menuData;
+            menuData.sort((a, b) => a.rank - b.rank);
+
+            this.setState({
+              menuLoaded: true,
+              menu: menuData,
+            });
+          }
+          else{
+            //TODO Show Error Toast and go back to main menu
+          }
+
+
         });
-        // Fetch another API
-        return fetch(
-          "https://jsonblob.com/api/jsonBlob/c93505a6-1a16-11eb-b486-f3ef648c1054/?branchCode=" +
-            urlParams.branchCode +
-            "&mode=" +
-            urlParams.mode
-        );
-      })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          return Promise.reject(response);
-        }
-      })
-      .then(
-        (userData) => {
-          userData.menuData.sort((a, b) => a.rank - b.rank);
-          this.setState({
-            menuLoaded: true,
-            menu: userData.menuData,
-          });
-        },
-        (error) => {
-          // this.setState({
-          //   error,
-          // });
-          console.warn(error);
-        }
-      );
   }
 
   render() {

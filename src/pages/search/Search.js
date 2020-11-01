@@ -40,7 +40,7 @@ function Search({ searchItem }) {
                   itemName={searchItemList.name}
                   itemPrice={searchItemList.price}
                   itemServes={searchItemList.serves}
-                  itemPrep={searchItemList.averagePreperationTime}
+                  itemPrep={searchItemList.averagePreparationTime}
                   itemCustom={searchItemList.isCustomisable}
                   itemImg={searchItemList.imageUrl}
                   itemVeg={searchItemList.isVeg}

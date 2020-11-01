@@ -84,15 +84,14 @@ function MenuItem({
                   <div className="extraDetailsDisplay">
                     <div className="prepTimeWrapper">
                       <span className="prepTime">
-                        <ion-icon name="time-outline"></ion-icon>
-                        <p>{itemPrep + " mins"}</p>
+                        <ion-icon name="time-outline" className="timerIcon"></ion-icon>
+                        <p>{itemPrep + "m"}</p>
                       </span>
                     </div>
                     <div className="dot"></div>
                     <div className="servesNumberWrapper">
                       <span className="servesNumber">
-                        <ion-icon name="people-outline"></ion-icon>{" "}
-                        <p>{itemServes}</p>
+                        <p>Serves {itemServes}</p>
                       </span>
                     </div>
                   </div>

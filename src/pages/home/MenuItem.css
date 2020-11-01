@@ -81,13 +81,20 @@
   display: flex;
 }
 
+.prepTime{
+  font-size: 12px !important;
+}
+
+.servesNumber{
+  font-size: 12px !important;
+}
+
 .prepTime p {
   padding-left: 7px;
   display: inline-block;
 }
 
 .servesNumber p {
-  padding-left: 7px;
   display: inline-block;
 }
 

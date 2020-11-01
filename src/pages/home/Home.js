@@ -35,7 +35,7 @@ function Home({ menu }) {
                         itemName={menuItem.name}
                         itemPrice={menuItem.price}
                         itemServes={menuItem.serves}
-                        itemPrep={menuItem.averagePreperationTime}
+                        itemPrep={menuItem.averagePreparationTime}
                         itemCustom={menuItem.isCustomisable}
                         itemImg={menuItem.imageUrl}
                         itemVeg={menuItem.isVeg}

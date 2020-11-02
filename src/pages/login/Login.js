@@ -64,6 +64,16 @@ function Login() {
     history.push("/menu");
   };
 
+  let userDataAuto = JSON.parse(localStorage.getItem('userData'))
+  console.log(userDataAuto)
+  // if(userData){
+  //   document.getElementsByClassName('userName')[0].setAttribute('value', userDataAuto.name)
+  //   document.getElementsByClassName('userMobile')[0].setAttribute('value', userDataAuto.name)
+  // }else{
+  //   history.push('/')
+  // }
+
+
   return (
     <div className="login">
       <div className="login__Bg">
@@ -104,6 +114,7 @@ function Login() {
           <input
             type="text"
             minLength="3"
+            className="userName"
             value={name}
             placeholder="Your Name"
             onChange={(e) => handleNameInput(e)}
@@ -111,6 +122,7 @@ function Login() {
           />
           <input
             type="tel"
+            className="userMobile"
             value={mobile}
             placeholder="Mobile Number"
             minLength="10"

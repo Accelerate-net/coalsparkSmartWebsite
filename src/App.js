@@ -22,39 +22,40 @@ class App extends Component {
 
   componentDidMount() {
     // Call the API
-    let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
+    let urlParams = localStorage.getItem("metaData")
+      ? JSON.parse(localStorage.getItem("metaData"))
+      : {};
 
-      const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
-      
-      fetch(menu_api_url)
-        .then((response) => response.json())
-        .then((data) => {
+    const menu_api_url =
+      "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
 
-          if(data.status){
+    fetch(menu_api_url)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status) {
+          this.setState({
+            brandLoaded: true,
+            brand: data.outletData,
+          });
 
-            this.setState({
-              brandLoaded: true,
-              brand: data.outletData,
-            });
+          let menuData = data.menuData;
+          menuData.sort((a, b) => a.rank - b.rank);
 
-            let menuData = data.menuData;
-            menuData.sort((a, b) => a.rank - b.rank);
-
-            this.setState({
-              menuLoaded: true,
-              menu: menuData,
-            });
-          }
-          else{
-            //TODO Show Error Toast and go back to main menu
-          }
-
-
-        });
+          this.setState({
+            menuLoaded: true,
+            menu: menuData,
+          });
+        } else {
+          //TODO Show Error Toast and go back to main menu
+        }
+      });
   }
 
   render() {
     const { error, menuLoaded, menu, brand } = this.state;
+    console.log(menu);
+    console.log(brand);
+
     if (error) {
       return (
         <div className="loadingStyle"> Error in loading. Try Refreshing. </div>

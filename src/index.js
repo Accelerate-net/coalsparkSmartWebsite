@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 // import { BrowserRouter } from "react-router-dom";
+import { ToastProvider } from "react-toast-notifications";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -11,7 +12,13 @@ import { initialState } from "./contexts/StateProvider";
 ReactDOM.render(
   // <React.StrictMode>
   <StateProvider initialState={initialState} reducer={reducer}>
-    <App />
+    <ToastProvider
+      autoDismiss
+      autoDismissTimeout={5000}
+      placement="bottom-left"
+    >
+      <App />
+    </ToastProvider>
   </StateProvider>,
   // </React.StrictMode>,
   document.getElementById("root")

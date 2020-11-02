@@ -11,7 +11,7 @@ export const getInCount = (basket, itemCode) => (
     basket.map(itemI => (itemI.itemCode === itemCode ? itemI.itemCount : null)))
 
 export const getBasketTotal = (basket) => (
-    basket?.reduce((amount, item) => item.itemPrice + amount, 0)
+    basket?.reduce((amount, item) => parseInt(item.itemPrice) + amount, 0)
 )
 
 const reducer = (state, action) => {

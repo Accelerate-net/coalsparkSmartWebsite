@@ -5,6 +5,7 @@ import MenuItem from "../home/MenuItem";
 
 function Search({ searchItem }) {
   const [typedWord, handleInput] = useState("");
+
   const history = useHistory();
   let urlParams = JSON.parse(localStorage.getItem("metaData"));
   if (

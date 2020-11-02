@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
@@ -15,8 +15,17 @@ function Custom() {
   const isVeg = location.state.itemVeg;
 
   const [{ basket }, dispatch] = useStateValue();
-  const [selectedValue, handleOnChange] = useState("Small");
-  let selectedVariantprice = 100;
+  const [selectedVariant, handleOnChange] = useState("Small");
+  const [selectedVariantprice, handlepriceChange] = useState(100);
+  // let selectedVariantprice = 100;
+
+  useEffect(() => {
+    let elem = document.getElementsByClassName('radioBbtn')[0]
+    let defVaraintPrice = elem.getAttribute('data-price')
+    let defVariant = elem.getAttribute('value')
+    handlepriceChange(defVaraintPrice)
+    handleOnChange(defVariant)
+  },[])
 
   let urlParams = JSON.parse(localStorage.getItem("metaData"));
   if (
@@ -31,19 +40,9 @@ function Custom() {
   const handleVariant = (e) => {
     if (e.target.checked) {
       handleOnChange(e.target.value);
+      handlepriceChange(e.target.getAttribute('data-price'))
     }
   };
-
-  const valueExtractor = () => {
-    customOption.map((custom) => {
-      if (selectedValue === custom.variant) {
-        selectedVariantprice = custom.price;
-      }
-    });
-    return selectedVariantprice;
-  };
-
-  var itemPees = valueExtractor();
 
   const [loading, fetchData] = useState(false);
 
@@ -64,7 +63,7 @@ function Custom() {
         itemName: itemName,
         itemPrice: selectedVariantprice,
         itemVeg: isVeg,
-        customVariant: selectedValue,
+        customVariant: selectedVariant,
         customOpt: customOption,
         isCustom: isCustom,
       },
@@ -93,7 +92,7 @@ function Custom() {
         <h4>Quantity</h4>
 
         {customOption.map((item, k) => (
-          <label className="" key={k}>
+          <label>
             <div className="vegOrNon">
               {isVeg ? (
                 <img className="nonVegSymbol" src={vegSymbol} alt="nonveg" />
@@ -102,13 +101,15 @@ function Custom() {
               )}
             </div>
             <div className="option__Check">
-              <label className="">
+              <label key={k}>
                 <input
                   type="radio"
-                  className=""
+                  className="radioBbtn"
                   name="variants"
                   value={item.variant}
-                  checked={selectedValue === item.variant}
+                  data-price={item.price}
+                  // checked={selectedVariant === item.variant}
+                  defaultChecked={k === 0}
                   onChange={(e) => handleVariant(e)}
                 />
               </label>
@@ -131,7 +132,7 @@ function Custom() {
       </div>
       <div className="custom__AddBtnWrapper">
         <div className="add_Quantity">
-          <span>Quantity: {selectedValue}</span>
+          <span>Quantity: {selectedVariant}</span>
         </div>
         <button
           className="add__Btn"

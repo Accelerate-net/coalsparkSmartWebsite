@@ -8,7 +8,9 @@ import MenuButton from "./components/Menubutton";
 import Custom from "./pages/custom/Custom";
 import Search from "./pages/search/Search";
 import Login from "./pages/login/Login";
+import Success from "./pages/success/Success";
 import Error from "./pages/error/Error";
+import Invoice from "./pages/invoice/Invoice";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -86,12 +88,18 @@ class App extends Component {
                 <Checkout outletData={brand} />
               </Route>
               <Route exact path="/menu">
-                <Header />
+                <Header outletData={brand} />
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
               </Route>
               <Route exact path="/">
                 <Login />
+              </Route>
+              <Route path="/success">
+                <Success />
+              </Route>
+              <Route path="/invoice">
+                <Invoice />
               </Route>
               <Route>
                 <Error path="*" />

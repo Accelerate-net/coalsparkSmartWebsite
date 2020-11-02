@@ -1,10 +1,12 @@
 import React from "react";
 import "./Subtotal.css";
+import { useHistory } from "react-router-dom";
 import { useStateValue } from "../../contexts/StateProvider";
 import { getBasketTotal } from "../../contexts/reducer";
 
 function Subtotal({ outletD }) {
   const [{ basket }] = useStateValue();
+  const history = useHistory();
   let itemsTotal = getBasketTotal(basket);
   let taxPrice = 0;
   let otherCharg = 0;
@@ -20,6 +22,10 @@ function Subtotal({ outletD }) {
   };
 
   console.log(fullDetails);
+
+  function resultRoute() {
+    history.push("./success");
+  }
 
   outletD.modes.map((modeCheck) => {
     if (metaGetData.mode === modeCheck.type) {
@@ -55,7 +61,7 @@ function Subtotal({ outletD }) {
                   <div className="taxPrice">
                     <p>{taxSlab.label}</p>
                     {taxSlab.type === "PERCENTAGE" ? (
-                      <p className="tax">{taxSlab.value * 100}</p>
+                      <p className="tax">{(taxSlab.value * 100).toFixed(2)}</p>
                     ) : (
                       <p className="tax">{taxSlab.value}</p>
                     )}
@@ -79,12 +85,14 @@ function Subtotal({ outletD }) {
               : null
           )}
           <div className="toPay">
-            <h4>To Pay</h4>
+            <h4>Total</h4>
             <p className="toPayTotal">{itemsTotal + taxPrice + otherCharg}</p>
           </div>
         </div>
         <div className="checkoutBtnWrapper">
-          <button className="checkoutBtn">CHECKOUT</button>
+          <button className="checkoutBtn" onClick={resultRoute}>
+            PLACE ORDER
+          </button>
         </div>
       </div>
     </>

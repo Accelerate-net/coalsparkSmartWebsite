@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import logo from "../../assets/imgs/logo_white.png";
 import man from "../../assets/imgs/man.png";
@@ -57,22 +57,50 @@ function Login() {
     mobile: mobile,
   };
 
+  function checkActiveStatus() {
+    fetch(
+      "https://accelerateengine.app/smart-menu/apis/checkstatus.php?branchCode=" +
+        branchCode +
+        "&qrCodeReference=" +
+        qrCodeReference +
+        "&userMobile=" +
+        mobile +
+        "&tableNumber=" +
+        tableNumber
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.status) {
+          localStorage.setItem(
+            "activeStatus",
+            JSON.stringify(data.data.status)
+          );
+          localStorage.setItem("activeStatusData", JSON.stringify(data.data));
+          let getActiveStatus = localStorage.getItem("activeStatus")
+            ? JSON.parse(localStorage.getItem("activeStatus"))
+            : {};
+
+          if (getActiveStatus === "free") {
+            history.push("/menu");
+          } else if (getActiveStatus === "billed") {
+            history.push("/invoice");
+          } else if (getActiveStatus === "active") {
+            history.push("/menu");
+          } else {
+            history.push("/*");
+          }
+        } else {
+          //TODO Show Error Toast and go back to main menu
+        }
+      });
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(name, mobile);
+    checkActiveStatus();
     localStorage.setItem("userData", JSON.stringify(userData));
-    history.push("/menu");
   };
-
-  let userDataAuto = JSON.parse(localStorage.getItem('userData'))
-  console.log(userDataAuto)
-  // if(userData){
-  //   document.getElementsByClassName('userName')[0].setAttribute('value', userDataAuto.name)
-  //   document.getElementsByClassName('userMobile')[0].setAttribute('value', userDataAuto.name)
-  // }else{
-  //   history.push('/')
-  // }
-
 
   return (
     <div className="login">

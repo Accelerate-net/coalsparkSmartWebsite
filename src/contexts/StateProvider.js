@@ -7,6 +7,7 @@ const storage = localStorage.getItem("cartItem")
 
 export const initialState = {
   basket: storage,
+  state: 'free'
 };
 // this is the data layer
 export const StateContext = createContext();

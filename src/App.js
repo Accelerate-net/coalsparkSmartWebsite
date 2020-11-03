@@ -11,6 +11,7 @@ import Login from "./pages/login/Login";
 import Success from "./pages/success/Success";
 import Error from "./pages/error/Error";
 import Invoice from "./pages/invoice/Invoice";
+import Feedback from "./pages/feedback/Feedback";
 class App extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,9 @@ class App extends Component {
       error: null,
       isLoaded: false,
       // readyToRedirect: false,
+      // status: [],
       menu: [],
+      activeStatus: "",
     };
   }
 
@@ -50,13 +53,36 @@ class App extends Component {
         } else {
           //TODO Show Error Toast and go back to main menu
         }
+        // return fetch(
+        //   "https://accelerateengine.app/smart-menu/apis/checkstatus.php?branchCode=" +
+        //     urlParams.branchCode +
+        //     "&qrCodeReference=" +
+        //     urlParams.qrCodeReference +
+        //     "&userMobile=" +
+        //     userParams.mobile +
+        //     "&tableNumber=" +
+        //     urlParams.tableNumber
+        // );
       });
+    // .then((response) => response.json())
+    // .then((data) => {
+    //   if (data.status) {
+    //     this.setState({
+    //       statusLoaded: true,
+    //       status: data.data,
+    //       // activeStatus: this.state.status.status,
+    //     });
+    //   } else {
+    //     //TODO Show Error Toast and go back to main menu
+    //   }
+    // });
   }
 
   render() {
     const { error, menuLoaded, menu, brand } = this.state;
     console.log(menu);
     console.log(brand);
+    // console.log(status, activeStatus);
 
     if (error) {
       return (
@@ -97,6 +123,9 @@ class App extends Component {
               </Route>
               <Route path="/success">
                 <Success />
+              </Route>
+              <Route path="/feedback">
+                <Feedback />
               </Route>
               <Route path="/invoice">
                 <Invoice />

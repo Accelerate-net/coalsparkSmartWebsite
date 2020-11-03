@@ -1,0 +1,103 @@
+.feedback__Wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.feedback__title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  height: 80px;
+  background-color: #e86565;
+}
+
+.feeback__innerWrapper {
+  width: 100%;
+  padding: 0 1rem;
+  margin-top: 15%;
+  height: 100%;
+}
+
+.emoji__Wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 2rem 0 0;
+}
+
+.selectborder {
+  border-radius: 50%;
+  height: 85px;
+  border: 2px solid #e86565;
+}
+
+.feedback__btn.selectfill {
+  background-color: #e86565;
+  color: #fff;
+}
+
+.emoji__Wrapper img {
+  padding: 10px;
+  border-radius: 50%;
+  width: 80px;
+}
+
+.emoji__Text {
+  margin: 1rem 0 0;
+  text-align: center;
+}
+
+.feedback__BtnsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 2rem 0;
+}
+
+.feedback__btn {
+  margin-bottom: 10px;
+  width: auto;
+  padding: 6px 12px;
+  outline: none;
+  border: 1px solid #e86565;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.feedback__btn button {
+  width: auto;
+  padding: 6px 12px;
+  outline: none;
+  border: 1px solid #e86565;
+  background-color: #fff;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+.feedback__btn button:focus {
+  outline: none;
+}
+
+.feedback___sendBtn {
+  width: 90%;
+  margin: 5rem auto 1rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.feed_sendBtn {
+  width: 100%;
+  height: 40px;
+  background-color: #e86565;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 600;
+}

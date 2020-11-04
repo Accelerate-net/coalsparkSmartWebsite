@@ -101,3 +101,19 @@
   color: #fff;
   font-weight: 600;
 }
+
+.feedback___sendBtn form {
+  margin: 0 10px 30px;
+}
+
+.feedback___sendBtn form input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  padding: 6px 12px;
+}
+
+.feedback___sendBtn form input:focus {
+  border-bottom: 1px solid #e86565;
+  outline: none;
+}

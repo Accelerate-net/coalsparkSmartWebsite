@@ -7,10 +7,16 @@ import happyEmoji from "../../assets/imgs/happyemoji.png";
 function Feedback() {
   const [emojiVal, handleEmojiValue] = useState("happy");
   const [feedBackMess, handleFeedbackBtn] = useState([]);
+  const [feedComm, handleFeedComments] = useState("");
   const sadEmojiImg = document.getElementsByClassName("sad__Emoji");
   const angryEmojiImg = document.getElementsByClassName("angry__Emoji");
   const happyEmojiImg = document.getElementsByClassName("happy__Emoji");
   const feedbackBtns = document.getElementsByClassName("feedback__btn");
+
+  const handleFeedComment = (e) => {
+    let userFeed = e.target.value;
+    handleFeedComments(userFeed);
+  };
 
   function handleAngryEmojiSelection() {
     let angryemojiVal = document
@@ -54,7 +60,6 @@ function Feedback() {
 
   //   Function to manage the feedback btns
   function manageFeedbackBtn(a, key) {
-    console.log(feedbackBtns[key]);
     if (
       document
         .getElementsByClassName("feedback__btn")
@@ -72,6 +77,7 @@ function Feedback() {
   var feedBackData = {
     emojiValue: emojiVal,
     feedbackMessgae: feedBackMess,
+    feedbackComments: feedComm,
   };
 
   //   Function after clciking send feedback button
@@ -213,6 +219,15 @@ function Feedback() {
         <div className="emoji__Text">{renderMessage()}</div>
         <div className="feedback__BtnsWrapper">{renderFeedbackButton()}</div>
         <div className="feedback___sendBtn">
+          <form>
+            <input
+              type="text"
+              name="feedbackComments"
+              placeholder="Any other comments?"
+              value={feedComm}
+              onChange={(e) => handleFeedComment(e)}
+            />
+          </form>
           <button className="feed_sendBtn" onClick={gatherFeedback()}>
             SEND
           </button>

@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import "./Checkout.css";
 import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
+import BilledItem from "./BilledItem";
 
 function Checkout({ outletData }) {
   const [{ basket }] = useStateValue();
@@ -17,6 +18,44 @@ function Checkout({ outletData }) {
   ) {
     history.push("*");
   }
+
+  let getActiveStatus = localStorage.getItem("activeStatus")
+    ? JSON.parse(localStorage.getItem("activeStatus"))
+    : {};
+
+  let oldCartData = localStorage.getItem("oldCart")
+    ? JSON.parse(localStorage.getItem("oldCart"))
+    : {};
+
+  const newCart = basket?.map((item, k) => (
+    <CheckoutProduct
+      key={k}
+      itemCode={item.itemCode}
+      itemName={item.itemName}
+      itemOriginalPrice={item.itemOriginalPrice}
+      itemPrice={item.itemPrice}
+      itemVeg={item.itemVeg}
+      itemCount={item.itemCount}
+      customOpt={item.itemOptions}
+      customVariant={item.customVariant}
+      isCustom={item.isCustom}
+    />
+  ));
+
+  const billedItem = oldCartData?.map((item, k) => (
+    <BilledItem
+      key={k}
+      itemCode={item.itemCode}
+      itemName={item.itemName}
+      itemOriginalPrice={item.itemOriginalPrice}
+      itemPrice={item.itemPrice}
+      itemVeg={item.itemVeg}
+      itemCount={item.itemCount}
+      customOpt={item.itemOptions}
+      customVariant={item.customVariant}
+      isCustom={item.isCustom}
+    />
+  ));
 
   return (
     <div className="checkout">
@@ -37,7 +76,7 @@ function Checkout({ outletData }) {
           Your Basket
         </h2>
       </nav>
-      {basket?.length === 0 ? (
+      {basket?.length === 0 && oldCartData?.length === 0 ? (
         <div className="checkout__Empty">
           <h2>Your Food Cart is Empty!</h2>
           <p>Go back and try clicking on the Add button</p>
@@ -45,20 +84,29 @@ function Checkout({ outletData }) {
       ) : (
         <>
           <div>
-            {basket?.map((item, k) => (
-              <CheckoutProduct
-                key={k}
-                itemCode={item.itemCode}
-                itemName={item.itemName}
-                itemOriginalPrice={item.itemOriginalPrice}
-                itemPrice={item.itemPrice}
-                itemVeg={item.itemVeg}
-                itemCount={item.itemCount}
-                customOpt={item.itemOptions}
-                customVariant={item.customVariant}
-                isCustom={item.isCustom}
-              />
-            ))}
+            {getActiveStatus === "free" ? (
+              basket?.map((item, k) => (
+                <CheckoutProduct
+                  key={k}
+                  itemCode={item.itemCode}
+                  itemName={item.itemName}
+                  itemOriginalPrice={item.itemOriginalPrice}
+                  itemPrice={item.itemPrice}
+                  itemVeg={item.itemVeg}
+                  itemCount={item.itemCount}
+                  customOpt={item.itemOptions}
+                  customVariant={item.customVariant}
+                  isCustom={item.isCustom}
+                />
+              ))
+            ) : getActiveStatus === "active" ? (
+              <div className="newOld">
+                <h3>Order Placed for</h3>
+                {billedItem}
+                <h3>New Order Items</h3>
+                {newCart}
+              </div>
+            ) : null}
           </div>
           <hr />
         </>

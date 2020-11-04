@@ -10,7 +10,6 @@ function Invoice() {
     : {};
 
   let metaGetData = JSON.parse(localStorage.getItem("metaData"));
-  console.log(activeStatusData);
 
   function resultRoute() {
     history.push("./feedback");

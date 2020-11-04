@@ -86,6 +86,7 @@ function Login() {
           } else if (getActiveStatus === "billed") {
             history.push("/invoice");
           } else if (getActiveStatus === "active") {
+            localStorage.setItem("oldCart", JSON.stringify(data.data.cart));
             history.push("/menu");
           } else {
             history.push("/*");

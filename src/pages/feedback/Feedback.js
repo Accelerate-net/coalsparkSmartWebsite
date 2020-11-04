@@ -11,7 +11,7 @@ function Feedback() {
   const angryEmojiImg = document.getElementsByClassName("angry__Emoji");
   const happyEmojiImg = document.getElementsByClassName("happy__Emoji");
   const feedbackBtns = document.getElementsByClassName("feedback__btn");
-  console.log(feedBackMess);
+
   function handleAngryEmojiSelection() {
     let angryemojiVal = document
       .getElementsByClassName("angry__Emoji")[0]

@@ -39,6 +39,17 @@ function Login() {
 
   const handleNumInput = (e) => {
     let userNum = e.target.value;
+    if(userNum.length == 10){
+
+      fetch("https://accelerateengine.app/smart-menu/apis/checkuserdetails.php?mobile=" + userNum)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status) {
+            document.getElementById("usernameField").value = data.data.name;
+          }
+        });
+    }
+
     handleMobile(userNum);
   };
 
@@ -140,16 +151,7 @@ function Login() {
           <h3>Your Details</h3>
         </div>
         <form action="" onSubmit={(e) => handleSubmit(e)}>
-          <input
-            type="text"
-            minLength="3"
-            className="userName"
-            value={name}
-            placeholder="Your Name"
-            onChange={(e) => handleNameInput(e)}
-            required
-          />
-          <input
+           <input
             type="tel"
             className="userMobile"
             value={mobile}
@@ -158,6 +160,16 @@ function Login() {
             maxLength="10"
             pattern="^[6-9]\d{9}$"
             onChange={(e) => handleNumInput(e)}
+            required
+          />
+          <input
+            type="text"
+            id="usernameField"
+            minLength="3"
+            className="userName"
+            value={name}
+            placeholder="Your Name"
+            onChange={(e) => handleNameInput(e)}
             required
           />
           <button type="submit">CONTINUE</button>

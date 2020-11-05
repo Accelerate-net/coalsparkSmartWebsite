@@ -69,7 +69,7 @@ function Checkout({ outletData }) {
             position: "absolute",
             left: "50%",
             transform: "translateX(-50%)",
-            color: "#E86565",
+            color: "#e2133a",
           }}
         >
           {" "}

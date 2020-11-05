@@ -13,26 +13,20 @@ import Error from "./pages/error/Error";
 import Invoice from "./pages/invoice/Invoice";
 import Feedback from "./pages/feedback/Feedback";
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       error: null,
       isLoaded: false,
-      // readyToRedirect: false,
-      // status: [],
       menu: [],
       activeStatus: "",
     };
   }
 
-  componentDidMount() {
-    // Call the API
-    let urlParams = localStorage.getItem("metaData")
-      ? JSON.parse(localStorage.getItem("metaData"))
-      : {};
-
-    const menu_api_url =
-      "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
+  componentDidMount() {  
+    let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
+    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
 
     fetch(menu_api_url)
       .then((response) => response.json())
@@ -53,51 +47,15 @@ class App extends Component {
         } else {
           //TODO Show Error Toast and go back to main menu
         }
-        // return fetch(
-        //   "https://accelerateengine.app/smart-menu/apis/checkstatus.php?branchCode=" +
-        //     urlParams.branchCode +
-        //     "&qrCodeReference=" +
-        //     urlParams.qrCodeReference +
-        //     "&userMobile=" +
-        //     userParams.mobile +
-        //     "&tableNumber=" +
-        //     urlParams.tableNumber
-        // );
       });
-    // .then((response) => response.json())
-    // .then((data) => {
-    //   if (data.status) {
-    //     this.setState({
-    //       statusLoaded: true,
-    //       status: data.data,
-    //       // activeStatus: this.state.status.status,
-    //     });
-    //   } else {
-    //     //TODO Show Error Toast and go back to main menu
-    //   }
-    // });
   }
 
   render() {
     const { error, menuLoaded, menu, brand } = this.state;
-    console.log(menu);
-    console.log(brand);
-    // console.log(status, activeStatus);
 
     if (error) {
       return (
-        <div className="loadingStyle"> Error in loading. Try Refreshing. </div>
-      );
-    } else if (!menuLoaded) {
-      return (
-        <div className="loadingStyle">
-          {" "}
-          Fetching our Amazing Dishes{" "}
-          <span role="img" aria-label="emoji">
-            😋
-          </span>
-          ...{" "}
-        </div>
+        <div className="loadingStyle"> Something went wrong, try refreshing this page. </div>
       );
     } else {
       return (

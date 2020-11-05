@@ -13,7 +13,7 @@
   width: 100%;
   padding: 0.8rem 1rem;
   z-index: 100;
-  color: #e86565;
+  color: #e2133a;
 }
 
 .invoice__detailsWrapper {
@@ -137,7 +137,7 @@
 .invoiceBtn {
   width: 100%;
   height: 40px;
-  background-color: #e86565;
+  background-color: #e2133a;
   border: none;
   outline: none;
   font-size: 1rem;

@@ -29,7 +29,27 @@ function MenuItem({
 
   const Loading = () => (
     <div className="post loading">
-      <h5>Loading....</h5>
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <img alt="" className="dummyImageWrapper"/>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
     </div>
   );
 

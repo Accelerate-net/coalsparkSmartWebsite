@@ -49,7 +49,7 @@ function Invoice() {
         </div>
         <hr style={{ marginBottom: "1rem" }} />
         <div className="invoiceBillDetailsWrapper">
-          <h3 style={{ color: "#e86565", marginBottom: "20px" }}>
+          <h3 style={{ color: "#e2133a", marginBottom: "20px" }}>
             Bill details
           </h3>
           <div className="invoiceBillDet">
@@ -92,7 +92,7 @@ function Invoice() {
                 {activeStatusData.invoiceDetails.discounts ? (
                   <div className="taxPrice">
                     <p>{activeStatusData.invoiceDetails.discounts.label}</p>
-                    <p className="tax" style={{ color: "#e86565" }}>
+                    <p className="tax" style={{ color: "#e2133a" }}>
                       -
                       <span>
                         {activeStatusData.invoiceDetails.discounts.amount}

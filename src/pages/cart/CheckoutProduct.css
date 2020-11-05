@@ -30,14 +30,14 @@
 .checkoutCustomizedLink {
     text-decoration: none;
     font-size: 12px;
-    color: #E86565;
+    color: #e2133a;
     font-weight: 500;
     align-items: center;
 
 }
 
 .checkoutProduct__info button {
-    background-color: #E86565;
+    background-color: #e2133a;
     border: none;
     outline: none;
     padding: 8px;
@@ -96,7 +96,7 @@
     position: absolute;
     right: 0;
     width: 26.66667px;
-    color: #E86565;
+    color: #e2133a;
     font-weight: 600;
     height: 100%;
     text-align: center;
@@ -111,7 +111,7 @@
     text-align: center;
     height: 100%;
     line-height: 26px;
-    color: #E86565;
+    color: #e2133a;
     font-weight: 600;
     font-size: 1rem;
 }

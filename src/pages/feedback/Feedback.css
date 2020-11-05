@@ -10,7 +10,7 @@
   justify-content: center;
   color: #fff;
   height: 80px;
-  background-color: #e86565;
+  background-color: #e2133a;
 }
 
 .feeback__innerWrapper {
@@ -30,11 +30,11 @@
 .selectborder {
   border-radius: 50%;
   height: 85px;
-  border: 2px solid #e86565;
+  border: 2px solid #e2133a;
 }
 
 .feedback__btn.selectfill {
-  background-color: #e86565;
+  background-color: #e2133a;
   color: #fff;
 }
 
@@ -61,7 +61,7 @@
   width: auto;
   padding: 6px 12px;
   outline: none;
-  border: 1px solid #e86565;
+  border: 1px solid #e2133a;
   background-color: #fff;
   border-radius: 5px;
   font-size: 13px;
@@ -71,7 +71,7 @@
   width: auto;
   padding: 6px 12px;
   outline: none;
-  border: 1px solid #e86565;
+  border: 1px solid #e2133a;
   background-color: #fff;
   border-radius: 5px;
   font-size: 13px;
@@ -93,7 +93,7 @@
 .feed_sendBtn {
   width: 100%;
   height: 40px;
-  background-color: #e86565;
+  background-color: #e2133a;
   border-radius: 20px;
   border: none;
   outline: none;
@@ -114,6 +114,6 @@
 }
 
 .feedback___sendBtn form input:focus {
-  border-bottom: 1px solid #e86565;
+  border-bottom: 1px solid #e2133a;
   outline: none;
 }

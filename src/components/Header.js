@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/imgs/logo-red.png";
+import logo from "../assets/imgs/logo_white.png";
 import "./Header.css";
 import { useToasts } from "react-toast-notifications";
 // import { useStateValue } from "../contexts/StateProvider";
@@ -35,8 +35,6 @@ function Header({ outletData }) {
 
   return (
     <nav className="header">
-      {/* Zaitoon text on left*/}
-      {/* <h1 className="header__logo">Zaitoon</h1> */}
       <img
         className="header__logo"
         src={logo}
@@ -92,7 +90,7 @@ function Header({ outletData }) {
                 >
                   <ion-icon name="close-outline"></ion-icon>
                 </div>
-                <h1>Branch Details</h1>
+                <h1>Zaitoon {outletData.name}</h1>
               </nav>
 
               <div className="outletPopup_imgWrapper">
@@ -102,24 +100,24 @@ function Header({ outletData }) {
                 />
               </div>
               <div className="outletPopup_details">
-                <div className="outlet__Name">
-                  <h3>Branch Name: </h3>
-                  <p>{outletData.name}</p>
-                </div>
                 <div className="outlet__Address">
-                  <h3>Address: </h3>
+                  <h3>Address</h3>
                   <div className="address__Lines">
                     <p>{outletData.line1}</p>
                     <p>{outletData.line2}</p>
                   </div>
                 </div>
                 <div className="outlet__Mobile">
-                  <h3>Mobile Number: </h3>
-                  <p>{outletData.mobile}</p>
+                  <h3>Manager Number</h3>
+                  <p><a href="tel:0{outletData.managerContact}">{outletData.managerContact}</a><tag class="tagName">{outletData.managerName}</tag></p>
                 </div>
                 <div className="outlet__openHours">
-                  <h3>Open Hours: </h3>
+                  <h3>Operational Hours</h3>
                   <p>{outletData.openHours}</p>
+                </div>
+                <div className="outlet__email">
+                  <h3>Guest Relations</h3>
+                  <p><a href="mailto:{outletData.guestRelationsEmail}">{outletData.guestRelationsEmail}</a></p>
                 </div>
               </div>
             </div>

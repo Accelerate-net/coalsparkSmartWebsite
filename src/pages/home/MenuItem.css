@@ -154,15 +154,15 @@ ion-icon {
 }
 
 .dummyAdd{
-  color: #d4d5d9 !important;
+  color: #eeeeef !important;
 }
 
 .dummyImageWrapper {
   width: 128px;
   height: 108px;
-  -o-object-fit: cover;
-  object-fit: cover;
   background: #f6f7f8;
+  display: block;
+  animation: 0.4s ease-out fadeIn 1;
 }
 
 
@@ -198,6 +198,10 @@ ion-icon {
   text-align: center;
 }
 
+.itemAddButtonDummy{
+  border: 1px solid #f6f7f8 !important;
+}
+
 .itemAddButton span {
   font-size: 0.93rem;
   font-weight: 600;
@@ -222,6 +226,17 @@ ion-icon {
   height: 1px;
   padding: 0 12px;
   margin: 20px 0;
+}
+
+.seperationLineDummy {
+  border-bottom: 0.5px solid #f6f7f8;
+  height: 1px;
+  padding: 0 12px;
+  margin: 20px 0;
+}
+
+.dummyMenuTitle{
+  color: #f6f7f8;
 }
 
 .itemAddButton ._2pWL- {

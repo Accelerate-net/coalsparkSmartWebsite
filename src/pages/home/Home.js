@@ -14,8 +14,141 @@ function Home({ menu }) {
     history.push("*");
   }
 
+  const Loading = () => (
+    <div className="home__menuCard" style={{ padding: "20px 16px 0" }}>
+      <h1 className="dummyMenuTitle">Arabian Cuisine</h1>
+      <div className="post loading">
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <span alt="" className="dummyImageWrapper"></span>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton itemAddButtonDummy">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="seperationLineDummy"></div>
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <span alt="" className="dummyImageWrapper"></span>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton itemAddButtonDummy">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="seperationLineDummy"></div>
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <span alt="" className="dummyImageWrapper"></span>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton itemAddButtonDummy">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="seperationLineDummy"></div>
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <span alt="" className="dummyImageWrapper"></span>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton itemAddButtonDummy">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="seperationLineDummy"></div>
+            <div className="menuItemMainWrapper">
+              <div className="dummyFullWidth">
+                <div>
+                  <span className="itemNameWrapper dummyLoading labelDummy"></span>
+                </div>
+                <div className="itemNameWrapper">
+                  <span className="itemNameText dummyLoading titleDummy"></span>
+                </div>
+                <div className="itemPriceWrapper dummyFullWidth">
+                  <span className="dummyLoading priceDummy"></span>
+                </div>
+              </div>
+              <div className="itemRightSectionWrapper">
+                <span alt="" className="dummyImageWrapper"></span>
+                <div className="itemAddButtonWrapper">
+                  <div className="itemAddButton itemAddButtonDummy">
+                    <span className="addBtn dummyAdd">ADD</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+      </div>
+    </div>
+  );
+
+
+
+  //TODO improve this
+  var isMenuLoaded = false;
+  if(menu && menu.length != 0){
+    isMenuLoaded = true;
+  }
+
+  var isMenuError = false;
+  setTimeout(function(){
+    console.log('emnu error')
+    isMenuError = true;
+  }, 1000)
+
+
   return (
     <div className="home">
+      {isMenuLoaded && !isMenuError ? (<span></span>) : (<Loading />)}
       {menu.map((menuA, k) => (
         <div key={k}>
           <div className="home__menuCard" style={{ padding: "20px 16px 0" }}>

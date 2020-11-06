@@ -25,3 +25,10 @@
     font-size: 0.9rem;
     font-weight: 300;
 }
+
+.noSearchResultsLabel {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 12px;
+    color: #6d6d6d;
+}

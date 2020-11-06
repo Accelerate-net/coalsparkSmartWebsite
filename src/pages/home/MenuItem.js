@@ -42,9 +42,9 @@ function MenuItem({
                 </div>
               </div>
               <div className="itemRightSectionWrapper">
-                <img alt="" className="dummyImageWrapper"/>
+                <span alt="" className="dummyImageWrapper"></span>
                 <div className="itemAddButtonWrapper">
-                  <div className="itemAddButton">
+                  <div className="itemAddButton itemAddButtonDummy">
                     <span className="addBtn dummyAdd">ADD</span>
                   </div>
                 </div>

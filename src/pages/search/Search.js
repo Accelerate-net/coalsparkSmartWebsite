@@ -16,10 +16,14 @@ function Search({ searchItem }) {
   ) {
     history.push("*");
   }
+
+  var searchKey = document.getElementById("searchMenuInput") ? document.getElementById("searchMenuInput").value : "";
   const searchSpace = (e) => {
-    let keyword = e.target.value;
-    handleInput(keyword);
+    searchKey = e.target.value;
+    handleInput(searchKey);
   };
+
+  var isSearchFound = false;
 
   var itemL = searchItem.map((firstS, k) =>
     firstS.menu.map((second) =>
@@ -31,6 +35,7 @@ function Search({ searchItem }) {
           }
         })
         .map((searchItemList, m) => {
+          isSearchFound = true;
           return (
             <div style={{ padding: "18px 16px 10px" }}>
               <>
@@ -60,6 +65,8 @@ function Search({ searchItem }) {
     )
   );
 
+  var isSearchStarted = searchKey.length != 0 ? true : false;
+
   return (
     <div className="search">
       <nav className="search__Header">
@@ -67,7 +74,7 @@ function Search({ searchItem }) {
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
         <input
-          type="text"
+          type="text" id="searchMenuInput"
           placeholder="Search in Zaitoon"
           onChange={(e) => searchSpace(e)}
         />
@@ -76,14 +83,9 @@ function Search({ searchItem }) {
         </div>
       </nav>
       <div>
-        <div
-          className="search__Display"
-          style={{
-            backgroundColor: "#fff",
-          }}
-        >
-          {itemL}
-        </div>
+      {
+        isSearchStarted && !isSearchFound ? (<p className="noSearchResultsLabel">No dishes found</p>) : (<div className="search__Display" style={{ backgroundColor: "#fff", }} > {itemL} </div>)
+      }  
       </div>
     </div>
   );

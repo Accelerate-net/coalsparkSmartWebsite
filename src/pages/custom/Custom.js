@@ -44,15 +44,13 @@ function Custom() {
     }
   };
 
-  const [loading, fetchData] = useState(false);
-
-  const fetchDatad = () => {
-    fetchData(!loading);
-
-    //Faking API call here
-    setTimeout(() => {
-      fetchData(loading);
-    }, 2000);
+  const showAddedAnimation = () => {
+    var x = document.getElementById("add_custom_to_cart");
+    x.disabled = true;
+    x.innerHTML = "<i class='fa fa-check'></i> Added";
+    setTimeout(function(){
+      history.push("/menu")
+    }, 300);
   };
 
   const addToBasket = () => {
@@ -131,18 +129,14 @@ function Custom() {
         ))}
       </div>
       <div className="custom__AddBtnWrapper">
-        <div className="add_Quantity">
-          <span>Quantity: {selectedVariant}</span>
-        </div>
         <button
           className="add__Btn"
           onClick={() => {
             addToBasket();
-            fetchDatad();
+            showAddedAnimation();
           }}
-          disabled={loading}
         >
-          {loading === true ? <span>Adding...</span> : <span>Add</span>}
+          <span id="add_custom_to_cart">Add to Cart</span>
         </button>
       </div>
     </div>

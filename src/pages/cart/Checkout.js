@@ -106,7 +106,7 @@ function Checkout({ outletData }) {
       )}
       {basket.length > 0 && (
         <div className="checkout__Total">
-          <h1>Bill details</h1>
+          <h1>Order Info</h1>
           <Subtotal outletD={outletData} />
         </div>
       )}

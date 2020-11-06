@@ -139,16 +139,9 @@ function Home({ menu }) {
     isMenuLoaded = true;
   }
 
-  var isMenuError = false;
-  setTimeout(function(){
-    console.log('emnu error')
-    isMenuError = true;
-  }, 1000)
-
-
   return (
     <div className="home">
-      {isMenuLoaded && !isMenuError ? (<span></span>) : (<Loading />)}
+      {isMenuLoaded ? (<span></span>) : (<Loading />)}
       {menu.map((menuA, k) => (
         <div key={k}>
           <div className="home__menuCard" style={{ padding: "20px 16px 0" }}>

@@ -81,7 +81,6 @@ function MenuItem({
 
   return (
     <>
-      <LazyLoad placeholder={<Loading />}>
         <div>
           {itemAvailable ? (
             <>
@@ -277,7 +276,7 @@ function MenuItem({
             </div>
           )}
         </div>
-      </LazyLoad>
+        
     </>
   );
 }

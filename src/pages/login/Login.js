@@ -40,7 +40,7 @@ function Login() {
   const handleNumInput = (e) => {
     let userNum = e.target.value;
     if(userNum.length == 10){
-
+      document.getElementById("usernameField").focus();
       fetch("https://accelerateengine.app/smart-menu/apis/checkuserdetails.php?mobile=" + userNum)
         .then((response) => response.json())
         .then((data) => {
@@ -56,6 +56,7 @@ function Login() {
   function slideIn() {
     let ele = document.getElementsByClassName("login_Form")[0];
     ele.classList.add("open");
+    document.getElementById("usermobileField").focus();
   }
 
   function slideOut() {
@@ -154,6 +155,7 @@ function Login() {
            <input
             type="tel"
             className="userMobile"
+            id="usermobileField"
             value={mobile}
             placeholder="Mobile Number"
             minLength="10"

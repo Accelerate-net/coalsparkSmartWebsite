@@ -64,14 +64,7 @@ function Checkout({ outletData }) {
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
         <h2
-          className="checkout__title"
-          style={{
-            position: "absolute",
-            left: "50%",
-            transform: "translateX(-50%)",
-            color: "#e2133a",
-          }}
-        >
+          className="checkout__title">
           {" "}
           Your Basket
         </h2>

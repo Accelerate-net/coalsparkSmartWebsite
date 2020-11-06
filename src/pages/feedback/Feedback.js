@@ -129,11 +129,11 @@ function Feedback() {
   ];
 
   const happyFoodButton = [
-    "Best food ever",
-    "Best food ever ever",
-    "Best food ever ever",
-    "Best food ever",
-    "Best food ever ever ever",
+    "Amazing Food",
+    "Value for Money",
+    "Superb Staff",
+    "Excellent Service",
+    "Had a Nice Experience"
   ];
 
   //   Rendering Button dynamically from the button array data
@@ -228,8 +228,8 @@ function Feedback() {
               onChange={(e) => handleFeedComment(e)}
             />
           </form>
-          <button className="feed_sendBtn" onClick={gatherFeedback()}>
-            SEND
+          <button className="feed_sendBtn final" onClick={gatherFeedback()}>
+            Submit Feedback
           </button>
         </div>
       </div>

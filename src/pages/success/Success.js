@@ -1,6 +1,7 @@
 import React from "react";
 import Lottie from "react-lottie";
 import animationData from "../../assets/lottie/success-animation.json";
+import "./Success.css";
 
 function Success() {
   const defaultOptions = {
@@ -16,7 +17,8 @@ function Success() {
   return (
     <div className="success__Wrapper">
       <Lottie options={defaultOptions} height={300} width={300} />
-      <p>Success!</p>
+      <p>Yay! your order is placed</p>
+      <p className="servingTimeTtile">Serving in <b>15 mins</b></p>
     </div>
   );
 }

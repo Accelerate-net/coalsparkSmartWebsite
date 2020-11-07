@@ -9,21 +9,24 @@ class Popup extends React.Component {
       <div className="popup" onClick={this.props.closePopup}>
         <div className="innerwrapper">
           <div className="popup_inner">
-            {" "}
-            {this.props.text.map((main, i) => (
-              <Link
-                key={i}
-                to={main.categoryName}
-                duration={1000}
-                smooth={true}
-                className="categoryText"
-                onClick={this.props.closePopup}
-              >
-                {main.categoryName}{" "}
-              </Link>
-            ))}{" "}
-          </div>{" "}
-        </div>{" "}
+            {this.props.text.map((main, i) =>
+              main.menu.map((sub, k) => (
+                <Link
+                  key={i}
+                  to={sub.subCategoryName}
+                  duration={1000}
+                  smooth={true}
+                  className="categoryText"
+                  onClick={this.props.closePopup}
+                >
+                  <span>{sub.subCategoryName}</span>
+
+                  <span id="subCatItemCount">{sub.items.length}</span>
+                </Link>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     );
   }

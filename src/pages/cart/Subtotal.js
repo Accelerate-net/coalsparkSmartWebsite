@@ -1,12 +1,13 @@
 import React from "react";
 import "./Subtotal.css";
-import { useHistory } from "react-router-dom";
 import { useStateValue } from "../../contexts/StateProvider";
 import { getBasketTotal } from "../../contexts/reducer";
 
-function Subtotal({ outletD }) {
+function Subtotal() {
+  let outletD = localStorage.getItem("outletData")
+            ? JSON.parse(localStorage.getItem("outletData"))
+            : {};
   const [{ basket }] = useStateValue();
-  const history = useHistory();
   let itemsTotal = getBasketTotal(basket);
   let taxPrice = 0;
   let otherCharg = 0;
@@ -23,22 +24,18 @@ function Subtotal({ outletD }) {
 
   console.log(fullDetails);
 
-  function resultRoute() {
-    history.push("./success");
-  }
-
   outletD.modes.map((modeCheck) => {
     if (metaGetData.mode === modeCheck.type) {
       modeCheck.taxSlabs.map((taxSlab) => {
         if (taxSlab.type === "PERCENTAGE") {
-          taxPrice = taxPrice + taxSlab.value * 100;
+          taxPrice = taxPrice + taxSlab.value * itemsTotal;
         } else {
           taxPrice = taxPrice + taxSlab.value;
         }
       });
       modeCheck.otherCharges.map((otherC) => {
         if (otherC.type === "PERCENTAGE") {
-          otherCharg = otherCharg + otherC.value * 100;
+          otherCharg = otherCharg + otherC.value * itemsTotal;
         } else {
           otherCharg = otherCharg + otherC.value;
         }
@@ -59,9 +56,9 @@ function Subtotal({ outletD }) {
             metaGetData.mode === modeCheck.type
               ? modeCheck.taxSlabs.map((taxSlab) => (
                   <div className="taxPrice">
-                    <p>{taxSlab.label}</p>
+                    <p>{taxSlab.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({taxSlab.type === "PERCENTAGE" ? taxSlab.value*100 : taxSlab.value} {taxSlab.type})</span></p>
                     {taxSlab.type === "PERCENTAGE" ? (
-                      <p className="tax">{(taxSlab.value * 100).toFixed(2)}</p>
+                      <p className="tax">{(taxSlab.value * itemsTotal).toFixed(2)}</p>
                     ) : (
                       <p className="tax">{taxSlab.value}</p>
                     )}
@@ -89,11 +86,7 @@ function Subtotal({ outletD }) {
             <p className="toPayTotal">{itemsTotal + taxPrice + otherCharg}</p>
           </div>
         </div>
-        <div className="checkoutBtnWrapper">
-          <button className="checkoutBtn" onClick={resultRoute}>
-            PLACE ORDER
-          </button>
-        </div>
+        
       </div>
     </>
   );

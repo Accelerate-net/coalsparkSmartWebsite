@@ -9,6 +9,14 @@ function Invoice() {
     ? JSON.parse(localStorage.getItem("activeStatusData"))
     : {};
 
+    // let getActiveStatus = localStorage.getItem("activeStatus")
+    // ? JSON.parse(localStorage.getItem("activeStatus"))
+    // : {};
+
+    // if (getActiveStatus === "free" || getActiveStatus === "active") {
+    //        history.push("*")
+    // }
+
   let metaGetData = JSON.parse(localStorage.getItem("metaData"));
 
   function resultRoute() {

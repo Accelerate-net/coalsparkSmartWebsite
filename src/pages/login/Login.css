@@ -208,6 +208,11 @@
     bottom: 0;
   }
 
+  .login_Form.close {
+    bottom: -100%;
+    transition: all 4s cubic-bezier(0, 0.52, 0.7, 1);
+  }
+
   .login_Form .login_Title h3 {
     color: #e2133a;
     text-align: center;
@@ -231,12 +236,14 @@
     color: #e2133a !important;
   }
 
-  .login_Form ::-webkit-input-placeholder { /* Edge */
+  .login_Form ::-webkit-input-placeholder {
+    /* Edge */
     font-weight: 300 !important;
     color: #908b8c;
   }
 
-  .login_Form :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  .login_Form :-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
     font-weight: 300 !important;
     color: #908b8c;
   }
@@ -245,7 +252,6 @@
     font-weight: 300 !important;
     color: #908b8c;
   }
-
 
   .login_Form form input:focus {
     outline: none;

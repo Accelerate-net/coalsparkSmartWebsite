@@ -13,12 +13,12 @@
   width: 100%;
   padding: 0.8rem 1rem;
   z-index: 100;
-  color: #FFF;
+  color: #fff;
 }
 
 .invoice__Wrapper nav h1 {
   font-weight: 300;
-  color: #FFF;
+  color: #fff;
 }
 
 .invoice__detailsWrapper {
@@ -135,8 +135,12 @@
 }
 
 .invoiceBtnWrapper {
-  width: 100%;
-  margin-top: 5rem;
+  width: 90%;
+  margin: 5rem 0 1rem;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .invoiceBtn {

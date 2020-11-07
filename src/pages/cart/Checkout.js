@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useStateValue } from "../../contexts/StateProvider";
 import { Link, useHistory } from "react-router-dom";
 import "./Checkout.css";
 import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 import BilledItem from "./BilledItem";
+import { getBasketTotal } from "../../contexts/reducer";
 
-function Checkout({ outletData }) {
+function Checkout() {
   const [{ basket }] = useStateValue();
   const history = useHistory();
+  const [showP, setShowPrice] = useState(false);
+  let itemsTotal = getBasketTotal(basket);
   let urlParams = JSON.parse(localStorage.getItem("metaData"));
   if (
     !urlParams.branchCode ||
@@ -25,7 +28,7 @@ function Checkout({ outletData }) {
 
   let oldCartData = localStorage.getItem("oldCart")
     ? JSON.parse(localStorage.getItem("oldCart"))
-    : {};
+    : [];
 
   const newCart = basket?.map((item, k) => (
     <CheckoutProduct
@@ -57,17 +60,21 @@ function Checkout({ outletData }) {
     />
   ));
 
+  function showPrice() {
+    setShowPrice(!showP);
+  }
+
+  function resultRoute() {
+    history.push("./success");
+  }
+
   return (
     <div className="checkout">
       <nav>
         <Link to="/menu">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
-        <h2
-          className="checkout__title">
-          {" "}
-          Your Basket
-        </h2>
+        <h2 className="checkout__title"> Your Basket</h2>
       </nav>
       {basket?.length === 0 && oldCartData?.length === 0 ? (
         <div className="checkout__Empty">
@@ -106,8 +113,29 @@ function Checkout({ outletData }) {
       )}
       {basket.length > 0 && (
         <div className="checkout__Total">
-          <h1>Order Info</h1>
-          <Subtotal outletD={outletData} />
+          <div className="checkout__Title">
+            <h1>
+              Order Info
+              <span onClick={() => showPrice()} style={{ marginLeft: "5px" }}>
+                {showP ? (
+                  <ion-icon name="caret-up-outline"></ion-icon>
+                ) : (
+                  <ion-icon name="caret-down-outline"></ion-icon>
+                )}
+              </span>
+            </h1>
+            {showP ? null : (
+              <p className="orderInfoTotal">
+                Total: <span>{itemsTotal}</span>
+              </p>
+            )}
+          </div>
+          {showP ? <Subtotal /> : null}
+          <div className="checkoutBtnWrapper">
+            <button className="checkoutBtn" onClick={resultRoute}>
+              PLACE ORDER
+            </button>
+          </div>
         </div>
       )}
     </div>

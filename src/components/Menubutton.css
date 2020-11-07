@@ -83,6 +83,11 @@
   animation: popup 0.25s;
 }
 
+.popup_inner a {
+  display: flex;
+  justify-content: space-between;
+}
+
 .categoryText {
   font-size: 1rem;
   font-weight: 400;

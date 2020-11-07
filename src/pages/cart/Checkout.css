@@ -18,7 +18,7 @@
 
 .checkout nav ion-icon {
   font-size: 1.4rem;
-  color: #FFF;
+  color: #fff;
 }
 
 .checkout__Empty {
@@ -45,11 +45,11 @@
   margin: 2rem 1rem;
 }
 
-.checkout__title{
+.checkout__title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  color: #FFF;
+  color: #fff;
   font-weight: 300;
 }
 
@@ -57,4 +57,20 @@
   font-size: 1rem;
   color: #000;
   font-weight: 500;
+}
+
+.checkout__Title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout__Title p {
+  color: #6e6e6e;
+  font-family: "roboto", sans-serif;
+  font-size: 14px;
+}
+
+.checkout__Title p span::before {
+  content: "\20B9";
 }

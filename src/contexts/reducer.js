@@ -159,6 +159,12 @@ const reducer = (state, action) => {
                 ...state,
                 basket: increaseItemBasket
             };
+        case "CLEAN_BASKET":
+            let newB = []
+            return{
+                ...state,
+                basket: newB
+            };
 
         default:
             return state;

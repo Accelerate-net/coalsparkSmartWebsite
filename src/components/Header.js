@@ -1,27 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/imgs/logo_white.png";
 import "./Header.css";
 import { useToasts } from "react-toast-notifications";
-// import { useStateValue } from "../contexts/StateProvider";
-// import { getItemCount } from "../contexts/reducer";
 
-function Header({ outletData }) {
-  // const [{ basket }] = useStateValue();
-  // let itemc = getItemCount(basket);
-  const [ringerPopup, setPopupRinger] = useState(false);
-  const [outletPopupState, setOutletPopup] = useState(false);
-
-  function handleOutletDetails() {
-    setOutletPopup(!outletPopupState);
-  }
+function Header() {
+ 
+  let getoutletData = localStorage.getItem("outletData")
+            ? JSON.parse(localStorage.getItem("outletData"))
+            : {};
 
   function handleRingerPopup() {
-    setPopupRinger(!ringerPopup);
+    let ele = document.getElementsByClassName("ringerPopup_wrapper")[0];
+    ele.classList.remove("close");
+    ele.classList.add("open");
+    ele.firstChild.classList.remove("close");
+    ele.firstChild.classList.add("open");
   }
 
   function closeRingerPopup() {
-    setPopupRinger(!ringerPopup);
+    let ele = document.getElementsByClassName("ringerPopup_wrapper")[0];
+    ele.firstChild.classList.add("close");
+    ele.firstChild.classList.remove("open");
+    ele.classList.add("close");
+    ele.classList.remove("open");
+  }
+
+  function handleOutletPopup() {
+    let ele = document.getElementsByClassName("outletPopup_wrapper")[0];
+    ele.classList.remove("close");
+    ele.classList.add("open");
+  }
+
+  function closeOutletPopup() {
+    let ele = document.getElementsByClassName("outletPopup_wrapper")[0];
+    ele.classList.add("close");
+    ele.classList.remove("open");
   }
 
   //Toast function
@@ -51,18 +65,10 @@ function Header({ outletData }) {
         <div className="ringerBell" onClick={handleRingerPopup}>
           <ion-icon name="notifications-outline"></ion-icon>
         </div>
-        <div className="homeIcon" onClick={handleOutletDetails}>
+        <div className="homeIcon" onClick={handleOutletPopup}>
           <ion-icon name="home-outline"></ion-icon>
         </div>
-        {/* Cart icon with number*/}
-        {/* <Link to="/checkout">
-          <div className="header__cart">
-            <ion-icon name="restaurant-outline"></ion-icon>
-            <div className="header__dot"></div>
-            <span className="header__cartValue">{itemc}</span>
-          </div>
-        </Link> */}
-        {ringerPopup ? (
+        
           <div className="ringerPopup_wrapper" onClick={closeRingerPopup}>
             <div className="ringerPopup_innerWrapper">
               <div className="stewardBtn">
@@ -79,50 +85,48 @@ function Header({ outletData }) {
               </div>
             </div>
           </div>
-        ) : null}
-        {outletPopupState ? (
+       
           <div className="outletPopup_wrapper">
             <div className="outletPopup_innerWrapper">
               <nav>
                 <div
                   className="outletPopup_closeBtn"
-                  onClick={handleOutletDetails}
+                  onClick={closeOutletPopup}
                 >
                   <ion-icon name="close-outline"></ion-icon>
                 </div>
-                <h1>Zaitoon {outletData.name}</h1>
+                <h1>Zaitoon {getoutletData.name}</h1>
               </nav>
 
               <div className="outletPopup_imgWrapper">
                 <img
-                  src={outletData.pictures}
-                  alt={outletData.name + " Branch Restaurant Image"}
+                  src={getoutletData.pictures}
+                  alt={getoutletData.name + " Branch Restaurant Image"}
                 />
               </div>
               <div className="outletPopup_details">
                 <div className="outlet__Address">
                   <h3>Address</h3>
                   <div className="address__Lines">
-                    <p>{outletData.line1}</p>
-                    <p>{outletData.line2}</p>
+                    <p>{getoutletData.line1}</p>
+                    <p>{getoutletData.line2}</p>
                   </div>
                 </div>
                 <div className="outlet__Mobile">
                   <h3>Manager Number</h3>
-                  <p><a href="tel:0{outletData.managerContact}">{outletData.managerContact}</a><tag class="tagName">{outletData.managerName}</tag></p>
+                  <p><a href="tel:0{getoutletData.managerContact}">{getoutletData.managerContact}</a><span className="tagName">{getoutletData.managerName}</span></p>
                 </div>
                 <div className="outlet__openHours">
                   <h3>Operational Hours</h3>
-                  <p>{outletData.openHours}</p>
+                  <p>{getoutletData.openHours}</p>
                 </div>
                 <div className="outlet__email">
                   <h3>Guest Relations</h3>
-                  <p><a href="mailto:{outletData.guestRelationsEmail}">{outletData.guestRelationsEmail}</a></p>
+                  <p><a href="mailto:{getoutletData.guestRelationsEmail}">{getoutletData.guestRelationsEmail}</a></p>
                 </div>
               </div>
             </div>
           </div>
-        ) : null}
       </div>
     </nav>
   );

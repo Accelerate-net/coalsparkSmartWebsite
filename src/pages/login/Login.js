@@ -19,6 +19,8 @@ function Login() {
   const tableNumber = urlParams.get("tableNumber");
   const qrCodeReference = urlParams.get("qrCodeReference");
   const mode = urlParams.get("mode");
+  const userNameRedirect = urlParams.get("userName");
+  const userMobileRedirect = urlParams.get("userMobile");
 
   if (!branchCode || !tableNumber || !qrCodeReference || !mode) {
     history.push("*");
@@ -39,13 +41,17 @@ function Login() {
 
   const handleNumInput = (e) => {
     let userNum = e.target.value;
-    if(userNum.length == 10){
+    if (userNum.length === 10) {
       document.getElementById("usernameField").focus();
-      fetch("https://accelerateengine.app/smart-menu/apis/checkuserdetails.php?mobile=" + userNum)
+      fetch(
+        "https://accelerateengine.app/smart-menu/apis/checkuserdetails.php?mobile=" +
+          userNum
+      )
         .then((response) => response.json())
         .then((data) => {
           if (data.status) {
             document.getElementById("usernameField").value = data.data.name;
+            handleName(data.data.name);
           }
         });
     }
@@ -55,13 +61,19 @@ function Login() {
 
   function slideIn() {
     let ele = document.getElementsByClassName("login_Form")[0];
+    ele.classList.remove("close");
     ele.classList.add("open");
     document.getElementById("usermobileField").focus();
+    // if (userNameRedirect !== null || userMobileRedirect !== null) {
+    //   document.getElementById("usernameField").value = userNameRedirect;
+    //   document.getElementById("usermobileField").value = userMobileRedirect;
+    // }
   }
 
   function slideOut() {
     let ele = document.getElementsByClassName("login_Form")[0];
     ele.classList.remove("open");
+    ele.classList.add("close");
   }
 
   let userData = {
@@ -94,14 +106,22 @@ function Login() {
             : {};
 
           if (getActiveStatus === "free") {
-            history.push("/menu");
+            setTimeout(() => {
+              history.push("/menu");
+            }, 500);
           } else if (getActiveStatus === "billed") {
-            history.push("/invoice");
+            setTimeout(() => {
+              history.push("/invoice");
+            }, 500);
           } else if (getActiveStatus === "active") {
             localStorage.setItem("oldCart", JSON.stringify(data.data.cart));
-            history.push("/menu");
+            setTimeout(() => {
+              history.push("/menu");
+            }, 500);
           } else {
-            history.push("/*");
+            setTimeout(() => {
+              history.push("/*");
+            }, 500);
           }
         } else {
           //TODO Show Error Toast and go back to main menu
@@ -111,6 +131,7 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    slideOut();
     checkActiveStatus();
     localStorage.setItem("userData", JSON.stringify(userData));
   };
@@ -144,7 +165,11 @@ function Login() {
           </div>
         </div>
         <div className="start_btn animate__animated animate__fadeInUp">
-          <button onClick={slideIn}>Start Ordering</button>
+          {userNameRedirect === null || userMobileRedirect === null ? (
+            <button onClick={slideIn}>Start Ordering</button>
+          ) : (
+            <button onClick={slideIn}>Continue Ordering</button>
+          )}
         </div>
       </div>
       <div className="login_Form">
@@ -152,7 +177,7 @@ function Login() {
           <h3>Your Details</h3>
         </div>
         <form action="" onSubmit={(e) => handleSubmit(e)}>
-           <input
+          <input
             type="tel"
             className="userMobile"
             id="usermobileField"

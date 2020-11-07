@@ -12,8 +12,8 @@ import Success from "./pages/success/Success";
 import Error from "./pages/error/Error";
 import Invoice from "./pages/invoice/Invoice";
 import Feedback from "./pages/feedback/Feedback";
+import Thanks from "./pages/thankyou/Thanks";
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -24,14 +24,19 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {  
-    let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
-    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
+  componentDidMount() {
+    let urlParams = localStorage.getItem("metaData")
+      ? JSON.parse(localStorage.getItem("metaData"))
+      : {};
+
+    const menu_api_url =
+      "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
 
     fetch(menu_api_url)
       .then((response) => response.json())
       .then((data) => {
         if (data.status) {
+          localStorage.setItem("outletData", JSON.stringify(data.outletData));
           this.setState({
             brandLoaded: true,
             brand: data.outletData,
@@ -51,11 +56,13 @@ class App extends Component {
   }
 
   render() {
-    const { error, menuLoaded, menu, brand } = this.state;
+    const { error, menu, brand } = this.state;
 
     if (error) {
       return (
-        <div className="loadingStyle"> Something went wrong, try refreshing this page. </div>
+        <div className="loadingStyle">
+          Something went wrong, try refreshing this page.
+        </div>
       );
     } else {
       return (
@@ -69,10 +76,10 @@ class App extends Component {
                 <Search searchItem={menu} />
               </Route>
               <Route path="/checkout">
-                <Checkout outletData={brand} />
+                <Checkout />
               </Route>
               <Route exact path="/menu">
-                <Header outletData={brand} />
+                <Header />
                 <Home menu={menu} brand={brand} />
                 <MenuButton menuCategory={menu} />
               </Route>
@@ -87,6 +94,9 @@ class App extends Component {
               </Route>
               <Route path="/invoice">
                 <Invoice />
+              </Route>
+              <Route>
+                <Thanks path="/thankyou" />
               </Route>
               <Route>
                 <Error path="*" />

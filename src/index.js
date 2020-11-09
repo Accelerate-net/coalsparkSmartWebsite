@@ -14,7 +14,7 @@ ReactDOM.render(
   <StateProvider initialState={initialState} reducer={reducer}>
     <ToastProvider
       autoDismiss
-      autoDismissTimeout={5000}
+      autoDismissTimeout={3000}
       placement="bottom-left"
     >
       <App />

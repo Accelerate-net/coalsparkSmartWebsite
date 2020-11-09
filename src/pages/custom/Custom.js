@@ -71,7 +71,7 @@ function Custom() {
   return (
     <div className="custom">
       <nav className="custom__Navbar">
-        <Link to="/checkout">
+        <Link to="/menu">
           <ion-icon name="close-outline"></ion-icon>
         </Link>
         <div className="custom__navTitle">

@@ -4,7 +4,8 @@
   margin-top: 10px !important;
 }
 
-.redirecting {
-  font-size: 16px !important;
-  margin-top: 2rem;
+.redirectingSeconds {
+  margin-top: 2.5rem;
+      color: #d2d2d2 !important;
+    font-size: 12px !important;
 }

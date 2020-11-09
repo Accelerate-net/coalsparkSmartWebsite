@@ -4,7 +4,7 @@ import MenuItem from "./MenuItem";
 
 function Home({ menu }) {
   const history = useHistory();
-  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
   if (
     !urlParams.branchCode ||
     !urlParams.tableNumber ||

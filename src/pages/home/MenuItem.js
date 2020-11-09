@@ -149,14 +149,7 @@ function MenuItem({
                             }}
                             style={{ textDecoration: "none" }}
                           >
-                            <span
-                              className="addBtn"
-                              style={{
-                                fontSize: "16px",
-                              }}
-                            >
-                              ADD
-                            </span>
+                          <span className="addBtn" style={{ fontSize: "16px", }} > ADD </span>
                           </Link>
                         </>
                       ) : (

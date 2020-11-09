@@ -13,7 +13,7 @@ function Checkout() {
   const history = useHistory();
   const [showP, setShowPrice] = useState(false);
   let itemsTotal = getBasketTotal(basket);
-  let urlParams = JSON.parse(localStorage.getItem("metaData"));
+  let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
   if (
     !urlParams.branchCode ||
     !urlParams.tableNumber ||

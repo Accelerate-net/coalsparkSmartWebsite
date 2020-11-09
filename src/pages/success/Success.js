@@ -76,7 +76,7 @@ function Success() {
       <p className="servingTimeTtile">
         Serving in <b>15 mins</b>
       </p>
-      <p className="redirecting">Redirecting in {seconds}</p>
+      <p className="redirectingSeconds">{seconds}s</p>
     </div>
   );
 }

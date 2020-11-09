@@ -23,3 +23,9 @@
 .errorWrapper p {
   font-weight: 500;
 }
+
+.click {
+  margin-top: 1rem;
+  text-decoration: underline;
+  color: #e21439;
+}

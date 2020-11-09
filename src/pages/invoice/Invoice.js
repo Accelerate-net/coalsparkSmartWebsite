@@ -20,6 +20,7 @@ function Invoice() {
   let metaGetData = JSON.parse(localStorage.getItem("metaData"));
 
   function resultRoute() {
+    window.localStorage.clear();
     history.push("./feedback");
   }
 
@@ -28,7 +29,8 @@ function Invoice() {
       <nav>
         <h1>Your Invoice</h1>
       </nav>
-      <div className="invoice__detailsWrapper">
+      {activeStatusData.cart !== undefined ? (
+        <div className="invoice__detailsWrapper">
         <div className="inoviceProduct">
           {activeStatusData.cart.map((activeCart, k) => (
             <div className="invoiceProduct__info" key={k}>
@@ -126,6 +128,8 @@ function Invoice() {
           </div>
         </div>
       </div>
+      ):null}
+      
     </div>
   );
 }

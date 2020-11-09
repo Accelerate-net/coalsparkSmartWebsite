@@ -24,6 +24,12 @@ function Feedback() {
   //          history.push("/*")
   //   }
 
+  if (window.location.pathname === "/feedback") {
+    window.addEventListener("popstate", function (event) {
+      history.push("/feedback");
+    });
+  }
+
   const handleFeedComment = (e) => {
     let userFeed = e.target.value;
     handleFeedComments(userFeed);

@@ -28,6 +28,13 @@ function Success() {
     ? JSON.parse(localStorage.getItem("userData"))
     : {};
 
+  // If user clicks back button it redirects to error page
+  if (window.location.pathname === "/success") {
+    window.addEventListener("popstate", function (event) {
+      history.push("*");
+    });
+  }
+
   useEffect(() => {
     let myInterval = setInterval(() => {
       if (seconds > 0) {
@@ -46,7 +53,7 @@ function Success() {
         type: "CLEAN_BASKET",
       });
 
-      localStorage.removeItem("cartItem");
+      // localStorage.removeItem("cartItem");
 
       history.push(
         "/?branchCode=" +

@@ -48,16 +48,15 @@ class MenuButton extends Component {
   render() {
     return (
       <>
-        <div
-          className="menuButtonWrapper animate__animated animate__fadeInUp"
-          id="menuButtonWrapper"
-        >
-          <div className="menuButton">
+        <div className="menuButtonWrapper " id="menuButtonWrapper">
+          <div className="menuButton animate__animated animate__fadeInUp delay-6">
             <span onClick={this.togglePopup}>
               <i className="fas fa-utensils"> </i>MENU
             </span>
           </div>
-          <CartBanner />
+          <div className="animate__animated animate__fadeInUp delay-2">
+            <CartBanner />
+          </div>
         </div>
 
         {this.state.showPopup ? (

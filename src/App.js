@@ -95,11 +95,11 @@ class App extends Component {
               <Route path="/invoice">
                 <Invoice />
               </Route>
-              <Route>
-                <Thanks path="/thankyou" />
+              <Route exact path="/thankyou">
+                <Thanks />
               </Route>
-              <Route>
-                <Error path="*" />
+              <Route path="*">
+                <Error />
               </Route>
             </Switch>
           </div>

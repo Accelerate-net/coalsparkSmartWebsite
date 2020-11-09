@@ -14,6 +14,19 @@
   /* z-index: 10; */
 }
 
+/* .menuButtonWrapper.animate__animated.animate__fadeInUp {
+  --animate-duration: 800ms;
+  --animate-delay: 6s;
+} */
+
+.delay-6 {
+  animation-delay: 5s;
+}
+
+.delay-2 {
+  animation-delay: 2s;
+}
+
 .menuButton {
   display: flex;
   align-items: center;

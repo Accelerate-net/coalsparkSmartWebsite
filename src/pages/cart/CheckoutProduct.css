@@ -126,5 +126,7 @@
 }
 
 .checkoutProduct__price::before {
+    font-size: 80%;
+    padding-right: 0.1em; 
     content: '\20B9';
 }

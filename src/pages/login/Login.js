@@ -63,11 +63,18 @@ function Login() {
     let ele = document.getElementsByClassName("login_Form")[0];
     ele.classList.remove("close");
     ele.classList.add("open");
-    document.getElementById("usermobileField").focus();
-    // if (userNameRedirect !== null || userMobileRedirect !== null) {
-    //   document.getElementById("usernameField").value = userNameRedirect;
-    //   document.getElementById("usermobileField").value = userMobileRedirect;
-    // }
+    if (userNameRedirect !== null && userMobileRedirect !== null) {
+      setTimeout(function(){
+        document.getElementById("usernameField").value = userNameRedirect;
+        document.getElementById("usermobileField").value = userMobileRedirect;
+        handleName(userNameRedirect);
+        handleMobile(userMobileRedirect);
+        document.getElementById("usermobileField").focus();
+      }, 1500);
+    }
+    else{
+      document.getElementById("usermobileField").focus();
+    }
   }
 
   function slideOut() {
@@ -132,6 +139,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     slideOut();
+    document.getElementById("startOrderButton").style.visibility = 'hidden';
     checkActiveStatus();
     localStorage.setItem("userData", JSON.stringify(userData));
   };
@@ -164,7 +172,7 @@ function Login() {
             <img src={man} alt="" />
           </div>
         </div>
-        <div className="start_btn animate__animated animate__fadeInUp">
+        <div className="start_btn animate__animated animate__fadeInUp" id="startOrderButton">
           {userNameRedirect === null || userMobileRedirect === null ? (
             <button onClick={slideIn}>Start Ordering</button>
           ) : (
@@ -174,7 +182,7 @@ function Login() {
       </div>
       <div className="login_Form">
         <div className="login_Title">
-          <h3>Your Details</h3>
+          <h3 id="yourDetailsTitle">Your Details</h3>
         </div>
         <form action="" onSubmit={(e) => handleSubmit(e)}>
           <input
@@ -185,7 +193,6 @@ function Login() {
             placeholder="Mobile Number"
             minLength="10"
             maxLength="10"
-            pattern="^[6-9]\d{9}$"
             onChange={(e) => handleNumInput(e)}
             required
           />

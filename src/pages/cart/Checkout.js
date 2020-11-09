@@ -6,6 +6,7 @@ import CheckoutProduct from "./CheckoutProduct";
 import Subtotal from "./Subtotal";
 import BilledItem from "./BilledItem";
 import { getBasketTotal } from "../../contexts/reducer";
+import emptyCart from "../../assets/imgs/emptycart.png";
 
 function Checkout() {
   const [{ basket }] = useStateValue();
@@ -74,12 +75,12 @@ function Checkout() {
         <Link to="/menu">
           <ion-icon name="arrow-back-outline"></ion-icon>
         </Link>
-        <h2 className="checkout__title"> Your Basket</h2>
+        <h2 className="checkout__title"> Your Cart</h2>
       </nav>
       {basket?.length === 0 && oldCartData?.length === 0 ? (
         <div className="checkout__Empty">
-          <h2>Your Food Cart is Empty!</h2>
-          <p>Go back and try clicking on the Add button</p>
+          <img className="emptyCartIcon" src={emptyCart}/>
+          <h2>Your Cart is empty</h2>
         </div>
       ) : (
         <>
@@ -101,10 +102,14 @@ function Checkout() {
               ))
             ) : getActiveStatus === "active" ? (
               <div className="newOld">
-                <h3>Order Placed for</h3>
-                {billedItem}
-                <h3>New Order Items</h3>
-                {newCart}
+                <div className="activeOrderSection">
+                  <h3>Active Order <span className="activeOrderCheck"><ion-icon name="checkmark-done-outline"></ion-icon></span></h3>
+                  {billedItem}
+                </div>
+                <div className="newOrderSection">
+                  <h3>New Order</h3>
+                  {newCart}
+                </div>
               </div>
             ) : null}
           </div>
@@ -113,10 +118,10 @@ function Checkout() {
       )}
       {basket.length > 0 && (
         <div className="checkout__Total">
-          <div className="checkout__Title">
+          <div className="checkout__Title" onClick={() => showPrice()} >
             <h1>
-              Order Info
-              <span onClick={() => showPrice()} style={{ marginLeft: "5px" }}>
+              Order Summary
+              <span style={{ marginLeft: "10px" }}>
                 {showP ? (
                   <ion-icon name="caret-up-outline"></ion-icon>
                 ) : (
@@ -126,7 +131,7 @@ function Checkout() {
             </h1>
             {showP ? null : (
               <p className="orderInfoTotal">
-                Total: <span>{itemsTotal}</span>
+                <span>{itemsTotal}</span>
               </p>
             )}
           </div>

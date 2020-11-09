@@ -152,7 +152,6 @@ function MenuItem({
                             <span
                               className="addBtn"
                               style={{
-                                color: "#ee9c00",
                                 fontSize: "16px",
                               }}
                             >
@@ -179,14 +178,7 @@ function MenuItem({
                               </div>
                             </>
                           ) : (
-                            <span
-                              className="addBtn"
-                              style={{ color: "#ee9c00" }}
-                              onClick={() => {
-                                addToBasket();
-                                // addToCounter();
-                              }}
-                            >
+                            <span className="addBtn" onClick={() => { addToBasket(); }} >
                               ADD
                             </span>
                           )}

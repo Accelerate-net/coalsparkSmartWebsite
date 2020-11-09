@@ -40,7 +40,9 @@
 }
 
 .custom__navTitle p::before {
-    content: '\20B9'
+    content: '\20B9';
+        font-size: 80%;
+    padding-right: 0.1em; 
 }
 
 .custom__Options {
@@ -86,6 +88,8 @@
 
 .option__Details .option__Price span::before {
     content: '\20b9';
+        font-size: 80%;
+    padding-right: 0.1em; 
 }
 
 .custom .servesNumber {
@@ -125,6 +129,7 @@
     color: #fff;
     outline: none;
     border: none;
+    text-transform: uppercase;
 }
 
 .add__Btn span {

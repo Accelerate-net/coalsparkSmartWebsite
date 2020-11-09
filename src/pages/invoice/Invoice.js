@@ -58,11 +58,11 @@ function Invoice() {
         <hr style={{ marginBottom: "1rem" }} />
         <div className="invoiceBillDetailsWrapper">
           <h3 style={{ color: "#e2133a", marginBottom: "20px" }}>
-            Bill details
+            Invoice Summary
           </h3>
           <div className="invoiceBillDet">
             <div className="invoicesubTotal">
-              <p>Item total</p>
+              <p>Sub Total</p>
               <p className="cartItemPrice">
                 {activeStatusData.invoiceDetails.subTotal}
               </p>
@@ -73,7 +73,7 @@ function Invoice() {
                 (modeCheck) =>
                   metaGetData.mode === activeStatusData.metaData.mode ? (
                     <div className="taxPrice">
-                      <p>{modeCheck.label}</p>
+                      <p>{modeCheck.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({modeCheck.type === "PERCENTAGE" ? <span>{(modeCheck.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{modeCheck.value}</span>})</span></p>
                       {modeCheck.type === "PERCENTAGE" ? (
                         <p className="tax">{modeCheck.amount}</p>
                       ) : (
@@ -87,7 +87,7 @@ function Invoice() {
                 (modeCheck) =>
                   metaGetData.mode === activeStatusData.metaData.mode ? (
                     <div className="taxPrice">
-                      <p>{modeCheck.label}</p>
+                      <p>{modeCheck.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({modeCheck.type === "PERCENTAGE" ? <span>{(modeCheck.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{modeCheck.value}</span>})</span></p>
                       {modeCheck.type === "PERCENTAGE" ? (
                         <p className="tax">{modeCheck.amount}</p>
                       ) : (
@@ -100,7 +100,7 @@ function Invoice() {
                 {activeStatusData.invoiceDetails.discounts ? (
                   <div className="taxPrice">
                     <p>{activeStatusData.invoiceDetails.discounts.label}</p>
-                    <p className="tax" style={{ color: "#e2133a" }}>
+                    <p className="tax" style={{ color: "#009688" }}>
                       -
                       <span>
                         {activeStatusData.invoiceDetails.discounts.amount}
@@ -114,13 +114,13 @@ function Invoice() {
             <div className="invoiceTotal">
               <p>Total</p>
               <p className="toPayTotal">
-                {activeStatusData.invoiceDetails.grandTotal}
+                <b>{activeStatusData.invoiceDetails.grandTotal}</b>
               </p>
             </div>
 
             <div className="invoiceBtnWrapper">
               <button className="invoiceBtn" onClick={resultRoute}>
-                PAY NOW
+                PROCEED TO PAY <b className="finalAmountToPay">{activeStatusData.invoiceDetails.grandTotal}</b>
               </button>
             </div>
           </div>

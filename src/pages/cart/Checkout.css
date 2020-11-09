@@ -12,8 +12,10 @@
   margin-bottom: 1rem;
 }
 .newOld h3 {
-  padding: 1rem;
-  font-size: 1.1rem;
+    padding: 1rem;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 .checkout nav ion-icon {
@@ -31,7 +33,9 @@
 }
 
 .checkout__Empty h2 {
-  color: #e2133a;
+    color: #9E9E9E;
+    font-size: 18px;
+    font-weight: 300;
 }
 
 .checkout hr {
@@ -71,6 +75,45 @@
   font-size: 14px;
 }
 
+.activeOrderCheck{
+  color: #009688; font-size: 120%; position: relative; left: 6px; bottom: 1px;
+}
+
 .checkout__Title p span::before {
   content: "\20B9";
+      font-size: 80%;
+    padding-right: 0.1em; 
+}
+
+.activeOrderSection, 
+.activeOrderSection .checkoutProduct__title, 
+.activeOrderSection .checkoutCustomizedLink, 
+.activeOrderSection .checkoutProduct__price,
+.activeOrderSection .variantName {
+  color: #a5a5a5 !important;
+}
+
+
+.activeOrderSection .nonVegSymbol{
+  opacity: 0.3 !important;
+}
+
+.orderInfoTotal{
+    color: #000000 !important;
+    font-family: "roboto", sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+
+.orderInfoTotal::after{
+    content: "\207A";
+}
+
+.emptyCartIcon{
+  filter: grayscale(100%); 
+  opacity: 0.4; width: 25%;
+}
+
+.checkout{
+  padding-bottom: 50px;
 }

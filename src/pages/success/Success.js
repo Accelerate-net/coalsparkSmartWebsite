@@ -4,7 +4,7 @@ import animationData from "../../assets/lottie/success-animation.json";
 import "./Success.css";
 import { withRouter, useHistory } from "react-router-dom";
 import { useStateValue } from "../../contexts/StateProvider";
-import successAudio from "../../assets/audio/success.mp3";
+import successAudio from "../../assets/audio/success.wav";
 
 function Success() {
   const defaultOptions = {
@@ -37,7 +37,7 @@ function Success() {
         clearInterval(myInterval);
       }
     }, 1000);
-    if (seconds === 4) {
+    if (seconds === 5) {
       audio.muted = false;
       audio.play();
     }

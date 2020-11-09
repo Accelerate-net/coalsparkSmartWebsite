@@ -56,7 +56,7 @@ function Subtotal() {
             metaGetData.mode === modeCheck.type
               ? modeCheck.taxSlabs.map((taxSlab) => (
                   <div className="taxPrice">
-                    <p>{taxSlab.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({taxSlab.type === "PERCENTAGE" ? taxSlab.value*100 : taxSlab.value} {taxSlab.type})</span></p>
+                    <p>{taxSlab.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({taxSlab.type === "PERCENTAGE" ? <span>{(taxSlab.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{taxSlab.value}</span>})</span></p>
                     {taxSlab.type === "PERCENTAGE" ? (
                       <p className="tax">{(taxSlab.value * itemsTotal).toFixed(2)}</p>
                     ) : (
@@ -71,7 +71,7 @@ function Subtotal() {
             metaGetData.mode === modeCheck.type
               ? modeCheck.otherCharges.map((otherCh) => (
                   <div className="taxPrice">
-                    <p>{otherCh.label}</p>
+                    <p>{otherCh.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({otherCh.type === "PERCENTAGE" ? <span>{(otherCh.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{otherCh.value}</span>})</span></p>
                     {otherCh.type === "PERCENTAGE" ? (
                       <p className="tax">{(otherCh.value * 100).toFixed(2)}</p>
                     ) : (

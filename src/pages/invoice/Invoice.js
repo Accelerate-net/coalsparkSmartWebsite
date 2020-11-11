@@ -78,15 +78,16 @@ function Invoice() {
       key: paymentData.razorpayKey,
       name: paymentData.razorpayLabel,
       description: paymentData.razorpayDescription,
-      // order_id: paymentData.paymentOrderId,
+      order_id: paymentData.paymentOrderId,
       handler: async (response) => {
         try {
            const payment_api_url = "https://accelerateengine.app/smart-menu/apis/capturepayment.php";
            const payment_api_options = {
-              paymentId : response.razorpay_payment_id
+            paymentOrder: paymentData.paymentOrderId,
+            transactionId: response.razorpay_payment_id,
+            orderId: 16
            }
-           const captureResponse = await axios.post(payment_api_url, payment_api_options)
-           console.log(captureResponse.data);
+           const captureResponse = await axios.post(payment_api_url, payment_api_options);
         } catch (err) {
            console.log(err);
         }

@@ -6,9 +6,8 @@ function Error() {
   return (
     <div className="errorWrapper">
       <img src={errorImg} alt="error 404 | Page not Found" />
-      <h3>Oops! The page you are looking for is still being cooked</h3>
-      <p>Try scanning the QR Code again!</p>
-      <a href = "https://smart.zaitoon.restaurant" className = "click">Click to go back!</a>
+      <h3>Oops! Something is wrong.</h3>
+      <a href = "https://smart.zaitoon.restaurant" className = "click">Go Back</a>
     </div>
   );
 }

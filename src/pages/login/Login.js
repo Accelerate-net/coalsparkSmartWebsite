@@ -6,7 +6,14 @@ import lady from "../../assets/imgs/lady.png";
 import table from "../../assets/imgs/table.png";
 import flower from "../../assets/imgs/flower.png";
 import bbq from "../../assets/imgs/bbq.svg";
+import spinner from "../../assets/imgs/spinner.svg";
 import { withRouter, useHistory } from "react-router-dom";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const axios = require('axios');
+
+const DEFAULT_SUCCESS_REDIRECT_TIME = 500;
 
 function Login() {
   const [name, handleName] = useState("");
@@ -26,13 +33,26 @@ function Login() {
     history.push("*");
   }
 
-  let metaData = {
-    branchCode: branchCode,
-    tableNumber: tableNumber,
-    qrCodeReference: qrCodeReference,
-    mode: mode,
+  const showToast = (message, type) => {
+      switch(type){
+        case "error":{
+          toast.error(message);
+          break;
+        }
+        case "warning":{
+          toast.warning(message);
+          break;
+        }
+        default:{
+          toast.info(message);
+          break;
+        }
+      }
   };
-  localStorage.setItem("metaData", JSON.stringify(metaData));
+
+  const showDefaultErrorPage = (message) => {
+    history.push("/*");
+  }
 
   const handleNameInput = (e) => {
     let userName = e.target.value;
@@ -83,65 +103,144 @@ function Login() {
     ele.classList.add("close");
   }
 
-  let userData = {
-    name: name,
-    mobile: mobile,
-  };
+  function checkActiveStatus(userData, metaData) {
 
-  function checkActiveStatus() {
-    fetch(
-      "https://accelerateengine.app/smart-menu/apis/checkstatus.php?branchCode=" +
-        branchCode +
-        "&qrCodeReference=" +
-        qrCodeReference +
-        "&userMobile=" +
-        mobile +
-        "&tableNumber=" +
-        tableNumber
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.status) {
-          localStorage.setItem(
-            "activeStatus",
-            JSON.stringify(data.data.status)
-          );
-          localStorage.setItem("activeStatusData", JSON.stringify(data.data));
-          let getActiveStatus = localStorage.getItem("activeStatus")
-            ? JSON.parse(localStorage.getItem("activeStatus"))
-            : {};
+    /******************************
+            CHECK ACTIVE 
+    ******************************/
+    const status_api_url = "https://accelerateengine.app/smart-menu/apis/checkstatus.php";
+    const status_api_options = {
+      params : {
+        branchCode: metaData.branchCode,
+        qrCodeReference: metaData.qrCodeReference,
+        userMobile: userData.mobile,
+        tableNumber: metaData.tableNumber
+      },
+      timeout: 10000
+    }
 
-          if (getActiveStatus === "free") {
-            setTimeout(() => {
-              history.push("/menu");
-            }, 500);
-          } else if (getActiveStatus === "billed") {
-            setTimeout(() => {
-              history.push("/invoice");
-            }, 500);
-          } else if (getActiveStatus === "active") {
-            localStorage.setItem("oldCart", JSON.stringify(data.data.cart));
-            setTimeout(() => {
-              history.push("/menu");
-            }, 500);
-          } else {
-            setTimeout(() => {
-              history.push("/*");
-            }, 500);
+    showLoading();
+    axios.get(status_api_url, status_api_options)
+    .then(function (apiResponse) {
+        let response = apiResponse.data;
+        if (response.status) {
+          let data = response.data;
+          
+          if(!data){
+            showDefaultErrorPage();
           }
-        } else {
-          //TODO Show Error Toast and go back to main menu
+
+          let getActiveStatus = data.status;
+          localStorage.setItem("activeStatus", JSON.stringify(getActiveStatus));
+          localStorage.setItem("activeStatusData", JSON.stringify(data));
+
+          switch(getActiveStatus){
+            case "free":{
+              setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+              break;
+            }
+            case "active":{
+              localStorage.setItem("oldCart", JSON.stringify(data.cart));
+              setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+              break;
+            }
+            case "billed":{
+              setTimeout(() => { history.push("/invoice"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+              break;
+            }
+            default:{
+              setTimeout(() => { history.push("/*"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+              break;
+            }
+          }
         }
-      });
+        else{
+          showDefaultErrorPage();
+          showToast("Something went wrong, please try again.", "error");
+        }
+    })
+    .catch(function (error) {
+      showDefaultErrorPage();
+      showToast("Unexpected error occured, please try again.", "error");
+    })
   }
 
-  const handleSubmit = (e) => {
+  function showLoading(){
+    document.getElementById("loadingSpinnerSection").classList.remove("hidden");
+  }
+
+  function hideLoading(){
+    document.getElementById("loadingSpinnerSection").classList.add("hidden");
+  }
+
+
+  const initialiseEverything = async (e) => {
     e.preventDefault();
+
+    //Validate Mobile and Name
+    if(mobile.length != 10){
+      showToast("Enter your 10 digit mobile number", "info");
+      return;
+    }
+
+    if(name.length < 3){
+      showToast("Please enter your name", "info");
+      return;
+    }
+
     slideOut();
     document.getElementById("startOrderButton").style.visibility = 'hidden';
-    checkActiveStatus();
+
+    let userData = {
+      name: name,
+      mobile: mobile,
+    };
+
+    let metaData = {
+      branchCode: branchCode,
+      tableNumber: tableNumber,
+      qrCodeReference: qrCodeReference,
+      mode: mode
+    };
+
     localStorage.setItem("userData", JSON.stringify(userData));
+
+    /******************************
+              LOAD MENU 
+    ******************************/
+    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
+    const menu_api_options = {
+      params : {
+        branchCode: metaData.branchCode
+      },
+      timeout: 10000
+    }
+
+    showLoading();
+    axios.get(menu_api_url, menu_api_options)
+    .then(function (response) {
+        hideLoading();
+        if (response.status) {
+          let data = response.data;
+          localStorage.setItem("outletData", JSON.stringify(data.outletData));
+
+          let menuData = data.menuData;
+          menuData.sort((a, b) => a.rank - b.rank);
+
+          //Check active status on the table
+          checkActiveStatus(userData, metaData);
+
+        } else {
+          showToast("Failed to fetch the menu", "warning");
+          slideIn();
+        }
+    })
+    .catch(function (error) {
+      hideLoading();
+      showToast("Error in loading the menu", "error");
+      slideIn();
+    })    
+
   };
 
   return (
@@ -154,8 +253,7 @@ function Login() {
         <div className="desktop_Msg">
           <img src={bbq} alt="" />
           <h3>
-            Visit this website on your mobile <br /> to order a variety of
-            delicious dishes
+            Oho! This service is available on Mobile only.
           </h3>
         </div>
         <div className="login__bgWrapper">
@@ -172,6 +270,9 @@ function Login() {
             <img src={man} alt="" />
           </div>
         </div>
+        <div className="loadingSpinner hidden" id="loadingSpinnerSection">
+          <span><img src={spinner}/></span>
+        </div>
         <div className="start_btn animate__animated animate__fadeInUp" id="startOrderButton">
           {userNameRedirect === null || userMobileRedirect === null ? (
             <button onClick={slideIn}>Start Ordering</button>
@@ -184,17 +285,15 @@ function Login() {
         <div className="login_Title">
           <h3 id="yourDetailsTitle">Your Details</h3>
         </div>
-        <form action="" onSubmit={(e) => handleSubmit(e)}>
+        <form action="" onSubmit={(e) => initialiseEverything(e)}>
           <input
             type="tel"
             className="userMobile"
             id="usermobileField"
             value={mobile}
             placeholder="Mobile Number"
-            minLength="10"
             maxLength="10"
             onChange={(e) => handleNumInput(e)}
-            required
           />
           <input
             type="text"
@@ -204,7 +303,6 @@ function Login() {
             value={name}
             placeholder="Your Name"
             onChange={(e) => handleNameInput(e)}
-            required
           />
           <button type="submit">CONTINUE</button>
         </form>

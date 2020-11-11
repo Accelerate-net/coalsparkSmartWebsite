@@ -16,8 +16,10 @@
 }
 
 .errorWrapper h3 {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+    font-size: 21px;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    color: #444;
 }
 
 .errorWrapper p {
@@ -25,7 +27,12 @@
 }
 
 .click {
-  margin-top: 1rem;
-  text-decoration: underline;
-  color: #e21439;
+    background: #e21439;
+    border-radius: 3px;
+    color: #FFF;
+    padding: 4px 8px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 32px;
 }

@@ -14,10 +14,6 @@ import Invoice from "./pages/invoice/Invoice";
 import Feedback from "./pages/feedback/Feedback";
 import Thanks from "./pages/thankyou/Thanks";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-const axios = require('axios');
-
 class App extends Component {
 
   constructor(props) {
@@ -31,60 +27,29 @@ class App extends Component {
   }
 
   componentDidMount() {
-    let urlParams = localStorage.getItem("metaData")
-      ? JSON.parse(localStorage.getItem("metaData"))
-      : {};
 
-    const showToast = (message, type) => {
-      switch(type){
-        case "error":{
-          toast.error(message);
-          break;
-        }
-        case "warning":{
-          toast.warning(message);
-          break;
-        }
-        default:{
-          toast.info(message);
-          break;
-        }
-      }
-    };
+    // let urlParams = localStorage.getItem("metaData")
+    //   ? JSON.parse(localStorage.getItem("metaData"))
+    //   : {};
 
-    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
-    const menu_api_options = {
-      params : {
-        branchCode: "VELACHERY"
-      },
-      timeout: 10000
-    }
+    // const showToast = (message, type) => {
+    //   switch(type){
+    //     case "error":{
+    //       toast.error(message);
+    //       break;
+    //     }
+    //     case "warning":{
+    //       toast.warning(message);
+    //       break;
+    //     }
+    //     default:{
+    //       toast.info(message);
+    //       break;
+    //     }
+    //   }
+    // };
 
-    let self = this;
-    axios.get(menu_api_url, menu_api_options)
-    .then(function (response) {
-        if (response.status) {
-          let data = response.data;
-          localStorage.setItem("outletData", JSON.stringify(data.outletData));
-          self.setState({
-            brandLoaded: true,
-            brand: data.outletData,
-          });
 
-          let menuData = data.menuData;
-          menuData.sort((a, b) => a.rank - b.rank);
-
-          self.setState({
-            menuLoaded: true,
-            menu: menuData,
-          });
-        } else {
-          showToast("Failed to fetch the menu", "warning");
-        }
-    })
-    .catch(function (error) {
-      showToast("Error in loading the menu", "error");
-    })
 
   }
 

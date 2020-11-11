@@ -2,8 +2,21 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import MenuItem from "./MenuItem";
 
-function Home({ menu }) {
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const axios = require('axios');
+
+const SILENT_MENU_RELOAD_INTERVAL = 2 * 60 * 1000; //2 mins
+
+function Home() {
   const history = useHistory();
+
+  let menu = localStorage.getItem("menuData") ? JSON.parse(localStorage.getItem("menuData")) : [];
+  var isMenuLoaded = false;
+  if (menu && menu.length !== 0) {
+    isMenuLoaded = true;
+  }
+
   let urlParams = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
   if (
     !urlParams.branchCode ||
@@ -13,6 +26,37 @@ function Home({ menu }) {
   ) {
     history.push("*");
   }
+
+  /******************************
+        LOAD MENU SILENTLY
+  ******************************/
+  const silentReloadMenu = () => {
+    console.log('silentReloadMenu....')
+    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
+    const menu_api_options = {
+      params : {
+        branchCode: urlParams.branchCode
+      },
+      timeout: 10000
+    }
+
+    axios.get(menu_api_url, menu_api_options)
+    .then(function (response) {
+        if (response.status) {
+          let data = response.data;
+          localStorage.setItem("outletData", JSON.stringify(data.outletData));
+
+          let menuData = data.menuData;
+          menuData.sort((a, b) => a.rank - b.rank);
+          localStorage.setItem("menuData", JSON.stringify(menuData));
+        }
+    })
+  };
+
+  setInterval(function(){
+    silentReloadMenu();
+  }, SILENT_MENU_RELOAD_INTERVAL);
+
 
   const Loading = () => (
     <div className="home__menuCard" style={{ padding: "20px 16px 0" }}>
@@ -130,12 +174,6 @@ function Home({ menu }) {
       </div>
     </div>
   );
-
-  //TODO improve this
-  var isMenuLoaded = false;
-  if (menu && menu.length !== 0) {
-    isMenuLoaded = true;
-  }
 
   return (
     <div className="home">

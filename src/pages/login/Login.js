@@ -33,6 +33,10 @@ function Login() {
     history.push("*");
   }
 
+  /******************** 
+    COMMON FUNCTIONS 
+  *********************/
+
   const showToast = (message, type) => {
       switch(type){
         case "error":{
@@ -53,6 +57,9 @@ function Login() {
   const showDefaultErrorPage = (message) => {
     history.push("/*");
   }
+
+
+
 
   const handleNameInput = (e) => {
     let userName = e.target.value;
@@ -226,6 +233,7 @@ function Login() {
 
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
+          localStorage.setItem("menuData", JSON.stringify(menuData));
 
           //Check active status on the table
           checkActiveStatus(userData, metaData);

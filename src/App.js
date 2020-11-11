@@ -16,8 +16,10 @@ import Thanks from "./pages/thankyou/Thanks";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+const axios = require('axios');
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -39,6 +41,10 @@ class App extends Component {
           toast.error(message);
           break;
         }
+        case "warning":{
+          toast.warning(message);
+          break;
+        }
         default:{
           toast.info(message);
           break;
@@ -46,15 +52,21 @@ class App extends Component {
       }
     };
 
-    const menu_api_url =
-      "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
+    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
+    const menu_api_options = {
+      params : {
+        branchCode: "VELACHERY"
+      },
+      timeout: 10000
+    }
 
-    fetch(menu_api_url)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status) {
+    let self = this;
+    axios.get(menu_api_url, menu_api_options)
+    .then(function (response) {
+        if (response.status) {
+          let data = response.data;
           localStorage.setItem("outletData", JSON.stringify(data.outletData));
-          this.setState({
+          self.setState({
             brandLoaded: true,
             brand: data.outletData,
           });
@@ -62,19 +74,22 @@ class App extends Component {
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
 
-          this.setState({
+          self.setState({
             menuLoaded: true,
             menu: menuData,
           });
         } else {
-          showToast("Failed to load the menu", "error");
+          showToast("Failed to fetch the menu", "warning");
         }
-      });
+    })
+    .catch(function (error) {
+      showToast("Error in loading the menu", "error");
+    })
+
   }
 
   render() {
     const { error, menu, brand } = this.state;
-
     if (error) {
       return (
         <div className="loadingStyle">

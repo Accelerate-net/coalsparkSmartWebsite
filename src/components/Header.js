@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/imgs/logo_white.png";
 import "./Header.css";
-import { useToasts } from "react-toast-notifications";
 
 function Header() {
  
@@ -38,22 +37,12 @@ function Header() {
     ele.classList.remove("open");
   }
 
-  //Toast function
-  const { addToast } = useToasts();
-  let errorMessage = "Oh snap! There is some error. Try refreshing";
-  function showToast() {
-    addToast(errorMessage, {
-      appearance: "error",
-    });
-  }
-
   return (
     <nav className="header">
       <img
         className="header__logo"
         src={logo}
         alt="Zaitoon Logo"
-        onClick={showToast}
       />
       <div className="header__rightSection">
         {/* Search Icon */}

@@ -7,15 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/*Overwrite Toast*/
-.react-toast-notifications__toast__icon-wrapper{
-  display: none !important;
-}
-
-.react-toast-notifications__toast{
-  width: 100% !important;
-}
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

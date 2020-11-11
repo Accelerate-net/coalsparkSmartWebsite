@@ -4,7 +4,6 @@ import nonVegSymbol from "../../assets/imgs/non-veg-symbol.png";
 import vegSymbol from "../../assets/imgs/veg-symbol.png";
 import { useStateValue } from "../../contexts/StateProvider";
 import { Link } from "react-router-dom";
-import { useToasts } from "react-toast-notifications";
 
 function BilledItem({
   itemCode,
@@ -25,13 +24,8 @@ function BilledItem({
   //     ? JSON.parse(localStorage.getItem("activeStatusData"))
   //     : {};
 
-  //Toast function
-  const { addToast } = useToasts();
-  let errorMessage = "Cannot remove an already placed order!";
   function showToast() {
-    addToast(errorMessage, {
-      appearance: "error",
-    });
+    alert("ERROR")
   }
 
   //   const incrementItem = () => {

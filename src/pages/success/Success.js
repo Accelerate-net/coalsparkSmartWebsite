@@ -15,23 +15,33 @@ function Success() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(10);
   const history = useHistory();
   const [{ basket }, dispatch] = useStateValue();
   const [audio] = useState(new Audio(successAudio));
   audio.muted = true;
 
-  let urlParams = localStorage.getItem("metaData")
-    ? JSON.parse(localStorage.getItem("metaData"))
-    : {};
-  let userData = localStorage.getItem("userData")
-    ? JSON.parse(localStorage.getItem("userData"))
-    : {};
 
-  // If user clicks back button it redirects to error page
+  const queryString = window.location.search;
+  const queryParamsInUrl = new URLSearchParams(queryString);
+  const timeleft = queryParamsInUrl.get("timeleft") ? parseInt(queryParamsInUrl.get("timeleft")) : 15;
+  if(!timeleft){
+    timeleft = 15;
+  }
+
+
+  const redirect_branchCode = queryParamsInUrl.get("branchCode");
+  const redirect_tableNumber = queryParamsInUrl.get("tableNumber");
+  const redirect_qrCodeReference = queryParamsInUrl.get("qrCodeReference");
+  const redirect_mode = queryParamsInUrl.get("mode");
+  const redirect_userName = queryParamsInUrl.get("userName");
+  const redirect_userMobile = queryParamsInUrl.get("userMobile");
+
+  const redirect_url = "/?branchCode=" + redirect_branchCode + "&tableNumber=" + redirect_tableNumber + "&qrCodeReference=" + redirect_qrCodeReference + "&mode=" + redirect_mode + "&userName=" + redirect_userName + "&userMobile=" + redirect_userMobile;
+
   if (window.location.pathname === "/success") {
     window.addEventListener("popstate", function (event) {
-      history.push("*");
+      history.push(redirect_url);
     });
   }
 
@@ -44,44 +54,25 @@ function Success() {
         clearInterval(myInterval);
       }
     }, 1000);
-    if (seconds === 5) {
+    if (seconds === 10) {
       audio.muted = false;
       audio.play();
     }
     if (seconds === 0) {
-      dispatch({
-        type: "CLEAN_BASKET",
-      });
-
-      // localStorage.removeItem("cartItem");
-
-      history.push(
-        "/?branchCode=" +
-          urlParams.branchCode +
-          "&tableNumber=" +
-          urlParams.tableNumber +
-          "&qrCodeReference=" +
-          urlParams.qrCodeReference +
-          "&mode=" +
-          urlParams.mode +
-          "&userName=" +
-          userData.name +
-          "&userMobile=" +
-          userData.mobile
-      );
+      history.push(redirect_url);
     }
     return () => {
       clearInterval(myInterval);
     };
   }, [dispatch, seconds, audio]);
 
-  //   CSS is in App.css file
+
   return (
     <div className="success__Wrapper">
       <Lottie options={defaultOptions} height={300} width={300} />
       <p>Yay! your order is placed</p>
       <p className="servingTimeTtile">
-        Serving in <b>15 mins</b>
+        Serving in <b>{timeleft} mins</b>
       </p>
       <p className="redirectingSeconds">{seconds}s</p>
     </div>

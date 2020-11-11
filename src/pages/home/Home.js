@@ -24,6 +24,7 @@ function Home() {
     !urlParams.qrCodeReference ||
     !urlParams.mode
   ) {
+    console.log('hiiii')
     history.push("*");
   }
 

@@ -23,7 +23,9 @@
 }
 
 .errorWrapper p {
-  font-weight: 500;
+    font-weight: 400;
+    color: #ff4c4b;
+    padding: 0 20px;
 }
 
 .click {

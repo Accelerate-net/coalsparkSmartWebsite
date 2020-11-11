@@ -134,9 +134,9 @@ function Login() {
         let response = apiResponse.data;
         if (response.status) {
           let data = response.data;
-          
-          if(!data){
-            showDefaultErrorPage();
+          if(data == null){
+            showDefaultErrorPage("Unable to fetch the current order status");
+            return;
           }
 
           let getActiveStatus = data.status;
@@ -236,6 +236,8 @@ function Login() {
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
           localStorage.setItem("menuData", JSON.stringify(menuData));
+
+          localStorage.setItem("metaData", JSON.stringify(metaData));
 
           //Check active status on the table
           checkActiveStatus(userData, metaData);

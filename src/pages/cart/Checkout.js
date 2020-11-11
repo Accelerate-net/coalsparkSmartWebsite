@@ -49,6 +49,13 @@ function Checkout() {
     localStorage.clear();
   }
 
+  function showLoadingScreenFreeze(){
+    document.getElementById("apiLoaderModalWidget").classList.remove("hidden");
+  }
+
+  function hideLoadingScreenFreeze(){
+    document.getElementById("apiLoaderModalWidget").classList.add("hidden");
+  }
 
   const handleCartComment = (e) => {
     let userFeed = e.target.value;
@@ -139,8 +146,10 @@ function Checkout() {
       timeout: 10000
     }
 
+    showLoadingScreenFreeze();
     axios(order_api_options)
       .then(function (response) {
+        hideLoadingScreenFreeze();
         if(response.data.status){
           let timeLeft = response.data.servingTime;
           const redirect_url = "./success?timeleft=" + timeLeft + "&branchCode=" + metaData.branchCode + "&tableNumber=" + metaData.tableNumber + "&qrCodeReference=" + metaData.qrCodeReference + "&mode=" + metaData.mode + "&userName=" + userData.name + "&userMobile=" + userData.mobile;
@@ -152,6 +161,7 @@ function Checkout() {
         }
       })
       .catch(function (error) {
+        hideLoadingScreenFreeze();
         showToast("Error while placing the order", "error");
       })
   }

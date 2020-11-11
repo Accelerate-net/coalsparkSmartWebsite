@@ -16,14 +16,6 @@ function Feedback() {
 
   const history = useHistory();
 
-  // let getActiveStatus = localStorage.getItem("activeStatus")
-  //   ? JSON.parse(localStorage.getItem("activeStatus"))
-  //   : {};
-
-  //   if (getActiveStatus === "free" || getActiveStatus === "active") {
-  //          history.push("/*")
-  //   }
-
   if (window.location.pathname === "/feedback") {
     window.addEventListener("popstate", function (event) {
       history.push("/feedback");
@@ -141,7 +133,7 @@ function Feedback() {
     }
   };
 
-  //   Feedback Button Data in array form
+  //Feedback Button Data in array form
   const angryFoodButton = [
     "Worst food ever",
     "Worst food ever ever",
@@ -223,7 +215,7 @@ function Feedback() {
         
       </div>
       <div className="feeback__innerWrapper">
-        <div className="feedback__Title"><p>Please give your valuable feedback</p></div>
+        <div className="feedback__Title"><p>How did we do today?</p></div>
         <div className="emoji__Wrapper">
           <div
             className="angry__Emoji"

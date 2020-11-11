@@ -22,10 +22,9 @@
 
 .feedback__Title {
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   color: #e2133a;
   font-weight: 500;
-  text-transform: uppercase;
 }
 
 .emoji__Wrapper {
@@ -35,9 +34,7 @@
   margin: 2rem 0 0;
 }
 
-.selectborder {
-  border-radius: 50%;
-  height: 85px;
+.emoji__Wrapper .selectborder img {
   border: 2px solid #e2133a;
 }
 

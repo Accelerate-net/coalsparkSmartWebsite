@@ -143,17 +143,20 @@ function Checkout() {
             </div>
             <hr />
             {basket?.length > 0 ? (
+              <>
+              <div className="noteToChef">Any notes to the Chef?</div>
               <div className="commentsWrapper">
                 <form>
                   <input
                     type="text"
                     name="cartComments"
-                    placeholder="Any special requests?"
+                    placeholder="More sugar, less spice? Your preferences go here."
                     value={cartComm}
                     onChange={(e) => handleCartComment(e)}
                   />
                 </form>
               </div>
+              </>
             ) : null}
           </>
         )}

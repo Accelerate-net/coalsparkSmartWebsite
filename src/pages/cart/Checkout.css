@@ -127,21 +127,27 @@
 }
 
 .commentsWrapper {
-  margin-top: 2rem;
+  margin: 3px 1rem 0 1rem;
+    border: 1px solid #dad8d8;
+    padding: 10px 15px;
 }
 
 .commentsWrapper form {
-  margin: 0 1rem 30px;
+  margin: 0;
 }
 
 .commentsWrapper form input {
   width: 100%;
-  border: none;
-  border-bottom: 1px solid rgb(160, 160, 160);
-  padding: 12px 12px;
+      border: none;
+    padding: 0;
 }
 
 .commentsWrapper form input:focus {
-  border-bottom: 1px solid #e2133a;
   outline: none;
+}
+
+.noteToChef{
+  font-size: 14px;
+    font-weight: 500;
+    margin-left: 16px;
 }

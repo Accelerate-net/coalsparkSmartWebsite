@@ -5,6 +5,9 @@ import vegSymbol from "../../assets/imgs/veg-symbol.png";
 import { useStateValue } from "../../contexts/StateProvider";
 import { Link } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function BilledItem({
   itemCode,
   itemName,
@@ -24,9 +27,10 @@ function BilledItem({
   //     ? JSON.parse(localStorage.getItem("activeStatusData"))
   //     : {};
 
-  function showToast() {
-    alert("ERROR")
-  }
+
+  const showToast = () => {
+    toast.warning("Already placed order can not be altered")
+  };
 
   //   const incrementItem = () => {
   //     dispatch({

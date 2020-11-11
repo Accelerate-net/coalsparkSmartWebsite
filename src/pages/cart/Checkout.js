@@ -134,16 +134,18 @@ function Checkout() {
                     </h3>
                     {billedItem}
                   </div>
-                  <div className="newOrderSection">
-                    <h3>New Order</h3>
-                    {newCart}
-                  </div>
                 </div>
               ) : null}
             </div>
-            <hr />
             {basket?.length > 0 ? (
               <>
+              <div className="newOld">
+                <div className="newOrderSection">
+                  <h3>New Order</h3>
+                  {newCart}
+                </div>
+              </div>
+              <hr />
               <div className="noteToChef">Any notes to the Chef?</div>
               <div className="commentsWrapper">
                 <form>

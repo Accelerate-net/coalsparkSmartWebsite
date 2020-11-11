@@ -8,10 +8,25 @@ import { StateProvider } from "./contexts/StateProvider";
 import reducer from "./contexts/reducer";
 import { initialState } from "./contexts/StateProvider";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 ReactDOM.render(
   // <React.StrictMode>
+
   <StateProvider initialState={initialState} reducer={reducer}>
-    <App />
+  <ToastContainer
+	position="bottom-center"
+	autoClose={4000}
+	hideProgressBar={false}
+	newestOnTop={false}
+	closeOnClick
+	rtl={false}
+	pauseOnFocusLoss
+	draggable
+	pauseOnHover
+	/>
+	<App />
   </StateProvider>,
   document.getElementById("root")
 );

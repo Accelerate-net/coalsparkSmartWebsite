@@ -13,6 +13,10 @@ import Error from "./pages/error/Error";
 import Invoice from "./pages/invoice/Invoice";
 import Feedback from "./pages/feedback/Feedback";
 import Thanks from "./pages/thankyou/Thanks";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -28,6 +32,19 @@ class App extends Component {
     let urlParams = localStorage.getItem("metaData")
       ? JSON.parse(localStorage.getItem("metaData"))
       : {};
+
+    const showToast = (message, type) => {
+      switch(type){
+        case "error":{
+          toast.error(message);
+          break;
+        }
+        default:{
+          toast.info(message);
+          break;
+        }
+      }
+    };
 
     const menu_api_url =
       "https://accelerateengine.app/smart-menu/apis/menu.php?branchCode=VELACHERY";
@@ -50,7 +67,7 @@ class App extends Component {
             menu: menuData,
           });
         } else {
-          //TODO Show Error Toast and go back to main menu
+          showToast("Failed to load the menu", "error");
         }
       });
   }

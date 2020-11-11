@@ -3,8 +3,41 @@ import { Link } from "react-router-dom";
 import logo from "../assets/imgs/logo_white.png";
 import "./Header.css";
 
+import service_call_steward from "../assets/imgs/services/service-call-steward.svg";
+import service_request_bill from "../assets/imgs/services/service-request-bill.svg";
+import service_serve_fast from "../assets/imgs/services/service-serve-fast.svg";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const axios = require('axios');
+
 function Header() {
  
+  /******************** 
+    COMMON FUNCTIONS 
+  *********************/
+
+  const showToast = (message, type) => {
+      switch(type){
+        case "error":{
+          toast.error(message);
+          break;
+        }
+        case "warning":{
+          toast.warning(message);
+          break;
+        }
+        case "success":{
+          toast.success(message);
+          break;
+        }
+        default:{
+          toast.info(message);
+          break;
+        }
+      }
+  };
+
   let getoutletData = localStorage.getItem("outletData")
             ? JSON.parse(localStorage.getItem("outletData"))
             : {};
@@ -37,6 +70,36 @@ function Header() {
     ele.classList.remove("open");
   }
 
+  function serviceCall(requestType){
+
+    let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {};
+    let metaData = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
+    
+    const service_api_options = {
+      method : "post",
+      url : "https://accelerateengine.app/smart-menu/apis/createservicerequest.php",
+      data: {
+        qrCodeReference: metaData.qrCodeReference,
+        userMobile: userData.mobile,
+        serviceType: requestType
+      },
+      timeout: 10000
+    }
+
+    axios(service_api_options)
+      .then(function (response) {
+        if(response.data.status){
+          showToast("Your request will be addressed soon.", "success");
+        }
+        else {
+          showToast("Unable to create a request, try again.", "error");
+        }
+      })
+      .catch(function (error) {
+        showToast("Unable to create a request, try again.", "error");
+      })
+  }
+
   return (
     <nav className="header">
       <img
@@ -60,17 +123,17 @@ function Header() {
         
           <div className="ringerPopup_wrapper" onClick={closeRingerPopup}>
             <div className="ringerPopup_innerWrapper">
-              <div className="stewardBtn">
-                <ion-icon name="person-circle-outline"></ion-icon>
+              <div className="stewardBtn" onClick={() => serviceCall('CALL_CALL_STEWARD')}>
+                <img src={service_call_steward}/>
                 <button>Call Steward</button>
               </div>
-              <div className="billBtn">
-                <ion-icon name="card-outline"></ion-icon>
-                <button>Request Bill</button>
-              </div>
-              <div className="serveBtn">
-                <ion-icon name="speedometer-outline"></ion-icon>
+              <div className="serveBtn" onClick={() => serviceCall('CALL_SERVE_FAST')}>
+                <img src={service_serve_fast}/>
                 <button>Serve Fast</button>
+              </div>
+              <div className="billBtn" onClick={() => serviceCall('CALL_REQUEST_BILL')}>
+                <img src={service_request_bill}/>
+                <button>Request Bill</button>
               </div>
             </div>
           </div>

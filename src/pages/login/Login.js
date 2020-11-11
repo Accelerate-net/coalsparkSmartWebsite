@@ -58,9 +58,6 @@ function Login() {
     history.push("/*");
   }
 
-
-
-
   const handleNameInput = (e) => {
     let userName = e.target.value;
     handleName(userName);
@@ -70,19 +67,24 @@ function Login() {
     let userNum = e.target.value;
     if (userNum.length === 10) {
       document.getElementById("usernameField").focus();
-      fetch(
-        "https://accelerateengine.app/smart-menu/apis/checkuserdetails.php?mobile=" +
-          userNum
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status) {
-            document.getElementById("usernameField").value = data.data.name;
-            handleName(data.data.name);
-          }
-        });
-    }
+      
+      const user_api_url = "https://accelerateengine.app/smart-menu/apis/checkuserdetails.php";
+      const user_api_options = {
+        params : {
+          mobile: userNum
+        },
+        timeout: 10000
+      }
 
+      axios.get(user_api_url, user_api_options)
+      .then(function (response) {
+          if (response.data.status) {
+            let userData = response.data.data;
+            document.getElementById("usernameField").value = userData.name;
+            handleName(userData.name);
+          }
+      })
+    }
     handleMobile(userNum);
   };
 

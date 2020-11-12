@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 const axios = require("axios");
 
 function Checkout() {
-  const [{ basket }] = useStateValue();
+  const [{ basket }, dispatch] = useStateValue();
   const history = useHistory();
   const [showP, setShowPrice] = useState(false);
   // const [orderPlaced, setOrder] = useState(false);
@@ -206,6 +206,9 @@ function Checkout() {
             "&userMobile=" +
             userData.mobile;
           forceClearLocalStorate();
+          dispatch({
+            type: "CLEAN_BASKET",
+          });
           history.push(redirect_url);
         } else {
           showToast("Order Failed - " + response.data.error, "error");

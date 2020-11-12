@@ -8,9 +8,9 @@ import BilledItem from "./BilledItem";
 import { getBasketTotal } from "../../contexts/reducer";
 import emptyCart from "../../assets/imgs/emptycart.png";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-const axios = require('axios');
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const axios = require("axios");
 
 function Checkout() {
   const [{ basket }] = useStateValue();
@@ -19,41 +19,49 @@ function Checkout() {
   // const [orderPlaced, setOrder] = useState(false);
   const [cartComm, handleCartComments] = useState("");
 
+  let oldTotal = 0;
+  let getOldCart = localStorage.getItem("oldCart")
+    ? JSON.parse(localStorage.getItem("oldCart"))
+    : [];
+
+  getOldCart.map((total) => {
+    oldTotal = oldTotal + parseInt(total.price);
+  });
 
   /******************** 
     COMMON FUNCTIONS 
   *********************/
 
   const showToast = (message, type) => {
-      switch(type){
-        case "error":{
-          toast.error(message);
-          break;
-        }
-        case "warning":{
-          toast.warning(message);
-          break;
-        }
-        default:{
-          toast.info(message);
-          break;
-        }
+    switch (type) {
+      case "error": {
+        toast.error(message);
+        break;
       }
+      case "warning": {
+        toast.warning(message);
+        break;
+      }
+      default: {
+        toast.info(message);
+        break;
+      }
+    }
   };
 
   const showDefaultErrorPage = (message) => {
     history.push("/*");
-  }
+  };
 
-  function forceClearLocalStorate(){
+  function forceClearLocalStorate() {
     localStorage.clear();
   }
 
-  function showLoadingScreenFreeze(){
+  function showLoadingScreenFreeze() {
     document.getElementById("apiLoaderModalWidget").classList.remove("hidden");
   }
 
-  function hideLoadingScreenFreeze(){
+  function hideLoadingScreenFreeze() {
     document.getElementById("apiLoaderModalWidget").classList.add("hidden");
   }
 
@@ -108,7 +116,7 @@ function Checkout() {
       itemVeg={item.itemVeg}
       itemCount={item.itemCount}
       customOpt={item.itemOptions}
-      customVariant={item.customVariant}
+      customVariant={item.variant}
       isCustom={item.isCustom}
     />
   ));
@@ -117,36 +125,43 @@ function Checkout() {
     setShowPrice(!showP);
   }
 
-  function formatCart(cartData){
+  function formatCart(cartData) {
     let formattedCart = [];
-    for(let i = 0; i < cartData.length; i++){
+    for (let i = 0; i < cartData.length; i++) {
       let formattedItem = {
         name: cartData[i].itemName,
         code: cartData[i].itemCode,
         price: cartData[i].itemPrice,
         qty: cartData[i].itemCount,
-        variant: cartData[i].customVariant ? cartData[i].customVariant : ""
-      }
+        variant: cartData[i].customVariant ? cartData[i].customVariant : "",
+      };
       formattedCart.push(formattedItem);
     }
 
     return formattedCart;
   }
 
-  function placeOrder(){
+  function placeOrder() {
+    let userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
+      : {};
+    let metaData = localStorage.getItem("metaData")
+      ? JSON.parse(localStorage.getItem("metaData"))
+      : {};
+    let cartData = localStorage.getItem("cartItem")
+      ? JSON.parse(localStorage.getItem("cartItem"))
+      : [];
 
-    let userData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {};
-    let metaData = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
-    let cartData = localStorage.getItem("cartItem") ? JSON.parse(localStorage.getItem("cartItem")) : [];
-
-    if(cartData.length < 1){
+    if (cartData.length < 1) {
       showToast("Add some items before placing the order", "warning");
       return;
     }
 
-    let activeStatusData = localStorage.getItem("activeStatusData") ? JSON.parse(localStorage.getItem("activeStatusData")) : {};
+    let activeStatusData = localStorage.getItem("activeStatusData")
+      ? JSON.parse(localStorage.getItem("activeStatusData"))
+      : {};
     let masterOrderId = "";
-    if(activeStatusData.status == "active"){
+    if (activeStatusData.status == "active") {
       masterOrderId = activeStatusData.masterOrderId;
     }
 
@@ -159,34 +174,47 @@ function Checkout() {
       tableNumber: metaData.tableNumber,
       userMobile: userData.mobile,
       token: userData.token,
-      masterOrderId: masterOrderId
-    }
-    
+      masterOrderId: masterOrderId,
+    };
+
     const order_api_options = {
-      method : "post",
-      url : "https://accelerateengine.app/smart-menu/apis/createorder.php",
+      method: "post",
+      url: "https://accelerateengine.app/smart-menu/apis/createorder.php",
       data: orderData,
-      timeout: 10000
-    }
+      timeout: 10000,
+    };
 
     showLoadingScreenFreeze();
     axios(order_api_options)
       .then(function (response) {
         hideLoadingScreenFreeze();
-        if(response.data.status){
+        if (response.data.status) {
           let timeLeft = response.data.servingTime;
-          const redirect_url = "./success?timeleft=" + timeLeft + "&branchCode=" + metaData.branchCode + "&tableNumber=" + metaData.tableNumber + "&qrCodeReference=" + metaData.qrCodeReference + "&mode=" + metaData.mode + "&userName=" + userData.name + "&userMobile=" + userData.mobile;
+          const redirect_url =
+            "./success?timeleft=" +
+            timeLeft +
+            "&branchCode=" +
+            metaData.branchCode +
+            "&tableNumber=" +
+            metaData.tableNumber +
+            "&qrCodeReference=" +
+            metaData.qrCodeReference +
+            "&mode=" +
+            metaData.mode +
+            "&userName=" +
+            userData.name +
+            "&userMobile=" +
+            userData.mobile;
           forceClearLocalStorate();
           history.push(redirect_url);
-        }
-        else {
+        } else {
           showToast("Order Failed - " + response.data.error, "error");
         }
       })
       .catch(function (error) {
         hideLoadingScreenFreeze();
         showToast("Error while placing the order", "error");
-      })
+      });
   }
 
   return (
@@ -230,10 +258,11 @@ function Checkout() {
                         <ion-icon name="checkmark-done-outline"></ion-icon>
                       </span>
                     </h3>
+
                     {billedItem}
                   </div>
                   <div className="newOrderSection">
-                    <h3>New Order</h3>
+                    {basket?.length > 0 ? <h3>New Order</h3> : null}
                     {newCart}
                   </div>
                 </div>
@@ -242,18 +271,18 @@ function Checkout() {
             <hr />
             {basket?.length > 0 ? (
               <>
-              <div className="noteToChef">Any notes to the Chef?</div>
-              <div className="commentsWrapper">
-                <form>
-                  <input
-                    type="text"
-                    name="cartComments"
-                    placeholder="More sugar, less spice? Your preferences go here."
-                    value={cartComm}
-                    onChange={(e) => handleCartComment(e)}
-                  />
-                </form>
-              </div>
+                <div className="noteToChef">Any notes to the Chef?</div>
+                <div className="commentsWrapper">
+                  <form>
+                    <input
+                      type="text"
+                      name="cartComments"
+                      placeholder="More sugar, less spice? Your preferences go here."
+                      value={cartComm}
+                      onChange={(e) => handleCartComment(e)}
+                    />
+                  </form>
+                </div>
               </>
             ) : null}
           </>
@@ -273,7 +302,7 @@ function Checkout() {
               </h1>
               {showP ? null : (
                 <p className="orderInfoTotal">
-                  <span>{itemsTotal}</span>
+                  <span>{itemsTotal + oldTotal}</span>
                 </p>
               )}
             </div>

@@ -25,7 +25,7 @@ function Checkout() {
     : [];
 
   getOldCart.map((total) => {
-    oldTotal = oldTotal + parseInt(total.price);
+    oldTotal = oldTotal + parseInt(total.itemPrice);
   });
 
   /******************** 

@@ -97,7 +97,7 @@ function Header() {
               break;
             }
             case "CALL_REQUEST_BILL":{
-              showToast("Your bill will be generated soon", "info");
+              showToast("The bill will be generated soon", "info");
               break;
             }
             case "CALL_CALL_STEWARD":{

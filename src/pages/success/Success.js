@@ -24,7 +24,7 @@ function Success() {
 
   const queryString = window.location.search;
   const queryParamsInUrl = new URLSearchParams(queryString);
-  const timeleft = queryParamsInUrl.get("timeleft") ? parseInt(queryParamsInUrl.get("timeleft")) : 15;
+  let timeleft = queryParamsInUrl.get("timeleft") ? parseInt(queryParamsInUrl.get("timeleft")) : 15;
   if(!timeleft){
     timeleft = 15;
   }

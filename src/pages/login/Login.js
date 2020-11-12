@@ -214,7 +214,7 @@ function Login() {
         itemCode: originalItem.code,
         itemName: originalItem.name,
         customOpt: originalItem.customOptions,
-        itemPrice: originalItem.price,
+        itemPrice: serverItem.price,
         itemVeg: originalItem.isVeg,
         isCustom: originalItem.isCustomisable,
         itemOptions: originalItem.customOptions,

@@ -389,6 +389,8 @@ function Login() {
           clearInterval(resendIntervalTimer);
           hideOTP();
 
+          localStorage.setItem("userValidatedData", JSON.stringify(response.data.response));
+
           //Go to preloading data
           preloadDetails();
         } else {

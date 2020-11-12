@@ -72,7 +72,7 @@ function Header() {
 
   function serviceCall(requestType){
 
-    let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {};
+    let userData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {};
     let metaData = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
     
     const service_api_options = {
@@ -80,8 +80,9 @@ function Header() {
       url : "https://accelerateengine.app/smart-menu/apis/createservicerequest.php",
       data: {
         qrCodeReference: metaData.qrCodeReference,
-        userMobile: userData.mobile,
-        serviceType: requestType
+        mobile: userData.mobile,
+        serviceType: requestType,
+        token: userData.token
       },
       timeout: 10000
     }
@@ -89,7 +90,25 @@ function Header() {
     axios(service_api_options)
       .then(function (response) {
         if(response.data.status){
-          showToast("Your request will be addressed soon.", "success");
+
+          switch(requestType){
+            case "CALL_SERVE_FAST":{
+              showToast("We are informing the Captain to serve you fast", "info");
+              break;
+            }
+            case "CALL_REQUEST_BILL":{
+              showToast("Your bill will be generated soon", "info");
+              break;
+            }
+            case "CALL_CALL_STEWARD":{
+              showToast("One of the stewards will be attending you soon", "info");
+              break;
+            }
+            default:{
+              showToast("Your request will be addressed soon.", "info");
+            }
+          }
+
         }
         else {
           showToast("Unable to create a request, try again.", "error");

@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import "./Search.css";
 import MenuItem from "../home/MenuItem";
 
-function Search({ searchItem }) {
+function Search() {
   const [typedWord, handleInput] = useState("");
 
   useEffect(() => {
@@ -11,19 +11,12 @@ function Search({ searchItem }) {
   });
 
   const history = useHistory();
-  let urlParams = JSON.parse(localStorage.getItem("metaData"));
-  if (
-    !urlParams.branchCode ||
-    !urlParams.tableNumber ||
-    !urlParams.qrCodeReference ||
-    !urlParams.mode
-  ) {
-    history.push("*");
-  }
+  let searchItem = localStorage.getItem("menuData") ? JSON.parse(localStorage.getItem("menuData")) : [];
 
   var searchKey = document.getElementById("searchMenuInput")
     ? document.getElementById("searchMenuInput").value
     : "";
+
   const searchSpace = (e) => {
     searchKey = e.target.value;
     handleInput(searchKey);
@@ -31,16 +24,63 @@ function Search({ searchItem }) {
 
   var isSearchFound = false;
 
-  var itemL =
+  var itemsStartingWith =
     typedWord.length >= 2
       ? searchItem.map((firstS, k) =>
           firstS.menu.map((second) =>
             second.items
               .filter((data) => {
-                if (typedWord === "") return null;
-                else if (
-                  data.name.toLowerCase().includes(typedWord.toLowerCase())
-                ) {
+                let itemSearchText = data.name.toLowerCase();
+                let enteredWord = typedWord.toLowerCase();
+
+                if (enteredWord === "") return null;
+                else if (itemSearchText.startsWith(enteredWord)) {
+                  return data;
+                }
+              })
+              .map((searchItemList, m) => {
+                isSearchFound = true;
+                return (
+                  <div style={{ padding: "18px 16px 10px" }}>
+                    <>
+                      <MenuItem
+                        key={m}
+                        menuSubCat={second.subCategoryName}
+                        itemCode={searchItemList.code}
+                        itemName={searchItemList.name}
+                        itemPrice={searchItemList.price}
+                        itemServes={searchItemList.serves}
+                        itemPrep={searchItemList.averagePreparationTime}
+                        itemCustom={searchItemList.isCustomisable}
+                        itemImg={searchItemList.imageUrl}
+                        itemVeg={searchItemList.isVeg}
+                        itemAvailable={searchItemList.isAvailable}
+                        itemLabel={searchItemList.labels}
+                        customOpt={searchItemList.customOptions}
+                      />
+                      <div
+                        className="seperationLine"
+                        style={{ marginTop: "20px" }}
+                      ></div>
+                    </>
+                  </div>
+                );
+              })
+          )
+        )
+      : null;
+
+  var itemsContains =
+    typedWord.length >= 2
+      ? searchItem.map((firstS, k) =>
+          firstS.menu.map((second) =>
+            second.items
+              .filter((data) => {
+                let itemSearchText = data.name.toLowerCase();
+                let enteredWord = typedWord.toLowerCase();
+
+                if (enteredWord === "") return null;
+                else if (itemSearchText.includes(enteredWord) && !itemSearchText.startsWith(enteredWord)) {
                   return data;
                 }
               })
@@ -100,7 +140,9 @@ function Search({ searchItem }) {
         ) : (
           <div className="search__Display" style={{ backgroundColor: "#fff" }}>
             {" "}
-            {itemL}{" "}
+            {itemsStartingWith}
+            {itemsContains}
+            {" "}
           </div>
         )}
       </div>

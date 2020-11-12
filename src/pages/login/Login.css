@@ -81,7 +81,7 @@
     position: absolute;
     z-index: 2;
     animation: ladymove 1s ease-in;
-    animation-delay: 0.5s;
+    animation-delay: 5s;
     animation-fill-mode: both;
   }
 
@@ -110,7 +110,7 @@
     z-index: 2;
     transform: rotate(-7deg);
     animation: manmove 0.6s ease-in;
-    animation-delay: 0.2s;
+    animation-delay: 3s;
     animation-fill-mode: both;
   }
 
@@ -131,17 +131,20 @@
     left: 190px;
     z-index: 2;
     visibility: hidden;
+    opacity: 0;
     animation: flowermove 2s ease-in;
-    animation-delay: 2s;
+    animation-delay: 5s;
     animation-fill-mode: both;
   }
 
   @keyframes flowermove {
     from {
       visibility: hidden;
+      opacity: 0;
     }
     to {
       visibility: visible;
+      opacity: 1;
     }
   }
 

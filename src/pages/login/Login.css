@@ -236,6 +236,34 @@
     color: #e2133a !important;
   }
 
+  .login_Form .otpBox {
+    padding: 14px 10px;
+    font-size: 21px;
+    border: 1px solid #b5b2b2;
+    border-radius: 4px;
+    font-weight: bold !important;
+    color:  #b5b2b2 !important;
+    width: 20%;
+    text-align: center;
+  }
+
+  .otpBoxContainer{
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 0 0;
+  }
+
+  .login_Form .otpBox:focus,
+  .login_Form .otpBox:active{
+    border: 1px solid #e2133a !important;
+    color:  #e2133a !important;
+  }
+
+  .otpBoxContainer input:valid {
+    color: #e2133a !important;
+    border-color: #e2133a !important;
+  }
+
   .login_Form ::-webkit-input-placeholder {
     /* Edge */
     font-weight: 300 !important;
@@ -347,4 +375,42 @@
 
 .loadingSpinner img{
   width: 48px;
+}
+
+.modalLoadingSection{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.modalLoadingSection img{
+  width: 48px;
+}
+
+.modalLoadingSection.hidden{
+  visibility: hidden;
+}
+
+#otpSubmitSpinner{
+  position: absolute;
+  right: 2px;
+  top: 2px;
+}
+
+#otpSubmitSpinner img{
+  width: 45px;
+}
+
+#otpSubmitSpinner.hidden{
+  visibility: hidden;
+}
+
+#otpSubmitButton{
+  position: relative;
+}
+
+#resendOTPLabel{
+  padding: 10px 0;
+  text-align: center;
+  height: 50px;
 }

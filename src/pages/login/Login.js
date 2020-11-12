@@ -7,6 +7,7 @@ import table from "../../assets/imgs/table.png";
 import flower from "../../assets/imgs/flower.png";
 import bbq from "../../assets/imgs/bbq.svg";
 import spinner from "../../assets/imgs/spinner.svg";
+import spinnerRed from "../../assets/imgs/spinner-red.svg";
 import { withRouter, useHistory } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,6 +19,7 @@ const DEFAULT_SUCCESS_REDIRECT_TIME = 500;
 function Login() {
   const [name, handleName] = useState("");
   const [mobile, handleMobile] = useState("");
+  const [enteredOTP, handleOTP] = useState("");
   const history = useHistory();
 
   const queryString = window.location.search;
@@ -58,6 +60,62 @@ function Login() {
     history.push("/*");
   }
 
+  const handleOTPBoxInput = (e, boxId) => {
+    boxId = parseInt(boxId);
+
+    let current_box = document.getElementById("otpBox"+boxId);
+    if(e.key === "Backspace"){
+      if(boxId > 1){
+        current_box.value = "";
+        let previous_box = document.getElementById("otpBox"+(boxId - 1));
+        previous_box.focus();
+        previous_box.select();
+        return;
+      }
+    }
+
+    let current_value = current_box.value;
+    current_value = parseInt(current_value);
+    if(current_value >= 0 && current_value <= 9) {
+      if(boxId < 4){
+        let next_box = document.getElementById("otpBox"+(boxId + 1));
+        next_box.select();
+        next_box.focus();
+      }
+      else {
+        let otpDigit1 = document.getElementById("otpBox1").value;
+        let otpDigit2 = document.getElementById("otpBox2").value;
+        let otpDigit3 = document.getElementById("otpBox3").value;
+        let otpDigit4 = document.getElementById("otpBox4").value;
+
+        otpDigit1 = parseInt(otpDigit1);
+        otpDigit2 = parseInt(otpDigit2);
+        otpDigit3 = parseInt(otpDigit3);
+        otpDigit4 = parseInt(otpDigit4);
+
+        var valid_digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let formattedOTP;
+        if(valid_digits.includes(otpDigit1) && valid_digits.includes(otpDigit2) && valid_digits.includes(otpDigit3) && valid_digits.includes(otpDigit4)){
+          formattedOTP = otpDigit1 +''+ otpDigit2 +''+ otpDigit3 +''+ otpDigit4;
+        }
+        else {
+          showToast("Something is wrong, please try again.");
+          return;
+        }
+        
+        handleOTP(formattedOTP);
+        
+        setTimeout(function(){
+          document.getElementById("otpSubmitButton").click();
+        }, 200);
+      }
+    }
+    else {
+      current_box.select();
+      current_box.focus();
+    }
+  }
+
   const handleNameInput = (e) => {
     let userName = e.target.value;
     handleName(userName);
@@ -76,20 +134,26 @@ function Login() {
         timeout: 10000
       }
 
+      showNameLoading();
       axios.get(user_api_url, user_api_options)
       .then(function (response) {
+          hideNameLoading();
           if (response.data.status) {
             let userData = response.data.data;
             document.getElementById("usernameField").value = userData.name;
             handleName(userData.name);
           }
       })
+      .catch(function (error) {
+        hideNameLoading();
+      })
     }
+
     handleMobile(userNum);
   };
 
   function slideIn() {
-    let ele = document.getElementsByClassName("login_Form")[0];
+    let ele = document.getElementById("loginFormSection");
     ele.classList.remove("close");
     ele.classList.add("open");
     if (userNameRedirect !== null && userMobileRedirect !== null) {
@@ -107,7 +171,24 @@ function Login() {
   }
 
   function slideOut() {
-    let ele = document.getElementsByClassName("login_Form")[0];
+    let ele = document.getElementById("loginFormSection");
+    ele.classList.remove("open");
+    ele.classList.add("close");
+  }
+
+  function showOTP() {
+    let ele = document.getElementById("otpFormSection");
+    ele.classList.remove("close");
+    ele.classList.add("open");
+    document.getElementById("otpBox1").value = "";
+    document.getElementById("otpBox2").value = "";
+    document.getElementById("otpBox3").value = "";
+    document.getElementById("otpBox4").value = "";
+    document.getElementById("otpBox1").focus();
+  }
+
+  function hideOTP() {
+    let ele = document.getElementById("otpFormSection");
     ele.classList.remove("open");
     ele.classList.add("close");
   }
@@ -174,17 +255,44 @@ function Login() {
     })
   }
 
+  //Main Loader
   function showLoading(){
     document.getElementById("loadingSpinnerSection").classList.remove("hidden");
   }
-
   function hideLoading(){
     document.getElementById("loadingSpinnerSection").classList.add("hidden");
   }
 
+  //Check User Loader
+  function showNameLoading(){
+    document.getElementById("nameModalSection").classList.remove("hidden");
+  }
+  function hideNameLoading(){
+    document.getElementById("nameModalSection").classList.add("hidden");
+  }
 
-  const initialiseEverything = async (e) => {
-    e.preventDefault();
+  //OTP Loader
+  function showOTPLoading(){
+    document.getElementById("otpSubmitButton").disabled = true;
+    document.getElementById("otpSubmitSpinner").classList.remove("hidden");
+  }
+  function hideOTPLoading(){
+    document.getElementById("otpSubmitButton").disabled = false;
+    document.getElementById("otpSubmitSpinner").classList.add("hidden");
+  }
+
+
+  let resendIntervalTimer;
+
+  function resendOTP(){
+    processMobileAndName();
+  }
+
+  const processMobileAndName = async (e) => {
+    
+    if(e){
+      e.preventDefault();
+    }
 
     //Validate Mobile and Name
     if(mobile.length != 10){
@@ -197,8 +305,104 @@ function Login() {
       return;
     }
 
-    slideOut();
-    document.getElementById("startOrderButton").style.visibility = 'hidden';
+    
+    /******************************
+              USER LOGIN
+    ******************************/
+    const login_api_data = {
+      mobile: mobile,
+      name: name,
+      branch: branchCode
+    }
+
+    showNameLoading();
+    axios({
+      method: 'post',
+      url: "https://accelerateengine.app/smart-menu/apis/userlogin.php",
+      data: login_api_data,
+      timeout: 10000
+    })
+    .then(function (response) {
+        hideNameLoading();
+        if (response.data.status) {
+          slideOut();
+          document.getElementById("startOrderButton").style.visibility = 'hidden';
+          showOTP();
+
+          //Resend OTP after 60 seconds
+          setTimeout(function(){
+            let resendOTPCounter = response.data.timeleft != null ? response.data.timeleft : 60;
+            var x = document.getElementById("resendOTPLabel");
+
+            resendIntervalTimer = setInterval(function(){
+              resendOTPCounter--;
+              if(resendOTPCounter < 1){
+                x.innerHTML = 'Resend OTP Now';
+                clearInterval(resendIntervalTimer);
+              }
+              else {
+                x.innerHTML = 'Resend OTP in '+resendOTPCounter+'s';
+              }
+            }, 1000);
+
+          }, 500);
+          
+        } else {
+          showToast("Failed - " + response.data.error, "warning");
+        }
+    })
+    .catch(function (error) {
+      hideNameLoading();
+      showToast("Error in fetching user details", "error");
+    })   
+  };
+
+
+  const verifyOTP = async (e) => {
+    e.preventDefault();
+
+    if(enteredOTP.length != 4){
+      showToast("Enter valid OTP", "info");
+      return;
+    }
+
+    /******************************
+            VALIDATE LOGIN
+    ******************************/
+    const validation_api_data = {
+      mobile: mobile,
+      name: name,
+      branch: branchCode,
+      otp: enteredOTP
+    }
+
+    showOTPLoading();
+    axios({
+      method: 'post',
+      url: "https://accelerateengine.app/smart-menu/apis/validatelogin.php",
+      data: validation_api_data,
+      timeout: 10000
+    })
+    .then(function (response) {
+        hideOTPLoading();
+        if (response.data.status) {
+          clearInterval(resendIntervalTimer);
+          hideOTP();
+
+          //Go to preloading data
+          preloadDetails();
+        } else {
+          showToast("Validation Failed - " + response.data.error, "warning");
+        }
+    })
+    .catch(function (error) {
+      hideOTPLoading();
+      showToast("Error in validating OTP", "error");
+    })
+  };
+
+
+  function preloadDetails(){
 
     let userData = {
       name: name,
@@ -252,8 +456,8 @@ function Login() {
       showToast("Error in loading the menu", "error");
       slideIn();
     })    
+  }
 
-  };
 
   return (
     <div className="login">
@@ -293,11 +497,11 @@ function Login() {
           )}
         </div>
       </div>
-      <div className="login_Form">
+      <div className="login_Form" id="loginFormSection">
         <div className="login_Title">
-          <h3 id="yourDetailsTitle">Your Details</h3>
+          <h3 id="yourDetailsTitle">Your Details<span id="nameModalSection" className="modalLoadingSection hidden"><img src={spinnerRed}/></span></h3>
         </div>
-        <form action="" onSubmit={(e) => initialiseEverything(e)}>
+        <form action="" onSubmit={(e) => processMobileAndName(e)}>
           <input
             type="tel"
             className="userMobile"
@@ -310,13 +514,63 @@ function Login() {
           <input
             type="text"
             id="usernameField"
-            minLength="3"
             className="userName"
             value={name}
             placeholder="Your Name"
             onChange={(e) => handleNameInput(e)}
           />
           <button type="submit">CONTINUE</button>
+        </form>
+      </div>
+
+      <div className="login_Form" id="otpFormSection">
+        <div className="login_Title">
+          <h3 id="yourDetailsTitle">One Time Password</h3>
+        </div>
+        <form action="" onSubmit={(e) => verifyOTP(e)}>
+          <div className="otpBoxContainer">
+            <input
+              type="tel"
+              className="otpBox"
+              id="otpBox1"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handleOTPBoxInput(e, '1')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox"
+              id="otpBox2"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handleOTPBoxInput(e, '2')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox"
+              id="otpBox3"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handleOTPBoxInput(e, '3')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox"
+              id="otpBox4"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handleOTPBoxInput(e, '4')}
+              required
+            />
+          </div>
+          <button type="submit" id="otpSubmitButton">
+            <span id="otpSubmitText">PROCEED</span>
+            <span id="otpSubmitSpinner" className="hidden"><img src={spinner}/></span>
+          </button>
+          <p id="resendOTPLabel" onClick={resendOTP}>Resend OTP</p>
         </form>
       </div>
     </div>

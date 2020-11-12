@@ -20,11 +20,11 @@
 } */
 
 .delay-6 {
-  animation-delay: 5s;
+  animation-delay: 1s;
 }
 
 .delay-2 {
-  animation-delay: 2s;
+  animation-delay: 500ms;
 }
 
 .menuButton {

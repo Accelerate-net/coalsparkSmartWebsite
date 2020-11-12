@@ -125,9 +125,25 @@ function Checkout() {
     setShowPrice(!showP);
   }
 
+  function formatCart(cartData) {
+    let formattedCart = [];
+    for (let i = 0; i < cartData.length; i++) {
+      let formattedItem = {
+        name: cartData[i].itemName,
+        code: cartData[i].itemCode,
+        price: cartData[i].itemPrice,
+        qty: cartData[i].itemCount,
+        variant: cartData[i].customVariant ? cartData[i].customVariant : "",
+      };
+      formattedCart.push(formattedItem);
+    }
+
+    return formattedCart;
+  }
+
   function placeOrder() {
-    let userData = localStorage.getItem("userData")
-      ? JSON.parse(localStorage.getItem("userData"))
+    let userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
       : {};
     let metaData = localStorage.getItem("metaData")
       ? JSON.parse(localStorage.getItem("metaData"))
@@ -141,14 +157,24 @@ function Checkout() {
       return;
     }
 
+    let activeStatusData = localStorage.getItem("activeStatusData")
+      ? JSON.parse(localStorage.getItem("activeStatusData"))
+      : {};
+    let masterOrderId = "";
+    if (activeStatusData.status == "active") {
+      masterOrderId = activeStatusData.masterOrderId;
+    }
+
     const orderData = {
-      cart: cartData,
+      cart: formatCart(cartData),
       mode: metaData.mode,
       branchCode: metaData.branchCode,
       comments: cartComm,
       qrCodeReference: metaData.qrCodeReference,
       tableNumber: metaData.tableNumber,
       userMobile: userData.mobile,
+      token: userData.token,
+      masterOrderId: masterOrderId,
     };
 
     const order_api_options = {
@@ -182,7 +208,7 @@ function Checkout() {
           forceClearLocalStorate();
           history.push(redirect_url);
         } else {
-          showToast("Order Failed " + response.data.error, "error");
+          showToast("Order Failed - " + response.data.error, "error");
         }
       })
       .catch(function (error) {

@@ -193,6 +193,41 @@ function Login() {
     ele.classList.add("close");
   }
 
+  //Format cart back to frontend standard
+  function formatCart(cart){
+    let original_menu = {};
+    let menuData = localStorage.getItem('menuData') ? JSON.parse(localStorage.getItem('menuData')) : [];
+    for(let n = 0; n < menuData.length; n++){
+      for(let m = 0; m < menuData[n].menu.length; m++){
+        for(let i = 0; i < menuData[n].menu[m].items.length; i++){
+          let item = menuData[n].menu[m].items[i];
+          original_menu[item.code] = item;
+        }
+      }
+    }
+
+    let formatted_cart = [];
+    for(let i = 0; i < cart.length; i++){
+      let serverItem = cart[i];
+      let originalItem = original_menu[serverItem.code];
+      let formatted_item = {
+        itemCode: originalItem.code,
+        itemName: originalItem.name,
+        customOpt: originalItem.customOptions,
+        itemPrice: originalItem.price,
+        itemVeg: originalItem.isVeg,
+        isCustom: originalItem.isCustomisable,
+        itemOptions: originalItem.customOptions,
+        itemCount: serverItem.qty,
+        customVariant: serverItem.variant,
+        itemOriginalPrice: serverItem.qty * serverItem.price
+      }
+
+      formatted_cart.push(formatted_item);
+    }
+    return formatted_cart;
+  }
+
   function checkActiveStatus(userData, metaData) {
 
     /******************************
@@ -230,7 +265,7 @@ function Login() {
               break;
             }
             case "active":{
-              localStorage.setItem("oldCart", JSON.stringify(data.cart));
+              localStorage.setItem("oldCart", JSON.stringify(formatCart(data.cart)));
               setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }
@@ -388,6 +423,8 @@ function Login() {
         if (response.data.status) {
           clearInterval(resendIntervalTimer);
           hideOTP();
+
+          localStorage.setItem("userValidatedData", JSON.stringify(response.data.response));
 
           //Go to preloading data
           preloadDetails();

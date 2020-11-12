@@ -87,7 +87,7 @@ function Feedback() {
     }
 
     checkDup();
-    console.log(uniqueFeedb);
+    // console.log(uniqueFeedb);
     handleFeedbackBtn((odlArray) => [odlArray, a]);
   }
 

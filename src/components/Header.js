@@ -123,18 +123,21 @@ function Header() {
         
           <div className="ringerPopup_wrapper" onClick={closeRingerPopup}>
             <div className="ringerPopup_innerWrapper">
-              <div className="stewardBtn" onClick={() => serviceCall('CALL_CALL_STEWARD')}>
-                <img src={service_call_steward}/>
-                <button>Call Steward</button>
-              </div>
-              <div className="serveBtn" onClick={() => serviceCall('CALL_SERVE_FAST')}>
-                <img src={service_serve_fast}/>
-                <button>Serve Fast</button>
-              </div>
-              <div className="billBtn" onClick={() => serviceCall('CALL_REQUEST_BILL')}>
-                <img src={service_request_bill}/>
-                <button>Request Bill</button>
-              </div>
+                <h2>Service Request</h2>
+                <div className="serviceRequestButtons">
+                  <div className="stewardBtn" onClick={() => serviceCall('CALL_CALL_STEWARD')}>
+                    <img src={service_call_steward}/>
+                    <button>Call Steward</button>
+                  </div>
+                  <div className="serveBtn" onClick={() => serviceCall('CALL_SERVE_FAST')}>
+                    <img src={service_serve_fast}/>
+                    <button>Serve Fast</button>
+                  </div>
+                  <div className="billBtn" onClick={() => serviceCall('CALL_REQUEST_BILL')}>
+                    <img src={service_request_bill}/>
+                    <button>Request Bill</button>
+                  </div>
+                </div>
             </div>
           </div>
        

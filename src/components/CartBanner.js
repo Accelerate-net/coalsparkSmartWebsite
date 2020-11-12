@@ -19,7 +19,7 @@ function CartBanner() {
     : [];
 
   getOldCart.map((total) => {
-    oldTotal = oldTotal + parseInt(total.itemPrice);
+    oldTotal = oldTotal + parseInt(total.price);
   });
 
   return (

@@ -466,12 +466,6 @@ function Login() {
         <div className="login__LogoWrapper animate__animated animate__fadeInDownBig">
           <img src={logo} alt="Zaitoon Logo" />
         </div>
-        <div className="desktop_Msg">
-          <img src={bbq} alt="" />
-          <h3>
-            Oho! This service is available on Mobile only.
-          </h3>
-        </div>
         <div className="login__bgWrapper">
           <div className="lady_Wrapper">
             <img src={lady} alt="" />
@@ -568,7 +562,7 @@ function Login() {
           </div>
           <button type="submit" id="otpSubmitButton">
             <span id="otpSubmitText">PROCEED</span>
-            <span id="otpSubmitSpinner" className="hidden"><img src={spinner}/></span>
+            <span id="otpSubmitSpinner" className="hidden"><img src={spinner} alt="Loader"/></span>
           </button>
           <p id="resendOTPLabel" onClick={resendOTP}>Resend OTP</p>
         </form>

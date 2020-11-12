@@ -6,7 +6,8 @@
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Zaitoon Smart Menu - Now order your favorite dishes from Zaitoon with ease. Enjoy the zero-contact dine in experience at Zaitoon" />
+    <meta name="description"
+      content="Zaitoon Smart Menu - Now order your favorite dishes from Zaitoon with ease. Enjoy the zero-contact dine in experience at Zaitoon" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -46,6 +47,12 @@
       </div>
     </div>
     <div id="root"></div>
+    <div class="desktop_Msg">
+      <img src="../src/assets/imgs/bbq.png" alt="" />
+      <h3>
+        Oho! This service is available on Mobile only.
+      </h3>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -73,6 +80,24 @@
       window.addEventListener("load", function () {
         const loader = document.querySelector('.cssload-container');
         loader.className += " hidden"
+      })
+
+      if (document.documentElement.clientWidth > 480) {
+        document.getElementById('root').style.display = "none"
+        document.getElementsByClassName('desktop_Msg')[0].style.display = "block"
+      } else {
+        document.getElementById('root').style.display = "block"
+        document.getElementsByClassName('desktop_Msg')[0].style.display = "none"
+      }
+
+      window.addEventListener("resize", function (event) {
+        if (document.documentElement.clientWidth > 480) {
+          document.getElementById('root').style.display = "none"
+          document.getElementsByClassName('desktop_Msg')[0].style.display = "block"
+        } else {
+          document.getElementById('root').style.display = "block"
+          document.getElementsByClassName('desktop_Msg')[0].style.display = "none"
+        }
       })
 
     </script>

@@ -210,20 +210,26 @@ function Login() {
     for(let i = 0; i < cart.length; i++){
       let serverItem = cart[i];
       let originalItem = original_menu[serverItem.code];
-      let formatted_item = {
-        itemCode: originalItem.code,
-        itemName: originalItem.name,
-        customOpt: originalItem.customOptions,
-        itemPrice: serverItem.price,
-        itemVeg: originalItem.isVeg,
-        isCustom: originalItem.isCustomisable,
-        itemOptions: originalItem.customOptions,
-        itemCount: serverItem.qty,
-        customVariant: serverItem.variant,
-        itemOriginalPrice: serverItem.qty * serverItem.price
+      if(!originalItem){
+        showToast("System Error - Invalid menu data", "error");
+        return [];
       }
+      else {
+        let formatted_item = {
+          itemCode: originalItem.code,
+          itemName: originalItem.name,
+          customOpt: originalItem.customOptions,
+          itemPrice: serverItem.price,
+          itemVeg: originalItem.isVeg,
+          isCustom: originalItem.isCustomisable,
+          itemOptions: originalItem.customOptions,
+          itemCount: serverItem.qty,
+          customVariant: serverItem.variant,
+          itemOriginalPrice: serverItem.qty * serverItem.price
+        }
 
-      formatted_cart.push(formatted_item);
+        formatted_cart.push(formatted_item);
+      }
     }
     return formatted_cart;
   }
@@ -257,7 +263,10 @@ function Login() {
 
           let getActiveStatus = data.status;
           localStorage.setItem("activeStatus", JSON.stringify(getActiveStatus));
-          localStorage.setItem("activeStatusData", JSON.stringify(data));
+          
+          let activeStatusData = data;
+          activeStatusData.cart = formatCart(activeStatusData.cart);
+          localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
 
           switch(getActiveStatus){
             case "free":{
@@ -265,11 +274,12 @@ function Login() {
               break;
             }
             case "active":{
-              localStorage.setItem("oldCart", JSON.stringify(formatCart(data.cart)));
+              localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
               setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }
             case "billed":{
+
               setTimeout(() => { history.push("/invoice"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }
@@ -455,19 +465,24 @@ function Login() {
 
     localStorage.setItem("userData", JSON.stringify(userData));
 
+    let userValidatedData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {};
+
     /******************************
               LOAD MENU 
     ******************************/
-    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
-    const menu_api_options = {
-      params : {
-        branchCode: metaData.branchCode
-      },
-      timeout: 10000
+
+    const menu_api_data = {
+      branchCode: metaData.branchCode,
+      token: userValidatedData.token,
     }
 
     showLoading();
-    axios.get(menu_api_url, menu_api_options)
+    axios({
+      method: 'post',
+      url: "https://accelerateengine.app/smart-menu/apis/menu.php",
+      data: menu_api_data,
+      timeout: 10000
+    })
     .then(function (response) {
         hideLoading();
         if (response.status) {
@@ -492,7 +507,8 @@ function Login() {
       hideLoading();
       showToast("Error in loading the menu", "error");
       slideIn();
-    })    
+    }) 
+
   }
 
 

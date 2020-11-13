@@ -6,6 +6,7 @@ import "./Header.css";
 import service_call_steward from "../assets/imgs/services/service-call-steward.svg";
 import service_request_bill from "../assets/imgs/services/service-request-bill.svg";
 import service_serve_fast from "../assets/imgs/services/service-serve-fast.svg";
+import common_cover from "../assets/imgs/cover-common.jpg";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -119,6 +120,13 @@ function Header() {
       })
   }
 
+  let coverImage = getoutletData.pictures ? JSON.parse(getoutletData.pictures) : [];
+  coverImage = coverImage[0];
+
+  if(!coverImage){
+    coverImage = common_cover;
+  }
+
   return (
     <nav className="header">
       <img
@@ -134,10 +142,10 @@ function Header() {
           </div>
         </Link>
         <div className="ringerBell" onClick={handleRingerPopup}>
-          <ion-icon name="notifications-outline"></ion-icon>
+          <ion-icon name="hand-left-outline"></ion-icon>
         </div>
         <div className="homeIcon" onClick={handleOutletPopup}>
-          <ion-icon name="home-outline"></ion-icon>
+          <ion-icon name="storefront-outline"></ion-icon>
         </div>
         
           <div className="ringerPopup_wrapper" onClick={closeRingerPopup}>
@@ -174,25 +182,32 @@ function Header() {
 
               <div className="outletPopup_imgWrapper">
                 <img
-                  src={getoutletData.pictures}
-                  alt={getoutletData.name + " Branch Restaurant Image"}
+                  src={coverImage}
+                  alt={"Zaitoon "+getoutletData.name}
                 />
               </div>
               <div className="outletPopup_details">
                 <div className="outlet__Address">
                   <h3>Address</h3>
                   <div className="address__Lines">
-                    <p>{getoutletData.line1}</p>
-                    <p>{getoutletData.line2}</p>
+                    <p>{getoutletData.addressLine1}</p>
+                    <p>{getoutletData.addressLine2}</p>
+                    <p>{getoutletData.city}</p>
                   </div>
                 </div>
                 <div className="outlet__Mobile">
                   <h3>Manager Number</h3>
-                  <p><a href="tel:0{getoutletData.managerContact}">{getoutletData.managerContact}</a><span className="tagName">{getoutletData.managerName}</span></p>
+                  <p><a href="tel:0{getoutletData.managerContactNumber}">{getoutletData.managerContactNumber}</a><span className="tagName">{getoutletData.managerName}</span></p>
                 </div>
                 <div className="outlet__openHours">
                   <h3>Operational Hours</h3>
-                  <p>{getoutletData.openHours}</p>
+                  {
+                    getoutletData.openHours.map((openSlot) => (
+                      <div className="openSlot">
+                        <p className="openSlotTime">{openSlot.from + " - " + openSlot.to}</p> <p className="openSlotLabel">{openSlot.label}</p>
+                      </div>
+                    ))
+                  }
                 </div>
                 <div className="outlet__email">
                   <h3>Guest Relations</h3>

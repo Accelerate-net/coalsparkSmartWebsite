@@ -20,7 +20,6 @@ function BilledItem({
   isCustom,
 }) {
   const [{ basket }, dispatch] = useStateValue();
-  console.log(itemName);
 
   //   let getActiveStatus = localStorage.getItem("activeStatus")
   //     ? JSON.parse(localStorage.getItem("activeStatus"))

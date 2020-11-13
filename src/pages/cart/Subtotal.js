@@ -30,8 +30,6 @@ function Subtotal() {
     cartData: cartGetData,
   };
 
-  console.log(fullDetails);
-
   outletD.modes.map((modeCheck) => {
     if (metaGetData.mode === modeCheck.type) {
       modeCheck.taxSlabs.map((taxSlab) => {

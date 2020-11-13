@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const axios = require('axios');
 
-const SILENT_MENU_RELOAD_INTERVAL = 2 * 60 * 1000; //2 mins
+const SILENT_MENU_RELOAD_INTERVAL = 1000 * 60 * 2; //2 mins
 
 function Home() {
   const history = useHistory();
@@ -24,7 +24,6 @@ function Home() {
     !urlParams.qrCodeReference ||
     !urlParams.mode
   ) {
-    console.log('hiiii')
     history.push("*");
   }
 
@@ -32,18 +31,22 @@ function Home() {
         LOAD MENU SILENTLY
   ******************************/
   const silentReloadMenu = () => {
-    console.log('silentReloadMenu....')
-    const menu_api_url = "https://accelerateengine.app/smart-menu/apis/menu.php";
-    const menu_api_options = {
-      params : {
-        branchCode: urlParams.branchCode
-      },
-      timeout: 10000
+
+    let userValidatedData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {};
+
+    const menu_api_data = {
+      branchCode: urlParams.branchCode,
+      token: userValidatedData.token,
     }
 
-    axios.get(menu_api_url, menu_api_options)
+    axios({
+      method: 'post',
+      url: "https://accelerateengine.app/smart-menu/apis/menu.php",
+      data: menu_api_data,
+      timeout: 10000
+    })
     .then(function (response) {
-        if (response.status) {
+        if (response.data.status) {
           let data = response.data;
           localStorage.setItem("outletData", JSON.stringify(data.outletData));
 

@@ -53,8 +53,12 @@ function Checkout() {
     history.push("/*");
   };
 
-  function forceClearLocalStorate() {
+  function forceClearLocalStorage() {
+    let tempUser = localStorage.getItem("userValidatedData");
+    let tempTimer = localStorage.getItem("loggedInSince");
     localStorage.clear();
+    localStorage.setItem("userValidatedData", tempUser);
+    localStorage.setItem("loggedInSince", tempTimer);
   }
 
   function showLoadingScreenFreeze() {
@@ -131,7 +135,7 @@ function Checkout() {
       let formattedItem = {
         name: cartData[i].itemName,
         code: cartData[i].itemCode,
-        price: cartData[i].itemPrice,
+        price: cartData[i].itemOriginalPrice,
         qty: cartData[i].itemCount,
         variant: cartData[i].customVariant ? cartData[i].customVariant : "",
       };
@@ -205,7 +209,7 @@ function Checkout() {
             userData.name +
             "&userMobile=" +
             userData.mobile;
-          forceClearLocalStorate();
+          forceClearLocalStorage();
           dispatch({
             type: "CLEAN_BASKET",
           });
@@ -254,6 +258,10 @@ function Checkout() {
                 ))
               ) : getActiveStatus === "active" ? (
                 <div className="newOld">
+                  <div className="newOrderSection">
+                    {basket?.length > 0 ? <h3>New Order</h3> : null}
+                    {newCart}
+                  </div>
                   <div className="activeOrderSection">
                     <h3>
                       Active Order{" "}
@@ -263,10 +271,6 @@ function Checkout() {
                     </h3>
 
                     {billedItem}
-                  </div>
-                  <div className="newOrderSection">
-                    {basket?.length > 0 ? <h3>New Order</h3> : null}
-                    {newCart}
                   </div>
                 </div>
               ) : null}

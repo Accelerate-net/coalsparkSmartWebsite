@@ -5,11 +5,12 @@ import CartBanner from "./CartBanner.js";
 
 class Popup extends React.Component {
   render() {
+    let menuData = localStorage.getItem("menuData") ? JSON.parse(localStorage.getItem("menuData")) : [];
     return (
       <div className="popup" onClick={this.props.closePopup}>
         <div className="innerwrapper">
           <div className="popup_inner">
-            {this.props.text.map((main, i) =>
+            {menuData.map((main, i) =>
               main.menu.map((sub, k) => (
                 <Link
                   key={i}

@@ -70,7 +70,7 @@ function Invoice() {
     let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {};
 
     if(!paymentData.isOnlinePaymentAllowed){
-      showToast("Please pay by Cash", "info");
+      showToast("Please pay by Cash or Card", "info");
       return;
     }
 
@@ -89,7 +89,8 @@ function Invoice() {
            }
            const captureResponse = await axios.post(payment_api_url, payment_api_options);
         } catch (err) {
-           console.log(err);
+           showToast("Something is wrong with online payment, please pay by Cash or Card", "error");
+           return;
         }
       },
       theme: {

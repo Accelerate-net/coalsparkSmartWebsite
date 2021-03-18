@@ -291,7 +291,7 @@ function Login() {
         }
         else{
           showDefaultErrorPage();
-          showToast("Something went wrong, please try again.", "error");
+          showToast(response.error != "" ? response.error : "Something went wrong, please try again.", "error");
         }
     })
     .catch(function (error) {
@@ -350,6 +350,14 @@ function Login() {
       return;
     }
 
+
+    function isLoginExpired(){
+      let lastStamp = localStorage.getItem("loggedInSince");
+      let difference = (Date.now() - lastStamp) / 1000; //Seconds
+      const EXPIRY_MINUTES = 3 * 60 * 60; //3 hours
+      return difference > EXPIRY_MINUTES;
+    }
+
     
     /******************************
               USER LOGIN
@@ -372,6 +380,13 @@ function Login() {
         if (response.data.status) {
           slideOut();
           document.getElementById("startOrderButton").style.visibility = 'hidden';
+
+          let userValidatedDataCache = localStorage.getItem("userValidatedData");
+          if(userValidatedDataCache && userValidatedDataCache != "" && !isLoginExpired()){
+            preloadDetails();
+            return;
+          }
+
           showOTP();
 
           //Resend OTP after 60 seconds
@@ -401,6 +416,12 @@ function Login() {
       showToast("Error in fetching user details", "error");
     })   
   };
+
+
+  //Move to cookies later
+  function startUserMonitoring(){
+    localStorage.setItem("loggedInSince", Date.now());
+  }
 
 
   const verifyOTP = async (e) => {
@@ -435,6 +456,7 @@ function Login() {
           hideOTP();
 
           localStorage.setItem("userValidatedData", JSON.stringify(response.data.response));
+          startUserMonitoring();
 
           //Go to preloading data
           preloadDetails();
@@ -491,6 +513,7 @@ function Login() {
 
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
+          console.log(menuData)
           localStorage.setItem("menuData", JSON.stringify(menuData));
 
           localStorage.setItem("metaData", JSON.stringify(metaData));

@@ -53,6 +53,7 @@ function Home() {
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
           localStorage.setItem("menuData", JSON.stringify(menuData));
+          menu = menuData;
         }
     })
   };

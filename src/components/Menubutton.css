@@ -90,7 +90,8 @@
   width: 220px;
   height: 300px;
   overflow: auto;
-  padding: 20px 24px;
+  padding: 10px 15px;
+  border-radius: 5px;
   margin-bottom: 20px;
   background: white;
   animation: popup 0.25s;

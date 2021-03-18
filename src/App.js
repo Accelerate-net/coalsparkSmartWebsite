@@ -13,7 +13,6 @@ import Error from "./pages/error/Error";
 import Invoice from "./pages/invoice/Invoice";
 import Feedback from "./pages/feedback/Feedback";
 import Thanks from "./pages/thankyou/Thanks";
-import Qrcode from "./pages/qrcode/Qrcode";
 
 class App extends Component {
   constructor(props) {
@@ -89,9 +88,6 @@ class App extends Component {
               </Route>
               <Route exact path="/thankyou">
                 <Thanks />
-              </Route>
-              <Route path="/qrcode">
-                <Qrcode />
               </Route>
               <Route path="*">
                 <Error />

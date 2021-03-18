@@ -116,7 +116,7 @@ function Checkout() {
       itemVeg={item.itemVeg}
       itemCount={item.itemCount}
       customOpt={item.itemOptions}
-      customVariant={item.variant}
+      customVariant={item.customVariant}
       isCustom={item.isCustom}
     />
   ));

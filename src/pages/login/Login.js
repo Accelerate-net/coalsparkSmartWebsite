@@ -351,7 +351,17 @@ function Login() {
     }
 
 
-    function isLoginExpired(){
+    function isLoginExpired(mobile){
+      if(!mobile || mobile == ""){
+        return true;
+      }
+
+      let userData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {}
+      if(userData.mobile != mobile){
+        return true;
+      }
+
+
       let lastStamp = localStorage.getItem("loggedInSince");
       let difference = (Date.now() - lastStamp) / 1000; //Seconds
       const EXPIRY_MINUTES = 3 * 60 * 60; //3 hours
@@ -382,7 +392,7 @@ function Login() {
           document.getElementById("startOrderButton").style.visibility = 'hidden';
 
           let userValidatedDataCache = localStorage.getItem("userValidatedData");
-          if(userValidatedDataCache && userValidatedDataCache != "" && !isLoginExpired()){
+          if(userValidatedDataCache && userValidatedDataCache != "" && !isLoginExpired(mobile)){
             preloadDetails();
             return;
           }

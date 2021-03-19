@@ -18,6 +18,7 @@ function Checkout() {
   const [showP, setShowPrice] = useState(false);
   // const [orderPlaced, setOrder] = useState(false);
   const [cartComm, handleCartComments] = useState("");
+  const [enteredPeerCode, handlePeerCode] = useState("");
 
   let oldTotal = 0;
   let getOldCart = localStorage.getItem("oldCart")
@@ -73,6 +74,37 @@ function Checkout() {
     let userFeed = e.target.value;
     handleCartComments(userFeed);
   };
+
+
+  // Enter Peer Code
+  function showPeerCode(peerData) {
+    let ele = document.getElementById("peerCodeFormSection");
+    ele.classList.remove("close");
+    ele.classList.add("open");
+    document.getElementById("peerCodeBox1").value = "";
+    document.getElementById("peerCodeBox2").value = "";
+    document.getElementById("peerCodeBox3").value = "";
+    document.getElementById("peerCodeBox4").value = "";
+    document.getElementById("peerCodeBox1").focus();
+
+    if(peerData.maskedNumber != null && peerData.maskedNumber != ""){
+      document.getElementById("peerCodeLabel").innerHTML = 'An order is already in progress<br>enter peer code from ' + peerData.maskedNumber;
+    }
+    else{
+      document.getElementById("peerCodeLabel").innerHTML = 'Enter Peer Code'
+    }
+  }
+
+  function hidePeerCode() {
+    let ele = document.getElementById("peerCodeFormSection");
+    ele.classList.remove("open");
+    ele.classList.add("close");
+  }
+
+
+
+
+
 
   let itemsTotal = getBasketTotal(basket);
   let urlParams = localStorage.getItem("metaData")
@@ -169,6 +201,10 @@ function Checkout() {
       masterOrderId = activeStatusData.masterOrderId;
     }
 
+    let peerData = localStorage.getItem("peerData")
+      ? JSON.parse(localStorage.getItem("peerData"))
+      : {};
+
     const orderData = {
       cart: formatCart(cartData),
       mode: metaData.mode,
@@ -179,6 +215,7 @@ function Checkout() {
       userMobile: userData.mobile,
       token: userData.token,
       masterOrderId: masterOrderId,
+      peerCode: peerData.peerCode
     };
 
     const order_api_options = {
@@ -215,7 +252,13 @@ function Checkout() {
           });
           history.push(redirect_url);
         } else {
-          showToast("Order Failed - " + response.data.error, "error");
+          let errorString = response.data.error;
+          if(errorString.startsWith("You can not modify this table, another order already in progress from")){
+            //Order failed due to no peer code passed
+            showPeerCode(peerData);
+          } else {
+            showToast("Order Failed - " + response.data.error, "error");
+          }
         }
       })
       .catch(function (error) {
@@ -223,6 +266,78 @@ function Checkout() {
         showToast("Error while placing the order", "error");
       });
   }
+
+
+  const verifyPeerCode = async (e) => {
+    e.preventDefault();
+
+    if(enteredPeerCode.length != 4){
+      showToast("Enter valid Peer Code", "info");
+      return;
+    }
+
+    var peerCodeData = document.getElementById("peerCodeData").innerHTML;
+    var restoredData = peerCodeData ? JSON.parse(peerCodeData) : {};
+    placeOrder(enteredPeerCode);
+    hidePeerCode();
+  };
+
+  const handlePeerCodeBoxInput = (e, boxId) => {
+    boxId = parseInt(boxId);
+
+    let current_box = document.getElementById("peerCodeBox"+boxId);
+    if(e.key === "Backspace"){
+      if(boxId > 1){
+        current_box.value = "";
+        let previous_box = document.getElementById("peerCodeBox"+(boxId - 1));
+        previous_box.focus();
+        previous_box.select();
+        return;
+      }
+    }
+
+    let current_value = current_box.value;
+    current_value = parseInt(current_value);
+    if(current_value >= 0 && current_value <= 9) {
+      if(boxId < 4){
+        let next_box = document.getElementById("peerCodeBox"+(boxId + 1));
+        next_box.select();
+        next_box.focus();
+      }
+      else {
+        let otpDigit1 = document.getElementById("peerCodeBox1").value;
+        let otpDigit2 = document.getElementById("peerCodeBox2").value;
+        let otpDigit3 = document.getElementById("peerCodeBox3").value;
+        let otpDigit4 = document.getElementById("peerCodeBox4").value;
+
+        otpDigit1 = parseInt(otpDigit1);
+        otpDigit2 = parseInt(otpDigit2);
+        otpDigit3 = parseInt(otpDigit3);
+        otpDigit4 = parseInt(otpDigit4);
+
+        var valid_digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let formattedOTP;
+        if(valid_digits.includes(otpDigit1) && valid_digits.includes(otpDigit2) && valid_digits.includes(otpDigit3) && valid_digits.includes(otpDigit4)){
+          formattedOTP = otpDigit1 +''+ otpDigit2 +''+ otpDigit3 +''+ otpDigit4;
+        }
+        else {
+          showToast("Something is wrong, please try again.");
+          return;
+        }
+        
+        handlePeerCode(formattedOTP);
+        
+        setTimeout(function(){
+          document.getElementById("peerCodeSubmitButton").click();
+        }, 200);
+      }
+    }
+    else {
+      current_box.select();
+      current_box.focus();
+    }
+  }
+
 
   return (
     <>
@@ -321,6 +436,58 @@ function Checkout() {
             </div>
           </div>
         )}
+
+        <div className="login_Form" id="peerCodeFormSection">
+          <div className="login_Title">
+            <h3 id="yourDetailsTitle" class="greenPeer">Enter Peer Code</h3>
+          </div>
+          <form action="" onSubmit={(e) => verifyPeerCode(e)}>
+          <div className="otpBoxContainer green">
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox1"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '1')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox2"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '2')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox3"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '3')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox4"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '4')}
+              required
+            />
+          </div>
+          <button type="submit" id="peerCodeSubmitButton" class="greenPeerBg">
+            <span id="otpSubmitText">PLACE ORDER</span>
+          </button>
+          <p class="resendOTPLabel" id="peerCodeLabel"></p>
+          <span id="peerCodeData"></span>
+          </form>
+        </div>
+
       </div>
     </>
   );

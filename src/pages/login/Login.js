@@ -20,6 +20,7 @@ function Login() {
   const [name, handleName] = useState("");
   const [mobile, handleMobile] = useState("");
   const [enteredOTP, handleOTP] = useState("");
+  const [enteredPeerCode, handlePeerCode] = useState("");
   const history = useHistory();
 
   const queryString = window.location.search;
@@ -58,6 +59,62 @@ function Login() {
 
   const showDefaultErrorPage = (message) => {
     history.push("/*");
+  }
+
+  const handlePeerCodeBoxInput = (e, boxId) => {
+    boxId = parseInt(boxId);
+
+    let current_box = document.getElementById("peerCodeBox"+boxId);
+    if(e.key === "Backspace"){
+      if(boxId > 1){
+        current_box.value = "";
+        let previous_box = document.getElementById("peerCodeBox"+(boxId - 1));
+        previous_box.focus();
+        previous_box.select();
+        return;
+      }
+    }
+
+    let current_value = current_box.value;
+    current_value = parseInt(current_value);
+    if(current_value >= 0 && current_value <= 9) {
+      if(boxId < 4){
+        let next_box = document.getElementById("peerCodeBox"+(boxId + 1));
+        next_box.select();
+        next_box.focus();
+      }
+      else {
+        let otpDigit1 = document.getElementById("peerCodeBox1").value;
+        let otpDigit2 = document.getElementById("peerCodeBox2").value;
+        let otpDigit3 = document.getElementById("peerCodeBox3").value;
+        let otpDigit4 = document.getElementById("peerCodeBox4").value;
+
+        otpDigit1 = parseInt(otpDigit1);
+        otpDigit2 = parseInt(otpDigit2);
+        otpDigit3 = parseInt(otpDigit3);
+        otpDigit4 = parseInt(otpDigit4);
+
+        var valid_digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        let formattedOTP;
+        if(valid_digits.includes(otpDigit1) && valid_digits.includes(otpDigit2) && valid_digits.includes(otpDigit3) && valid_digits.includes(otpDigit4)){
+          formattedOTP = otpDigit1 +''+ otpDigit2 +''+ otpDigit3 +''+ otpDigit4;
+        }
+        else {
+          showToast("Something is wrong, please try again.");
+          return;
+        }
+        
+        handlePeerCode(formattedOTP);
+        
+        setTimeout(function(){
+          document.getElementById("peerCodeSubmitButton").click();
+        }, 200);
+      }
+    }
+    else {
+      current_box.select();
+      current_box.focus();
+    }
   }
 
   const handleOTPBoxInput = (e, boxId) => {
@@ -193,6 +250,37 @@ function Login() {
     ele.classList.add("close");
   }
 
+
+  function showPeerCode(userData, metaData, maskedNumber) {
+    let ele = document.getElementById("peerCodeFormSection");
+    ele.classList.remove("close");
+    ele.classList.add("open");
+    document.getElementById("peerCodeBox1").value = "";
+    document.getElementById("peerCodeBox2").value = "";
+    document.getElementById("peerCodeBox3").value = "";
+    document.getElementById("peerCodeBox4").value = "";
+    document.getElementById("peerCodeBox1").focus();
+
+    if(maskedNumber != null && maskedNumber != ""){
+      document.getElementById("peerCodeLabel").innerHTML = 'An order is already in progress<br>enter peer code from ' + maskedNumber;
+    }
+    else{
+      document.getElementById("peerCodeLabel").innerHTML = 'Enter Peer Code'
+    }
+
+    let peerCodeData = {
+      "userData" : userData,
+      "metaData" : metaData
+    }
+    document.getElementById("peerCodeData").innerHTML = JSON.stringify(peerCodeData);
+  }
+
+  function hidePeerCode() {
+    let ele = document.getElementById("peerCodeFormSection");
+    ele.classList.remove("open");
+    ele.classList.add("close");
+  }
+
   //Format cart back to frontend standard
   function formatCart(cart){
     let original_menu = {};
@@ -234,7 +322,7 @@ function Login() {
     return formatted_cart;
   }
 
-  function checkActiveStatus(userData, metaData) {
+  function checkActiveStatus(userData, metaData, optionalPeerCode) {
 
     /******************************
             CHECK ACTIVE 
@@ -245,7 +333,8 @@ function Login() {
         branchCode: metaData.branchCode,
         qrCodeReference: metaData.qrCodeReference,
         userMobile: userData.mobile,
-        tableNumber: metaData.tableNumber
+        tableNumber: metaData.tableNumber,
+        peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
       },
       timeout: 10000
     }
@@ -267,6 +356,9 @@ function Login() {
           let activeStatusData = data;
           activeStatusData.cart = formatCart(activeStatusData.cart);
           localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
+
+          let peerData = response.metaData && response.metaData != null ? response.metaData : {};
+          localStorage.setItem("peerData", JSON.stringify(peerData));
 
           switch(getActiveStatus){
             case "free":{
@@ -290,6 +382,13 @@ function Login() {
           }
         }
         else{
+          let errorString = response.error;
+          if(!optionalPeerCode && errorString && errorString != null && errorString.startsWith("You can not order on this table. Another order already in progress")){
+            //Enter Peer Code to continue
+            var results = errorString.split(" ");
+            showPeerCode(userData, metaData, results[results.length - 1]);
+            return;
+          }
           showDefaultErrorPage();
           showToast(response.error != "" ? response.error : "Something went wrong, please try again.", "error");
         }
@@ -433,6 +532,20 @@ function Login() {
     localStorage.setItem("loggedInSince", Date.now());
   }
 
+  const verifyPeerCode = async (e) => {
+    e.preventDefault();
+
+    if(enteredPeerCode.length != 4){
+      showToast("Enter valid Peer Code", "info");
+      return;
+    }
+
+    var peerCodeData = document.getElementById("peerCodeData").innerHTML;
+    var restoredData = peerCodeData ? JSON.parse(peerCodeData) : {};
+    checkActiveStatus(restoredData.userData, restoredData.metaData, enteredPeerCode);
+    hidePeerCode();
+  };
+
 
   const verifyOTP = async (e) => {
     e.preventDefault();
@@ -523,13 +636,12 @@ function Login() {
 
           let menuData = data.menuData;
           menuData.sort((a, b) => a.rank - b.rank);
-          console.log(menuData)
           localStorage.setItem("menuData", JSON.stringify(menuData));
 
           localStorage.setItem("metaData", JSON.stringify(metaData));
 
           //Check active status on the table
-          checkActiveStatus(userData, metaData);
+          checkActiveStatus(userData, metaData, '');
 
         } else {
           showToast("Failed to fetch the menu", "warning");
@@ -653,6 +765,59 @@ function Login() {
           <p id="resendOTPLabel" onClick={resendOTP}>Resend OTP</p>
         </form>
       </div>
+
+
+      <div className="login_Form" id="peerCodeFormSection">
+        <div className="login_Title">
+          <h3 id="yourDetailsTitle" class="greenPeer">Peer Code</h3>
+        </div>
+        <form action="" onSubmit={(e) => verifyPeerCode(e)}>
+          <div className="otpBoxContainer green">
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox1"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '1')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox2"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '2')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox3"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '3')}
+              required
+            />
+            <input
+              type="tel"
+              className="otpBox green"
+              id="peerCodeBox4"
+              placeholder="•"
+              maxLength="1"
+              onKeyUp={(e) => handlePeerCodeBoxInput(e, '4')}
+              required
+            />
+          </div>
+          <button type="submit" id="peerCodeSubmitButton" class="greenPeerBg">
+            <span id="otpSubmitText">CONFIRM</span>
+          </button>
+          <p class="resendOTPLabel" id="peerCodeLabel"></p>
+          <span id="peerCodeData"></span>
+        </form>
+      </div>
+
     </div>
   );
 }

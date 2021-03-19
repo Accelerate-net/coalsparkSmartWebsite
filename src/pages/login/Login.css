@@ -245,6 +245,30 @@
     border-color: #e2133a !important;
   }
 
+  /*Peer Code*/
+  .login_Form .otpBox.green:focus,
+  .login_Form .otpBox.green:active {
+    border: 1px solid #009688 !important;
+    color: #009688 !important;
+  }
+
+  .otpBoxContainer.green input:valid {
+    color: #009688 !important;
+    border-color: #009688 !important;
+  }
+
+  .greenPeer{
+    color: #009688 !important;
+  }
+
+  .greenPeerBg{
+    background: #009688 !important;
+  }
+
+  #peerCodeData{
+    display: none;
+  }  
+
   .login_Form ::-webkit-input-placeholder {
     /* Edge */
     font-weight: 300 !important;
@@ -390,7 +414,11 @@
   position: relative;
 }
 
-#resendOTPLabel {
+#peerCodeSubmitButton{
+  position: relative;
+}
+
+#resendOTPLabel, .resendOTPLabel {
   padding: 10px 0;
   text-align: center;
   height: 50px;

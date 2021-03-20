@@ -27,10 +27,12 @@ function Login() {
   const urlParams = new URLSearchParams(queryString);
   const branchCode = urlParams.get("branchCode");
   const tableNumber = urlParams.get("tableNumber");
+  const peerCode = urlParams.get("peerCode") && urlParams.get("peerCode") != "" ? urlParams.get("peerCode") : "0000";
   const qrCodeReference = urlParams.get("qrCodeReference");
   const mode = urlParams.get("mode");
   const userNameRedirect = urlParams.get("userName");
   const userMobileRedirect = urlParams.get("userMobile");
+  const showTableSummary = tableNumber != "" && peerCode != "" && peerCode != "0000";
 
   if (!branchCode || !tableNumber || !qrCodeReference || !mode) {
     history.push("*");
@@ -383,7 +385,8 @@ function Login() {
         }
         else{
           let errorString = response.error;
-          if(!optionalPeerCode && errorString && errorString != null && errorString.startsWith("You can not order on this table. Another order already in progress")){
+          let errorCheckFailed = errorString.startsWith("You can not order on this table. Another order already in progress") || errorString.startsWith("Incorrect peer code, get the 4 digit code from");
+          if(!optionalPeerCode && errorString && errorString != null && errorCheckFailed){
             //Enter Peer Code to continue
             var results = errorString.split(" ");
             showPeerCode(userData, metaData, results[results.length - 1]);
@@ -678,6 +681,7 @@ function Login() {
             <img src={man} alt="" />
           </div>
         </div>
+        {showTableSummary ? (<div className="loadingPageTableSummary">Table <b>{tableNumber}</b><i class="fa fa-circle"></i>Peer Code <b>{peerCode}</b></div>) : (<span></span>)}
         <div className="loadingSpinner hidden" id="loadingSpinnerSection">
           <span><img src={spinner}/></span>
         </div>

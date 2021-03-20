@@ -24,20 +24,21 @@ function Success() {
 
   const queryString = window.location.search;
   const queryParamsInUrl = new URLSearchParams(queryString);
-  let timeleft = queryParamsInUrl.get("timeleft") ? parseInt(queryParamsInUrl.get("timeleft")) : 15;
+  let timeleft = queryParamsInUrl.get("timeleft") ? parseInt(queryParamsInUrl.get("timeleft")) : 20;
   if(!timeleft){
-    timeleft = 15;
+    timeleft = 20;
   }
 
 
   const redirect_branchCode = queryParamsInUrl.get("branchCode");
   const redirect_tableNumber = queryParamsInUrl.get("tableNumber");
+  const redirect_peerCode = queryParamsInUrl.get("peerCode");
   const redirect_qrCodeReference = queryParamsInUrl.get("qrCodeReference");
   const redirect_mode = queryParamsInUrl.get("mode");
   const redirect_userName = queryParamsInUrl.get("userName");
   const redirect_userMobile = queryParamsInUrl.get("userMobile");
 
-  const redirect_url = "/?branchCode=" + redirect_branchCode + "&tableNumber=" + redirect_tableNumber + "&qrCodeReference=" + redirect_qrCodeReference + "&mode=" + redirect_mode + "&userName=" + redirect_userName + "&userMobile=" + redirect_userMobile;
+  const redirect_url = "/?branchCode=" + redirect_branchCode + "&tableNumber=" + redirect_tableNumber + "&qrCodeReference=" + redirect_qrCodeReference + "&mode=" + redirect_mode + "&userName=" + redirect_userName + "&userMobile=" + redirect_userMobile + "&peerCode=" + redirect_peerCode;
 
   if (window.location.pathname === "/success") {
     window.addEventListener("popstate", function (event) {
@@ -68,6 +69,7 @@ function Success() {
 
 
   return (
+    <div>
     <div className="success__Wrapper">
       <Lottie options={defaultOptions} height={300} width={300} />
       <p>Yay! your order is placed</p>
@@ -75,6 +77,10 @@ function Success() {
         Serving in <b>{timeleft} mins</b>
       </p>
       <p className="redirectingSeconds">{seconds}s</p>
+    </div>
+    <div className="peerCodeSuccessWrap">
+      <p>Peer Code <b>{redirect_peerCode}</b></p>
+    </div>
     </div>
   );
 }

@@ -193,7 +193,7 @@
   display: none;
 }
 
-.login_Form {
+.peerCode_Form {
   display: none;
 }
 
@@ -222,7 +222,7 @@
     display: block;
   }
 
-  .login_Form {
+  .peerCode_Form {
     display: block;
   }
 
@@ -332,7 +332,7 @@
     color: #e2133a;
   }
 
-  .login_Form {
+  .peerCode_Form {
     position: fixed;
     bottom: -100%;
     width: 100%;
@@ -346,17 +346,17 @@
     transition: all 650ms cubic-bezier(0, 0.52, 0.7, 1);
   }
 
-  .login_Form.open {
+  .peerCode_Form.open {
     /* display: block; */
     bottom: 0;
   }
 
-  .login_Form.close {
+  .peerCode_Form.close {
     bottom: -100%;
     transition: all 2s cubic-bezier(0, 0.52, 0.7, 1);
   }
 
-  .login_Form .login_Title h3 {
+  .peerCode_Form .login_Title h3 {
     color: #e2133a;
     text-align: center;
     font-size: 1.5rem;
@@ -364,12 +364,12 @@
     margin-bottom: 1.2rem;
   }
 
-  .login_Form form {
+  .peerCode_Form form {
     display: flex;
     flex-direction: column;
   }
 
-  .login_Form form input {
+  .peerCode_Form form input {
     padding: 14px 10px;
     margin-bottom: 1.2rem;
     font-size: 16px;
@@ -379,7 +379,7 @@
     color: #e2133a !important;
   }
 
-  .login_Form .otpBox {
+  .peerCode_Form .otpBox {
     padding: 14px 10px;
     font-size: 21px;
     border: 1px solid #b5b2b2;
@@ -396,8 +396,8 @@
     margin: 20px 0 0 0;
   }
 
-  .login_Form .otpBox:focus,
-  .login_Form .otpBox:active {
+  .peerCode_Form .otpBox:focus,
+  .peerCode_Form .otpBox:active {
     border: 1px solid #e2133a !important;
     color: #e2133a !important;
   }
@@ -408,8 +408,8 @@
   }
 
   /*Peer Code*/
-  .login_Form .otpBox.green:focus,
-  .login_Form .otpBox.green:active {
+  .peerCode_Form .otpBox.green:focus,
+  .peerCode_Form .otpBox.green:active {
     border: 1px solid #009688 !important;
     color: #009688 !important;
   }
@@ -431,28 +431,28 @@
     display: none;
   }  
 
-  .login_Form ::-webkit-input-placeholder {
+  .peerCode_Form ::-webkit-input-placeholder {
     /* Edge */
     font-weight: 300 !important;
     color: #908b8c;
   }
 
-  .login_Form :-ms-input-placeholder {
+  .peerCode_Form :-ms-input-placeholder {
     /* Internet Explorer 10-11 */
     font-weight: 300 !important;
     color: #908b8c;
   }
 
-  .login_Form ::placeholder {
+  .peerCode_Form ::placeholder {
     font-weight: 300 !important;
     color: #908b8c;
   }
 
-  .login_Form form input:focus {
+  .peerCode_Form form input:focus {
     outline: none;
   }
 
-  .login_Form form button {
+  .peerCode_Form form button {
     outline: none;
     border: none;
     background-color: #e2133a;

@@ -9,3 +9,28 @@
       color: #d2d2d2 !important;
     font-size: 12px !important;
 }
+
+
+
+.peerCodeSuccessWrap{
+	background: red;
+}
+
+.peerCodeSuccessWrap p{
+	position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #ff9800;
+    color: #FFF;
+    height: 60px;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 300;
+    margin: 0;
+}
+
+.peerCodeSuccessWrap b{
+	letter-spacing: 4px;
+    margin-left: 6px;
+}

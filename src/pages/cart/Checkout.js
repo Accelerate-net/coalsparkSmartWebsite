@@ -231,13 +231,15 @@ function Checkout() {
         hideLoadingScreenFreeze();
         if (response.data.status) {
           let timeLeft = response.data.servingTime;
+          let optionalPeerCode = response.data.masterPeerCode && response.data.masterPeerCode != null && response.data.masterPeerCode != "" ? "&peerCode=" + response.data.masterPeerCode : "";
+
           const redirect_url =
             "./success?timeleft=" +
             timeLeft +
             "&branchCode=" +
             metaData.branchCode +
             "&tableNumber=" +
-            metaData.tableNumber +
+            metaData.tableNumber + optionalPeerCode +
             "&qrCodeReference=" +
             metaData.qrCodeReference +
             "&mode=" +
@@ -437,7 +439,7 @@ function Checkout() {
           </div>
         )}
 
-        <div className="login_Form" id="peerCodeFormSection">
+        <div className="peerCode_Form" id="peerCodeFormSection">
           <div className="login_Title">
             <h3 id="yourDetailsTitle" class="greenPeer">Enter Peer Code</h3>
           </div>

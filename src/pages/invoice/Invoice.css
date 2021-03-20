@@ -3,11 +3,28 @@
   height: 100%;
 }
 
+.itemDot {
+  color: #795548;
+}
+
+.itemDot .fa{
+    font-size: 6px;
+    margin: 0 6px;
+    position: relative;
+    top: -2px;
+    color: #bbbbbb;
+}
+
+.itemDot.self{
+    color: #bbbbbb;
+}
+
+
 .invoice__Wrapper nav {
   background-color: #e21439;
   box-shadow: 0px 3px 6px #e8e8e8;
   display: flex;
-  align-items: center;
+  align-items: left;
   justify-content: center;
   height: 60px;
   width: 100%;
@@ -21,6 +38,20 @@
 .invoice__Wrapper nav h1 {
   font-weight: 300;
   color: #fff;
+  text-align: left;
+  display: block;
+  width: 100%;
+}
+
+.invoice__Wrapper .invoiceNumber{
+  font-size: 16px;
+  float: right;
+}
+
+.invoice__Wrapper .invoiceNumber .fa{
+  margin: 0 8px;
+  font-size: 8px; 
+  position: relative; top: -2px;
 }
 
 .invoice__detailsWrapper {

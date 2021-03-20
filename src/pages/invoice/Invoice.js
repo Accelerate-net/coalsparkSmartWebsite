@@ -15,6 +15,9 @@ function Invoice() {
     ? JSON.parse(localStorage.getItem("activeStatusData"))
     : {};
 
+  //Sort by ordered people
+  activeStatusData.cart.sort((a, b) => a.orderPersonMobile - b.orderPersonMobile);
+
   /******************** 
     COMMON FUNCTIONS 
   *********************/
@@ -145,10 +148,27 @@ return;
     //   })
   }
 
+  const getOrderedPerson = (orderPersonLabel, orderPersonMobile) => {
+    let userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
+      : {};
+    if(userData.mobile == orderPersonMobile){
+      return "You ("+orderPersonLabel+")";
+    } 
+    return orderPersonLabel;
+  }
+
   return (
     <div className="invoice__Wrapper">
       <nav>
-        <h1>Your Invoice</h1>
+        <h1>
+          Your Invoice
+          <span className="invoiceNumber">
+            <span>Table {activeStatusData.metaData.tableNumber}</span>
+            <i class="fa fa-circle"></i>
+            <span>#{activeStatusData.masterOrderId}</span>
+          </span>
+        </h1>
       </nav>
       {activeStatusData.cart !== undefined ? (
         <div className="invoice__detailsWrapper">
@@ -164,9 +184,14 @@ return;
                       style={{ fontSize: "12px", color: "#000" }}
                     >
                       {activeCart.customVariant}
+                      {activeCart.orderPersonMobile != '9043960876' ? (<span className="itemDot"><i class="fa fa-circle"></i>{getOrderedPerson(activeCart.orderPersonLabel, activeCart.orderPersonMobile)}</span>) : (<i></i>)}
+                      
                     </span>
                   </>
                 ) : null}
+                {activeCart.isCustom ? null : (
+                  <span className="itemDot self">{getOrderedPerson(activeCart.orderPersonLabel, activeCart.orderPersonMobile)}</span>
+                )}
               </p>
 
               <div className="invoice__itemCount">
@@ -194,7 +219,7 @@ return;
             <div className="invoiceAdditionalCharges">
               {activeStatusData.invoiceDetails.additionalCharges.taxSlabs.map(
                 (modeCheck) =>
-                  metaGetData.mode === activeStatusData.metaData.mode ? (
+                  modeCheck ? (
                     <div className="taxPrice">
                       <p>{modeCheck.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({modeCheck.type === "PERCENTAGE" ? <span>{(modeCheck.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{modeCheck.value}</span>})</span></p>
                       {modeCheck.type === "PERCENTAGE" ? (
@@ -208,7 +233,7 @@ return;
               <span></span>
               {activeStatusData.invoiceDetails.additionalCharges.otherCharges.map(
                 (modeCheck) =>
-                  metaGetData.mode === activeStatusData.metaData.mode ? (
+                  modeCheck ? (
                     <div className="taxPrice">
                       <p>{modeCheck.label} <span style = {{fontFamily: "roboto", color: "#6e6e6e", fontSize: "11px"}}>({modeCheck.type === "PERCENTAGE" ? <span>{(modeCheck.value*100).toFixed(2)}%</span> : <span className="orderSubTotalAmount">{modeCheck.value}</span>})</span></p>
                       {modeCheck.type === "PERCENTAGE" ? (

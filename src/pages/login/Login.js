@@ -388,7 +388,8 @@ function Login() {
         else{
           let errorString = response.error;
           let errorCheckFailed = errorString.startsWith("You can not order on this table. Another order already in progress") || errorString.startsWith("Incorrect peer code, get the 4 digit code from");
-          if(!optionalPeerCode && errorString && errorString != null && errorCheckFailed){
+          let optionalPeerCodeFailed = !optionalPeerCode || optionalPeerCode == '0000' || optionalPeerCode == 0 || optionalPeerCode == null;
+          if(optionalPeerCodeFailed && errorString && errorString != null && errorCheckFailed){
             //Enter Peer Code to continue
             var results = errorString.split(" ");
             showPeerCode(userData, metaData, results[results.length - 1]);

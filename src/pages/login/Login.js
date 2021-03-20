@@ -314,6 +314,8 @@ function Login() {
           isCustom: originalItem.isCustomisable,
           itemOptions: originalItem.customOptions,
           itemCount: serverItem.qty,
+          orderPersonLabel: serverItem.orderPersonLabel,
+          orderPersonMobile: serverItem.orderPersonMobile,
           customVariant: serverItem.variant,
           itemOriginalPrice: serverItem.qty * serverItem.price
         }

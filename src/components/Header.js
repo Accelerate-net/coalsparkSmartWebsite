@@ -198,7 +198,7 @@ function Header() {
           <div className="peerCodePopup_wrapper" onClick={closePeerCodePopup}>
             <div className="peerCodePopup_innerWrapper">
               <div class="peerCodePopup_innerWrapper_Content">
-                <h2>Peer Code - Table <b>{metaData.tableNumber}</b></h2>
+                <h2>Peer Code on Table <b>{metaData.tableNumber}</b></h2>
                 <h1>{activeStatusData.metaData.peerCode}</h1>
                 <p>Share this code with your peers<br></br>for them to modify the order on this table</p>
               </div>

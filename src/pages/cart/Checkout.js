@@ -154,6 +154,8 @@ function Checkout() {
       customOpt={item.itemOptions}
       customVariant={item.customVariant}
       isCustom={item.isCustom}
+      orderPersonLabel={item.orderPersonLabel}
+      orderPersonMobile={item.orderPersonMobile}
     />
   ));
 

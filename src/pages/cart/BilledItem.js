@@ -18,30 +18,14 @@ function BilledItem({
   customVariant,
   customOpt,
   isCustom,
+  orderPersonLabel,
+  orderPersonMobile
 }) {
   const [{ basket }, dispatch] = useStateValue();
-
-  //   let getActiveStatus = localStorage.getItem("activeStatus")
-  //     ? JSON.parse(localStorage.getItem("activeStatus"))
-  //     : {};
-  //   let activeStatusData = localStorage.getItem("activeStatusData")
-  //     ? JSON.parse(localStorage.getItem("activeStatusData"))
-  //     : {};
-
 
   const showToast = () => {
     toast.warning("Already placed order can not be altered")
   };
-
-  //   const incrementItem = () => {
-  //     dispatch({
-  //       type: "INCREASE_ITEM",
-  //       itemCode: itemCode,
-  //       customVariant: customVariant,
-  //       customOpt: customOpt,
-  //       isCustom: isCustom,
-  //     });
-  //   };
 
   const addToBasket = () => {
     dispatch({
@@ -53,20 +37,25 @@ function BilledItem({
         itemVeg: itemVeg,
         customVariant: customVariant,
         customOpt: customOpt,
-        isCustom: isCustom,
+        isCustom: isCustom
       },
     });
   };
 
-  //   const decrementItem = () => {
-  //     dispatch({
-  //       type: "DECREASE_ITEM",
-  //       itemCode: itemCode,
-  //       customVariant: customVariant,
-  //       customOpt: customOpt,
-  //       isCustom: isCustom,
-  //     });
-  //   };
+  const userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
+      : {};
+
+  const getOrderPersonLabel = (orderPersonLabel, orderPersonMobile) => {
+    if(userData.mobile == orderPersonMobile){
+      return "Your Order";
+    } 
+    return orderPersonLabel;
+  }
+
+  const isSelfUser = (orderPersonLabel, orderPersonMobile) => {
+    return userData.mobile == orderPersonMobile;
+  }
 
   return (
     <div className="checkoutProduct billedItem">
@@ -78,6 +67,7 @@ function BilledItem({
         )}
         <p className="checkoutProduct__title">
           {itemName}
+          {isSelfUser(orderPersonLabel, orderPersonMobile) ? (<span className="self">Your Order</span>) : (<span className="peer">{getOrderPersonLabel(orderPersonLabel, orderPersonMobile)}</span>)}
           {isCustom ? (
             <>
               <span
@@ -96,6 +86,8 @@ function BilledItem({
                     itemPrice: itemOriginalPrice,
                     itemVeg: itemVeg,
                     isCustom: isCustom,
+                    orderPersonMobile: orderPersonMobile,
+                    orderPersonLabel: orderPersonLabel
                   },
                 }}
                 className="checkoutCustomizedLink"

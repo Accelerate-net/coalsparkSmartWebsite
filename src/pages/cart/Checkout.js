@@ -342,15 +342,114 @@ function Checkout() {
     }
   }
 
+  
+  //Format cart back to frontend standard
+  function standardiseCart(cart){
+    let original_menu = {};
+    let menuData = localStorage.getItem('menuData') ? JSON.parse(localStorage.getItem('menuData')) : [];
+    for(let n = 0; n < menuData.length; n++){
+      for(let m = 0; m < menuData[n].menu.length; m++){
+        for(let i = 0; i < menuData[n].menu[m].items.length; i++){
+          let item = menuData[n].menu[m].items[i];
+          original_menu[item.code] = item;
+        }
+      }
+    }
+
+    let formatted_cart = [];
+    for(let i = 0; i < cart.length; i++){
+      let serverItem = cart[i];
+      let originalItem = original_menu[serverItem.code];
+      if(!originalItem){
+        showToast("System Error - Invalid menu data", "error");
+        return [];
+      }
+      else {
+        let formatted_item = {
+          itemCode: originalItem.code,
+          itemName: originalItem.name,
+          customOpt: originalItem.customOptions,
+          itemPrice: serverItem.price,
+          itemVeg: originalItem.isVeg,
+          isCustom: originalItem.isCustomisable,
+          itemOptions: originalItem.customOptions,
+          itemCount: serverItem.qty,
+          orderPersonLabel: serverItem.orderPersonLabel,
+          orderPersonMobile: serverItem.orderPersonMobile,
+          customVariant: serverItem.variant,
+          itemOriginalPrice: serverItem.qty * serverItem.price
+        }
+
+        formatted_cart.push(formatted_item);
+      }
+    }
+    return formatted_cart;
+  }
+
+  const reloadCheckStatus = () => {
+    var ele = document.getElementById("refreshCartIconId");
+    ele.classList.add("animate__rotateOut");
+
+    let userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
+      : {};
+    let metaData = localStorage.getItem("metaData")
+      ? JSON.parse(localStorage.getItem("metaData"))
+      : {};
+    let peerData = localStorage.getItem("peerData")
+      ? JSON.parse(localStorage.getItem("peerData"))
+      : {};
+    let optionalPeerCode = peerData.peerCode;
+
+    /******************************
+            CHECK ACTIVE 
+    ******************************/
+    const status_api_url = "https://accelerateengine.app/smart-menu/apis/checkstatus.php";
+    const status_api_options = {
+      params : {
+        branchCode: metaData.branchCode,
+        qrCodeReference: metaData.qrCodeReference,
+        userMobile: userData.mobile,
+        tableNumber: metaData.tableNumber,
+        peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
+      },
+      timeout: 10000
+    }
+
+
+    axios.get(status_api_url, status_api_options)
+    .then(function (apiResponse) {
+        let response = apiResponse.data;
+        if (response.status) {
+          let activeStatusData = response.data;
+          if(activeStatusData != null){
+            activeStatusData.cart = standardiseCart(activeStatusData.cart);
+            localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
+            if(activeStatusData.status == "active"){
+              localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
+            }
+          }
+        }
+        ele.classList.remove("animate__rotateOut");
+    })
+    .catch(function (error) {
+      showToast("Failed to refresh the cart", "warning");
+      ele.classList.remove("animate__rotateOut");
+    })
+  }
+
 
   return (
     <>
       <div className="checkout">
         <nav>
-          <Link to="/menu">
+          <Link to="/menu" className="backCartIcon">
             <ion-icon name="arrow-back-outline"></ion-icon>
           </Link>
           <h2 className="checkout__title"> Your Cart</h2>
+          <Link onClick={reloadCheckStatus} className="refreshCartIcon">
+            <ion-icon name="refresh-outline" id="refreshCartIconId"></ion-icon>
+          </Link>
         </nav>
         {basket?.length === 0 && oldCartData?.length === 0 ? (
           <div className="checkout__Empty">

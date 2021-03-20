@@ -11,6 +11,62 @@
   z-index: 100;
   margin-bottom: 1rem;
 }
+
+.backCartIcon{
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    width: 50px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+
+/* Rotating exits */
+@-webkit-keyframes rotateOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    -webkit-transform: rotate3d(0, 0, 1, 359deg);
+    transform: rotate3d(0, 0, 1, 359deg);
+    opacity: 0;
+  }
+}
+@keyframes rotateOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    -webkit-transform: rotate3d(0, 0, 1, 359deg);
+    transform: rotate3d(0, 0, 1, 359deg);
+    opacity: 0;
+  }
+}
+.animate__rotateOut {
+  animation: rotateOut 1s infinite;
+  -webkit-animation: rotateOut 1s infinite;
+}
+
+
+.rotate{
+  -webkit-transform: rotate(40deg);
+  -webkit-transition: -webkit-transform 1s;
+}
+
+.refreshCartIcon{
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    width: 50px;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+}
+
+
 .newOld h3 {
   padding: 1rem;
   font-size: 14px;

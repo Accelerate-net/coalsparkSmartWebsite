@@ -56,12 +56,18 @@ function Invoice() {
   }
 
 
-
   let metaGetData = JSON.parse(localStorage.getItem("metaData"));
 
-  function resultRoute() {
+  function resultRouteToFeedback() {
+    let activeStatusData = localStorage.getItem("activeStatusData")
+      ? JSON.parse(localStorage.getItem("activeStatusData"))
+      : {};
+    let userData = localStorage.getItem("userValidatedData")
+      ? JSON.parse(localStorage.getItem("userValidatedData"))
+      : {};  
+    const redirect_url = "/?token=" + userData.token + "&orderId=" + activeStatusData.masterOrderId;
     window.localStorage.clear();
-    history.push("./feedback");
+    history.push("./feedback" + redirect_url);
   }
 
 
@@ -88,9 +94,10 @@ function Invoice() {
            const payment_api_options = {
             paymentOrder: paymentData.paymentOrderId,
             transactionId: response.razorpay_payment_id,
-            orderId: 16
+            orderId: activeStatusData.masterOrderId
            }
            const captureResponse = await axios.post(payment_api_url, payment_api_options);
+           resultRouteToFeedback();
         } catch (err) {
            showToast("Something is wrong with online payment, please pay by Cash or Card", "error");
            return;
@@ -103,49 +110,6 @@ function Invoice() {
 
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
-
-
-return;
-    // if(cartData.length < 1){
-    //   showToast("Add some items before placing the order", "warning");
-    //   return;
-    // }
-
-    // const orderData = {
-    //   cart: cartData,
-    //   mode: metaData.mode,
-    //   branchCode: metaData.branchCode,
-    //   comments: cartComm,
-    //   qrCodeReference: metaData.qrCodeReference,
-    //   tableNumber: metaData.tableNumber,
-    //   userMobile: userData.mobile
-    // }
-    
-    // const payment_api_options = {
-    //   method : "post",
-    //   url : "https://accelerateengine.app/smart-menu/apis/makepayment.php",
-    //   data: orderData,
-    //   timeout: 10000
-    // }
-
-    // showLoadingScreenFreeze();
-    // axios(payment_api_options)
-    //   .then(function (response) {
-    //     hideLoadingScreenFreeze();
-    //     if(response.data.status){
-    //       let timeLeft = response.data.servingTime;
-    //       const redirect_url = "./success?timeleft=" + timeLeft + "&branchCode=" + metaData.branchCode + "&tableNumber=" + metaData.tableNumber + "&qrCodeReference=" + metaData.qrCodeReference + "&mode=" + metaData.mode + "&userName=" + userData.name + "&userMobile=" + userData.mobile;
-    //       forceClearLocalStorate();
-    //       history.push(redirect_url);
-    //     }
-    //     else {
-    //       showToast("Order Failed " + response.data.error, "error");
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     hideLoadingScreenFreeze();
-    //     showToast("Error while placing the order", "error");
-    //   })
   }
 
   const getOrderedPerson = (orderPersonLabel, orderPersonMobile) => {

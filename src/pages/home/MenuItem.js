@@ -79,10 +79,18 @@ function MenuItem({
     });
   };
 
+
+  function isItemAvailable(itemAvailable){
+    if(itemAvailable || itemAvailable == 'true'){
+      return true;
+    }
+    return false;
+  }
+
   return (
     <>
       <div>
-        {itemAvailable ? (
+        {isItemAvailable(itemAvailable) ? (
           <>
             <div className="menuItemMainWrapper">
               <div>
@@ -231,10 +239,9 @@ function MenuItem({
                 </div>
                 <div className="dot"></div>
                 <div className="servesNumberWrapper">
-                  <span className="servesNumber">
-                    <ion-icon name="people-outline"></ion-icon>
-                    <p>{itemServes}</p>
-                  </span>
+                    <span className="servesNumber">
+                      <p>Serves {itemServes}</p>
+                    </span>
                 </div>
               </div>
             </div>

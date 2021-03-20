@@ -1,7 +1,7 @@
 .thanks__Wrapper {
   width: 100%;
   height: calc(var(--vh, 1vh) * 100);
-  background-color: #e2133a;
+  background-color: #FFF;
 }
 
 .thanks__innerWrapper {
@@ -12,4 +12,23 @@
   color: #fff;
   margin: 0 1rem;
   padding-top: 25%;
+}
+
+.thanks__innerWrapper .lottie{
+  width: 50%; overflow: hidden; margin: 0px auto; outline: none;
+}
+
+.thanks__innerWrapper h3{
+      color: #db1437;
+    font-weight: 300;
+    font-size: 21px;
+    margin: 40px 0 0 0;
+}
+
+.thanks__innerWrapper p{
+    margin: 0;
+    color: #45525a;
+    padding: 10px 50px;
+    text-align: center;
+    font-size: 14px;
 }

@@ -375,7 +375,6 @@ function Login() {
               break;
             }
             case "billed":{
-
               setTimeout(() => { history.push("/invoice"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }

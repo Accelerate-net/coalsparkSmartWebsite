@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const axios = require('axios');
 
 const SILENT_MENU_RELOAD_INTERVAL = 1000 * 60 * 2; //2 mins
+const SILENT_STATUS_REFRESH_INTERVAL = 1000 * 60 * 1; //1 mins
+const DEFAULT_SUCCESS_REDIRECT_TIME = 500;
 
 function Home() {
   const history = useHistory();
@@ -27,11 +29,116 @@ function Home() {
     history.push("*");
   }
 
+
+  //Format cart back to frontend standard
+  function formatCart(cart){
+    let original_menu = {};
+    let menuData = localStorage.getItem('menuData') ? JSON.parse(localStorage.getItem('menuData')) : [];
+    for(let n = 0; n < menuData.length; n++){
+      for(let m = 0; m < menuData[n].menu.length; m++){
+        for(let i = 0; i < menuData[n].menu[m].items.length; i++){
+          let item = menuData[n].menu[m].items[i];
+          original_menu[item.code] = item;
+        }
+      }
+    }
+
+    let formatted_cart = [];
+    for(let i = 0; i < cart.length; i++){
+      let serverItem = cart[i];
+      let originalItem = original_menu[serverItem.code];
+      if(!originalItem){
+        return [];
+      }
+      else {
+        let formatted_item = {
+          itemCode: originalItem.code,
+          itemName: originalItem.name,
+          customOpt: originalItem.customOptions,
+          itemPrice: serverItem.price,
+          itemVeg: originalItem.isVeg,
+          isCustom: originalItem.isCustomisable,
+          itemOptions: originalItem.customOptions,
+          itemCount: serverItem.qty,
+          orderPersonLabel: serverItem.orderPersonLabel,
+          orderPersonMobile: serverItem.orderPersonMobile,
+          customVariant: serverItem.variant,
+          itemOriginalPrice: serverItem.qty * serverItem.price
+        }
+
+        formatted_cart.push(formatted_item);
+      }
+    }
+    return formatted_cart;
+  }
+
+
+  /******************************
+       CHECK STATUS SILENTLY
+  ******************************/
+
+  function silentCheckStatus() {
+      let userData = localStorage.getItem("userValidatedData")
+        ? JSON.parse(localStorage.getItem("userValidatedData"))
+        : {};
+      let metaData = localStorage.getItem("metaData")
+        ? JSON.parse(localStorage.getItem("metaData"))
+        : {};
+      let peerData = localStorage.getItem("peerData")
+        ? JSON.parse(localStorage.getItem("peerData"))
+        : {};
+      let optionalPeerCode = peerData.peerCode;
+
+      /******************************
+              CHECK ACTIVE 
+      ******************************/
+      const status_api_url = "https://accelerateengine.app/smart-menu/apis/checkstatus.php";
+      const status_api_options = {
+        params : {
+          branchCode: metaData.branchCode,
+          qrCodeReference: metaData.qrCodeReference,
+          userMobile: userData.mobile,
+          tableNumber: metaData.tableNumber,
+          peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
+        },
+        timeout: 10000
+      }
+
+      axios.get(status_api_url, status_api_options)
+      .then(function (apiResponse) {
+          let response = apiResponse.data;
+          if (response.status) {
+            let activeStatusData = response.data;
+            let getActiveStatus = activeStatusData.status;
+            localStorage.setItem("activeStatus", JSON.stringify(getActiveStatus));
+            
+            activeStatusData.cart = formatCart(activeStatusData.cart);
+            localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
+
+            switch(getActiveStatus){
+              case "active":{
+                localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
+                break;
+              }
+              case "billed":{
+                setTimeout(() => { history.push("/invoice"); }, SILENT_STATUS_REFRESH_INTERVAL);
+                break;
+              }
+              default:{
+                break;
+              }
+            }
+          }
+      })
+      .catch(function (error) {
+      })
+  }
+
+
   /******************************
         LOAD MENU SILENTLY
   ******************************/
   const silentReloadMenu = () => {
-
     let userValidatedData = localStorage.getItem("userValidatedData") ? JSON.parse(localStorage.getItem("userValidatedData")) : {};
 
     const menu_api_data = {
@@ -60,6 +167,10 @@ function Home() {
 
   setInterval(function(){
     silentReloadMenu();
+  }, SILENT_MENU_RELOAD_INTERVAL);
+
+  setInterval(function(){
+    silentCheckStatus();
   }, SILENT_MENU_RELOAD_INTERVAL);
 
 

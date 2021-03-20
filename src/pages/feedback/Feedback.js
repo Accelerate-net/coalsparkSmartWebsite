@@ -4,10 +4,10 @@ import angryEmoji from "../../assets/imgs/angryemoji.png";
 import sadEmoji from "../../assets/imgs/sademoji.png";
 import happyEmoji from "../../assets/imgs/happyemoji.png";
 import { useHistory } from "react-router-dom";
+const axios = require("axios");
 
 function Feedback() {
   const [emojiVal, handleEmojiValue] = useState("happy");
-  const [feedBackMess, handleFeedbackBtn] = useState([]);
   const [feedComm, handleFeedComments] = useState("");
   const sadEmojiImg = document.getElementsByClassName("sad__Emoji");
   const angryEmojiImg = document.getElementsByClassName("angry__Emoji");
@@ -70,12 +70,6 @@ function Feedback() {
     }
   }
 
-  let uniqueFeedb;
-  function checkDup() {
-    uniqueFeedb = [...new Set(feedBackMess)];
-    return uniqueFeedb;
-  }
-
   //   Function to manage the feedback btns
   function manageFeedbackBtn(a, key) {
     if (
@@ -85,26 +79,58 @@ function Feedback() {
     ) {
       feedbackBtns[key].classList.toggle("selectfill");
     }
-
-    checkDup();
-    // console.log(uniqueFeedb);
-    handleFeedbackBtn((odlArray) => [odlArray, a]);
   }
 
-  //   Stoting the feedback data
-  var feedBackData = {
-    emojiValue: emojiVal,
-    feedbackMessgae: feedBackMess,
-    feedbackComments: feedComm,
-  };
+  const feedbackRating = {};
+  feedbackRating["angry"] = 1;
+  feedbackRating["sad"] = 2;
+  feedbackRating["happy"] = 3;
 
-  //   Function after clciking send feedback button
   function gatherFeedback() {
-    console.log(feedBackData);
-    window.localStorage.clear();
-    setTimeout(() => {
-      history.push("/thankyou");
-    }, 1000);
+    let allTags = [];
+    var elems = document.getElementsByClassName("feedback__BtnsWrapper");
+    Array.prototype.forEach.call(elems, function(elem) {
+        var x = elem.getElementsByClassName("selectfill");
+        Array.prototype.forEach.call(x, function(feedButton) {
+            allTags.push(feedButton.innerText);
+        });
+    });
+
+    const queryString = window.location.search;
+    const queryParamsInUrl = new URLSearchParams(queryString);
+    const redirect_MasterOrderId = queryParamsInUrl.get("orderId");
+    const redirect_token = queryParamsInUrl.get("token");
+
+    if(redirect_MasterOrderId){
+          const feedbackData = {
+            masterOrderId: redirect_MasterOrderId,
+            rating: feedbackRating[emojiVal],
+            tags: allTags,
+            comments: feedComm,
+            token: redirect_token
+          };
+
+          const feedback_api_options = {
+            method: "post",
+            url: "https://accelerateengine.app/smart-menu/apis/recordfeedback.php",
+            data: feedbackData,
+            timeout: 10000,
+          };
+
+          axios(feedback_api_options)
+          .then(function (response) {
+              window.localStorage.clear();
+              setTimeout(() => {
+                history.push("/thankyou");
+              }, 1000);
+            })
+          .catch(function (error) {
+              window.localStorage.clear();
+              setTimeout(() => {
+                history.push("/thankyou");
+              }, 1000);
+          });
+    }
   }
 
   //   Message rendering conditionally
@@ -135,19 +161,19 @@ function Feedback() {
 
   //Feedback Button Data in array form
   const angryFoodButton = [
-    "Worst food ever",
-    "Worst food ever ever",
-    "Worst food ever ever ever",
-    "Worst food ever",
-    "Worst food ever ever",
+    "No worth for money",
+    "Service related",
+    "Not liking the ambience",
+    "Food quality",
+    "Order Process"
   ];
 
   const sadFoodButton = [
-    "Slow serving time",
+    "Delayed serving time",
     "Table not cleaned",
-    "Food was bad",
-    "Scanning taking time",
-    "Bad customer service",
+    "Food taste",
+    "Confusing Menu",
+    "Less options to try"
   ];
 
   const happyFoodButton = [
@@ -155,7 +181,7 @@ function Feedback() {
     "Value for Money",
     "Superb Staff",
     "Excellent Service",
-    "Had a Nice Experience"
+    "6 Star Experience"
   ];
 
   //   Rendering Button dynamically from the button array data
@@ -211,28 +237,27 @@ function Feedback() {
   return (
     <div className="feedback__Wrapper">
       <div className="payment__title">
-        <h3>Payment Successful</h3>
-        
+        <h3 className="animate__backInDown"><i class="fa fa-check-circle"></i> Payment Successful</h3>
       </div>
       <div className="feeback__innerWrapper">
-        <div className="feedback__Title"><p>How did we do today?</p></div>
+        <div className="feedback__Title"><p className="animate__fadeIn">How was your experience with <b>Zaitoon</b> today?</p></div>
         <div className="emoji__Wrapper">
           <div
-            className="angry__Emoji"
+            className="angry__Emoji animate__heartBeat"
             data-emoji="angry"
             onClick={() => handleAngryEmojiSelection()}
           >
             <img src={angryEmoji} alt="" />
           </div>
           <div
-            className="sad__Emoji"
+            className="sad__Emoji animate__heartBeat"
             data-emoji="sad"
             onClick={() => handleSadEmojiSelection()}
           >
             <img src={sadEmoji} alt="" />
           </div>
           <div
-            className="happy__Emoji selectborder"
+            className="happy__Emoji animate__heartBeat selectborder"
             data-emoji="happy"
             onClick={() => handleHappyEmojiSelection()}
           >
@@ -243,16 +268,14 @@ function Feedback() {
         <div className="feedback__BtnsWrapper">{renderFeedbackButton()}</div>
         <div className="feedback___sendBtn">
           <form>
-            <input
-              type="text"
+            <textarea className="feedbackComments" type="text"
               name="feedbackComments"
               placeholder="Any other comments?"
               value={feedComm}
-              onChange={(e) => handleFeedComment(e)}
-            />
+              onChange={(e) => handleFeedComment(e)} rows="4" charswidth="23" name="text_body"></textarea>
           </form>
           <button className="feed_sendBtn final" onClick={() => gatherFeedback()}>
-            Submit Feedback
+            Submit
           </button>
         </div>
       </div>

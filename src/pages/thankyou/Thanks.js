@@ -13,14 +13,6 @@ function Thanks() {
     });
   }
 
-  // let getActiveStatus = localStorage.getItem("activeStatus")
-  //   ? JSON.parse(localStorage.getItem("activeStatus"))
-  //   : {};
-
-  //   if (getActiveStatus === "free" || getActiveStatus === "active") {
-  //          history.push("/*")
-  //   }
-
   const defaultOption = {
     loop: true,
     autoplay: true,
@@ -32,9 +24,9 @@ function Thanks() {
   return (
     <div className="thanks__Wrapper">
       <div className="thanks__innerWrapper">
-        <Lottie options={defaultOption} height={250} width={250} />
-        <h3>Thank you for dining with us!</h3>
-        <p>Hope to see you soon</p>
+        <Lottie options={defaultOption} width={200} />
+        <h3>Thank you for dining with us today!</h3>
+        <p>Write to us at <b>hello@zaitoon.restaurant</b></p>
       </div>
     </div>
   );

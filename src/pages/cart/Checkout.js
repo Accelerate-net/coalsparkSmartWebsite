@@ -19,9 +19,62 @@ function Checkout() {
   // const [orderPlaced, setOrder] = useState(false);
   const [cartComm, handleCartComments] = useState("");
   const [enteredPeerCode, handlePeerCode] = useState("");
+  
+  const initOldCartItems = () => {
+    let oldCartDataTemp = localStorage.getItem("oldCart")
+              ? JSON.parse(localStorage.getItem("oldCart"))
+              : [];
+
+    return oldCartDataTemp?.map((item, k) => (
+      <BilledItem
+        key={k}
+        itemCode={item.itemCode}
+        itemName={item.itemName}
+        itemOriginalPrice={item.itemOriginalPrice}
+        itemPrice={item.itemPrice}
+        itemVeg={item.itemVeg}
+        itemCount={item.itemCount}
+        customOpt={item.itemOptions}
+        customVariant={item.customVariant}
+        isCustom={item.isCustom}
+        orderPersonLabel={item.orderPersonLabel}
+        orderPersonMobile={item.orderPersonMobile}
+      />
+    ));
+  }
+
+  const [billedItem, handleOrderCartContents] = useState(() => {
+      return initOldCartItems();
+  });
+
+
+  const renderOldOrderItems = () => {
+      let oldCartData = localStorage.getItem("oldCart")
+                ? JSON.parse(localStorage.getItem("oldCart"))
+                : [];
+      console.log('reinitOldCart')
+      let billedItemTemp = oldCartData?.map((item, k) => (
+        <BilledItem
+          key={k}
+          itemCode={item.itemCode}
+          itemName={item.itemName}
+          itemOriginalPrice={item.itemOriginalPrice}
+          itemPrice={item.itemPrice}
+          itemVeg={item.itemVeg}
+          itemCount={item.itemCount}
+          customOpt={item.itemOptions}
+          customVariant={item.customVariant}
+          isCustom={item.isCustom}
+          orderPersonLabel={item.orderPersonLabel}
+          orderPersonMobile={item.orderPersonMobile}
+        />
+      ));
+      handleOrderCartContents(billedItemTemp);
+  }
 
   let oldTotal = 0;
-  let getOldCart = localStorage.getItem("oldCart")
+  let getOldCart = [];
+  getOldCart = localStorage.getItem("oldCart")
     ? JSON.parse(localStorage.getItem("oldCart"))
     : [];
 
@@ -142,22 +195,25 @@ function Checkout() {
     />
   ));
 
-  const billedItem = oldCartData?.map((item, k) => (
-    <BilledItem
-      key={k}
-      itemCode={item.itemCode}
-      itemName={item.itemName}
-      itemOriginalPrice={item.itemOriginalPrice}
-      itemPrice={item.itemPrice}
-      itemVeg={item.itemVeg}
-      itemCount={item.itemCount}
-      customOpt={item.itemOptions}
-      customVariant={item.customVariant}
-      isCustom={item.isCustom}
-      orderPersonLabel={item.orderPersonLabel}
-      orderPersonMobile={item.orderPersonMobile}
-    />
-  ));
+  // var billedItem = oldCartData?.map((item, k) => (
+  //   <BilledItem
+  //     key={k}
+  //     itemCode={item.itemCode}
+  //     itemName={item.itemName}
+  //     itemOriginalPrice={item.itemOriginalPrice}
+  //     itemPrice={item.itemPrice}
+  //     itemVeg={item.itemVeg}
+  //     itemCount={item.itemCount}
+  //     customOpt={item.itemOptions}
+  //     customVariant={item.customVariant}
+  //     isCustom={item.isCustom}
+  //     orderPersonLabel={item.orderPersonLabel}
+  //     orderPersonMobile={item.orderPersonMobile}
+  //   />
+  // ));
+
+
+
 
   function showPrice() {
     setShowPrice(!showP);
@@ -342,7 +398,7 @@ function Checkout() {
     }
   }
 
-  
+
   //Format cart back to frontend standard
   function standardiseCart(cart){
     let original_menu = {};
@@ -427,6 +483,8 @@ function Checkout() {
             localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
             if(activeStatusData.status == "active"){
               localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
+              //Re-render cart
+              renderOldOrderItems();
             }
           }
         }

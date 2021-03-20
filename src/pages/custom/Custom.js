@@ -130,7 +130,7 @@ function Custom() {
       </div>
       <div className="custom__AddBtnWrapper">
         <button
-          className="add__Btn"
+          className="add__Btn custom"
           onClick={() => {
             addToBasket();
             showAddedAnimation();

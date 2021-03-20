@@ -222,7 +222,7 @@ function Login() {
         handleName(userNameRedirect);
         handleMobile(userMobileRedirect);
         document.getElementById("usermobileField").focus();
-      }, 1500);
+      }, 500);
     }
     else{
       document.getElementById("usermobileField").focus();
@@ -646,7 +646,7 @@ function Login() {
           localStorage.setItem("metaData", JSON.stringify(metaData));
 
           //Check active status on the table
-          checkActiveStatus(userData, metaData, '');
+          checkActiveStatus(userData, metaData, peerCode);
 
         } else {
           showToast("Failed to fetch the menu", "warning");

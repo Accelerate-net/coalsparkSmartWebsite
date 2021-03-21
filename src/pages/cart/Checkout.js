@@ -313,7 +313,9 @@ function Checkout() {
           history.push(redirect_url);
         } else {
           let errorString = response.data.error;
-          if(errorString.startsWith("You can not modify this table, another order already in progress from")){
+          let errorCheckFailed = errorString.startsWith("You can not order on this table. Another order already in progress") || errorString.startsWith("Incorrect peer code, get the 4 digit code from") || errorString.startsWith("You can not modify this table, another order already in progress from");
+          
+          if(errorCheckFailed){
             //Order failed due to no peer code passed
             showPeerCode(peerData);
           } else {

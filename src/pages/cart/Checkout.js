@@ -189,7 +189,7 @@ function Checkout() {
     document.getElementById("peerCodeBox4").value = "";
     document.getElementById("peerCodeBox1").focus();
 
-    if(peerData.maskedNumber != null && peerData.maskedNumber != ""){
+    if(peerData != null && peerData.maskedNumber != null && peerData.maskedNumber != ""){
       document.getElementById("peerCodeLabel").innerHTML = 'An order is already in progress<br>enter peer code from ' + peerData.maskedNumber;
     }
     else{
@@ -284,7 +284,7 @@ function Checkout() {
     return formattedCart;
   }
 
-  function placeOrder() {
+  function placeOrder(optionalPeerCode) {
     let userData = localStorage.getItem("userValidatedData")
       ? JSON.parse(localStorage.getItem("userValidatedData"))
       : {};
@@ -322,7 +322,7 @@ function Checkout() {
       userMobile: userData.mobile,
       token: userData.token,
       masterOrderId: masterOrderId,
-      peerCode: peerData.peerCode
+      peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != undefined && optionalPeerCode != "0000" ? optionalPeerCode : peerData.peerCode
     };
 
     const order_api_options = {
@@ -387,8 +387,6 @@ function Checkout() {
       return;
     }
 
-    var peerCodeData = document.getElementById("peerCodeData").innerHTML;
-    var restoredData = peerCodeData ? JSON.parse(peerCodeData) : {};
     placeOrder(enteredPeerCode);
     hidePeerCode();
   };

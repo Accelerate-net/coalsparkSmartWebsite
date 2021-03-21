@@ -361,7 +361,7 @@ function Login() {
           activeStatusData.cart = formatCart(activeStatusData.cart);
           localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
 
-          let peerData = response.metaData && response.metaData != null ? response.metaData : {};
+          let peerData = activeStatusData.metaData && activeStatusData.metaData != null ? (activeStatusData.metaData.peerData && activeStatusData.metaData.peerData != null ? activeStatusData.metaData.peerData : {}) : {};
           localStorage.setItem("peerData", JSON.stringify(peerData));
 
           switch(getActiveStatus){

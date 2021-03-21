@@ -67,14 +67,13 @@ function BilledItem({
         )}
         <p className="checkoutProduct__title">
           {itemName}
-          {isSelfUser(orderPersonLabel, orderPersonMobile) ? (<span className="self">Your Order</span>) : (<span className="peer">{getOrderPersonLabel(orderPersonLabel, orderPersonMobile)}</span>)}
           {isCustom ? (
             <>
               <span
                 className="variantName"
                 style={{ fontSize: "12px", color: "#000" }}
               >
-                {customVariant}
+                <span>{customVariant} {isSelfUser(orderPersonLabel, orderPersonMobile) ? (<span><i class="fa fa-circle specialSelfDotGreen"></i> <span className="self">Your Order</span></span>) : (<span><i class="fa fa-circle specialSelfDotRed"></i> <span className="peer">{getOrderPersonLabel(orderPersonLabel, orderPersonMobile)}</span></span>)}</span>
               </span>
               <Link
                 to={{
@@ -96,6 +95,7 @@ function BilledItem({
               </Link>
             </>
           ) : null}
+          {!isCustom ? (isSelfUser(orderPersonLabel, orderPersonMobile) ? (<span className="self">Your Order</span>) : (<span className="peer">{getOrderPersonLabel(orderPersonLabel, orderPersonMobile)}</span>)) : null}
         </p>
         {/* <button className="checkoutProduct__remove">Remove</button> */}
 

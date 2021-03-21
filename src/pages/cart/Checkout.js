@@ -43,16 +43,41 @@ function Checkout() {
     ));
   }
 
+  const initCancelledCartItems = () => {
+    let cancelledCartDataTemp = localStorage.getItem("cancelledCart")
+              ? JSON.parse(localStorage.getItem("cancelledCart"))
+              : [];
+
+    return cancelledCartDataTemp?.map((item, k) => (
+      <BilledItem
+        key={k}
+        itemCode={item.itemCode}
+        itemName={item.itemName}
+        itemOriginalPrice={item.itemOriginalPrice}
+        itemPrice={item.itemPrice}
+        itemVeg={item.itemVeg}
+        itemCount={item.itemCount}
+        customOpt={item.itemOptions}
+        customVariant={item.customVariant}
+        isCustom={item.isCustom}
+        orderPersonLabel={item.orderPersonLabel}
+        orderPersonMobile={item.orderPersonMobile}
+      />
+    ));
+  }
+
   const [billedItem, handleOrderCartContents] = useState(() => {
       return initOldCartItems();
   });
 
+  const [cancelledItem, handleCancelledCartContents] = useState(() => {
+      return initCancelledCartItems();
+  });
 
   const renderOldOrderItems = () => {
       let oldCartData = localStorage.getItem("oldCart")
                 ? JSON.parse(localStorage.getItem("oldCart"))
                 : [];
-      console.log('reinitOldCart')
       let billedItemTemp = oldCartData?.map((item, k) => (
         <BilledItem
           key={k}
@@ -71,6 +96,30 @@ function Checkout() {
       ));
       handleOrderCartContents(billedItemTemp);
   }
+
+  const renderCancelledOrderItems = () => {
+      let cancelledCartData = localStorage.getItem("cancelledCart")
+                ? JSON.parse(localStorage.getItem("cancelledCart"))
+                : [];
+      let cancelledItemTemp = cancelledCartData?.map((item, k) => (
+        <BilledItem
+          key={k}
+          itemCode={item.itemCode}
+          itemName={item.itemName}
+          itemOriginalPrice={item.itemOriginalPrice}
+          itemPrice={item.itemPrice}
+          itemVeg={item.itemVeg}
+          itemCount={item.itemCount}
+          customOpt={item.itemOptions}
+          customVariant={item.customVariant}
+          isCustom={item.isCustom}
+          orderPersonLabel={item.orderPersonLabel}
+          orderPersonMobile={item.orderPersonMobile}
+        />
+      ));
+      handleCancelledCartContents(cancelledItemTemp);
+  }
+
 
   let oldTotal = 0;
   let getOldCart = [];
@@ -158,8 +207,8 @@ function Checkout() {
 
 
 
-
-  let itemsTotal = getBasketTotal(basket);
+  let overallCart = getOldCart && getOldCart != null && getOldCart != "" ? basket.concat(getOldCart) : basket;
+  let itemsTotal = getBasketTotal(overallCart);
   let urlParams = localStorage.getItem("metaData")
     ? JSON.parse(localStorage.getItem("metaData"))
     : {};
@@ -485,8 +534,22 @@ function Checkout() {
             localStorage.setItem("activeStatusData", JSON.stringify(activeStatusData));
             if(activeStatusData.status == "active"){
               localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
+              
+              let cancelledCart = activeStatusData.cancelledCart && activeStatusData.cancelledCart != null && activeStatusData.cancelledCart != "" ? activeStatusData.cancelledCart : [];
+              cancelledCart = cancelledCart != [] ? standardiseCart(cancelledCart) : [];
+              localStorage.setItem("cancelledCart", JSON.stringify(cancelledCart));
+
               //Re-render cart
               renderOldOrderItems();
+              renderCancelledOrderItems();
+            }
+            else{
+              localStorage.setItem("oldCart", JSON.stringify([]));
+              localStorage.setItem("cancelledCart", JSON.stringify([]));
+
+              //Re-render cart
+              renderOldOrderItems();
+              renderCancelledOrderItems();
             }
           }
         }
@@ -536,20 +599,27 @@ function Checkout() {
                 ))
               ) : getActiveStatus === "active" ? (
                 <div className="newOld">
-                  <div className="newOrderSection">
-                    {basket?.length > 0 ? <h3>New Order</h3> : null}
-                    {newCart}
-                  </div>
-                  <div className="activeOrderSection">
-                    <h3>
-                      Active Order{" "}
-                      <span className="activeOrderCheck">
-                        <ion-icon name="checkmark-done-outline"></ion-icon>
-                      </span>
-                    </h3>
+                    
+                    <div className="newOrderSection">
+                      {basket?.length > 0 ? <h3>New Order</h3> : null}
+                      {newCart}
+                    </div>
 
-                    {billedItem}
-                  </div>
+                    <div className="activeOrderSection">
+                      {billedItem.length > 0 ? (
+                        <>
+                          <h3>Active Order<span className="activeOrderCheck"> <ion-icon name="checkmark-done-outline"></ion-icon> </span></h3>
+                          {billedItem}
+                        </>) : null}
+                    </div>
+
+                    <div className="cancelledOrderSection">
+                      {cancelledItem.length > 0 ? (
+                        <>
+                          <h3>Cancelled Items<span className="activeOrderCheck"> <ion-icon name="close-outline"></ion-icon></span></h3>
+                          {cancelledItem}
+                        </>) : null}
+                    </div>
                 </div>
               ) : null}
             </div>

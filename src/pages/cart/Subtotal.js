@@ -21,7 +21,7 @@ function Subtotal() {
     : [];
 
   getOldCart.map((total) => {
-    oldTotal = oldTotal + parseInt(total.itemPrice);
+    oldTotal = oldTotal + (parseInt(total.itemPrice) * total.itemCount);
   });
 
   let fullDetails = {

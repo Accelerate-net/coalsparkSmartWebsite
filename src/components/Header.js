@@ -145,7 +145,11 @@ function Header() {
     coverImage = common_cover;
   }
 
-  let showPeerCodeButton = activeStatusData ? (activeStatusData.metaData.peerCode && activeStatusData.metaData.peerCode != null && activeStatusData.metaData.peerCode != "0000" ? true : false) : false;
+  let showPeerCodeButton = activeStatusData ? (activeStatusData.metaData && activeStatusData.metaData != null ? (activeStatusData.metaData.peerData && activeStatusData.metaData.peerData != null ? (activeStatusData.metaData.peerData.peerCode && activeStatusData.metaData.peerData.peerCode != "0000" && activeStatusData.metaData.peerData.peerCode != null) : false) : false) : false;
+  let displayPeerCode = "X X X X";
+  if(showPeerCodeButton){
+    displayPeerCode = activeStatusData.metaData.peerData.peerCode
+  }
 
   return (
     <nav className="header">
@@ -157,7 +161,7 @@ function Header() {
 
         {showPeerCodeButton ? (<div className="peerCodeIcon" onClick={handlePeerCodePopup}>
                       <ion-icon name="qr-code-outline"></ion-icon>
-                      <span>{activeStatusData.metaData.peerCode}</span>
+                      <span>{activeStatusData.metaData.peerData.peerCode}</span>
                     </div>) : (<span></span>)}
         
 
@@ -199,7 +203,7 @@ function Header() {
             <div className="peerCodePopup_innerWrapper">
               <div class="peerCodePopup_innerWrapper_Content">
                 <h2>Peer Code on Table <b>{metaData.tableNumber}</b></h2>
-                <h1>{activeStatusData.metaData.peerCode}</h1>
+                <h1>{displayPeerCode}</h1>
                 <p>Share this code with your peers<br></br>for them to modify the order on this table</p>
               </div>
             </div>

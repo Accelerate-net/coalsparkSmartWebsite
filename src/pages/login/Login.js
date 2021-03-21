@@ -366,11 +366,18 @@ function Login() {
 
           switch(getActiveStatus){
             case "free":{
+              localStorage.setItem("oldCart", JSON.stringify([]));
+              localStorage.setItem("cancelledCart", JSON.stringify([]));
               setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }
             case "active":{
               localStorage.setItem("oldCart", JSON.stringify(activeStatusData.cart));
+
+              let cancelledCart = activeStatusData.cancelledCart && activeStatusData.cancelledCart != null && activeStatusData.cancelledCart != "" ? activeStatusData.cancelledCart : [];
+              cancelledCart = cancelledCart != [] ? formatCart(cancelledCart) : [];
+              localStorage.setItem("cancelledCart", JSON.stringify(cancelledCart));
+
               setTimeout(() => { history.push("/menu"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
               break;
             }

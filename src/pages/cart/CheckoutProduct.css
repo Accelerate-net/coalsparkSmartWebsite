@@ -30,16 +30,30 @@
 .checkoutProduct__title .self{
     color: #4caf50;
     font-size: 12px;
-    border-left: 4px solid #4caf50;
     display: inline-block;
     width: 80px;
     text-align: left;
     opacity: 0.7;
-    padding-left: 4px;
+}
+
+.checkoutProduct__title .specialSelfDotGreen{
+    font-size: 50%;
+    position: relative;
+    top: -2px;
+    margin: 0 8px;
+    color: #afafaf;
+}
+
+.checkoutProduct__title .specialSelfDotRed{
+    font-size: 50%;
+    position: relative;
+    top: -2px;
+    margin: 0 8px;
+    color: #afafaf;
 }
 
 .checkoutProduct__title .peer{
-    color: #795548;
+    color: #d25f86;
     font-size: 12px;
 }
 

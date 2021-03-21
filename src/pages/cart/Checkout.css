@@ -157,6 +157,42 @@
   opacity: 0.3 !important;
 }
 
+.cancelledOrderSection,
+.cancelledOrderSection .checkoutProduct__title,
+.cancelledOrderSection .checkoutCustomizedLink,
+.cancelledOrderSection .checkoutProduct__price,
+.cancelledOrderSection .variantName {
+  color: #a5a5a5 !important;
+}
+
+.checkoutProduct__price{
+    min-width: 40px !important;
+    text-align: right !important;
+}
+
+.cancelledOrderSection .nonVegSymbol {
+  opacity: 0.3 !important;
+}
+
+.cancelledOrderSection .activeOrderCheck{
+  color: #e2133a !important;
+}
+
+.cancelledOrderSection h3{
+  color: #e2133a !important;
+  opacity: 0.4 !important;
+}
+
+.cancelledOrderSection ._1H238,
+.cancelledOrderSection .QSzbj,
+.cancelledOrderSection .checkoutCustomizedLink {
+  display: none !important;
+}
+
+.cancelledOrderSection ._2pWL-{
+  border: none !important;
+}
+
 .orderInfoTotal {
   color: #000000 !important;
   font-family: "roboto", sans-serif !important;

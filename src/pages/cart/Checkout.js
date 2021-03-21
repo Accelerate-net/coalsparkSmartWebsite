@@ -657,7 +657,7 @@ function Checkout() {
               </h1>
               {showP ? null : (
                 <p className="orderInfoTotal">
-                  <span>{itemsTotal + oldTotal}</span>
+                  <span>{itemsTotal}</span>
                 </p>
               )}
             </div>

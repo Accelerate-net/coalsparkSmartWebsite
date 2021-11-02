@@ -8,6 +8,8 @@ const axios = require('axios');
 
 const RAZORPAY_PAYMENT_KEY = "";
 
+const DEFAULT_SUCCESS_REDIRECT_TIME = 500;
+
 function Invoice() {
   const history = useHistory();
 
@@ -94,12 +96,11 @@ function Invoice() {
         qrCodeReference: metaData.qrCodeReference,
         userMobile: userData.mobile,
         tableNumber: metaData.tableNumber,
-        peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
+        peerCode: 0
       },
       timeout: 10000
     }
 
-    showLoading();
     axios.get(status_api_url, status_api_options)
     .then(function (apiResponse) {
         let response = apiResponse.data;
@@ -229,8 +230,8 @@ function Invoice() {
         </div>
         <hr style={{ marginBottom: "1rem" }} />
         <div className="invoiceBillDetailsWrapper">
-          <h3 style={{ color: "#e2133a", marginBottom: "20px" }}>
-            Invoice Summary #{activeStatusData.paymentData.systemBillNumber}
+          <h3 style={{ color: "#e2133a", marginBottom: "20px", fontWeight: 400 }}>
+            Invoice Summary / <span style={{fontWeight: 900 }}>#{activeStatusData.paymentData.systemBillNumber}</span>
           </h3>
           <div className="invoiceBillDet">
             <div className="invoicesubTotal">

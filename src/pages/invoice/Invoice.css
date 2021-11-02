@@ -46,6 +46,7 @@
 .invoice__Wrapper .invoiceNumber{
   font-size: 16px;
   float: right;
+  padding: 6px 0;
 }
 
 .invoice__Wrapper .invoiceNumber .fa{

@@ -8,7 +8,7 @@ const axios = require('axios');
 
 const RAZORPAY_PAYMENT_KEY = "";
 
-const DEFAULT_SUCCESS_REDIRECT_TIME = 500;
+const DEFAULT_SUCCESS_REDIRECT_TIME = 2000;
 
 function Invoice() {
   const history = useHistory();
@@ -19,6 +19,8 @@ function Invoice() {
 
   //Sort by ordered people
   activeStatusData.cart.sort((a, b) => a.orderPersonMobile - b.orderPersonMobile);
+
+  console.log(activeStatusData.cart)
 
   /******************** 
     COMMON FUNCTIONS 
@@ -116,7 +118,7 @@ function Invoice() {
             localStorage.setItem("oldCart", JSON.stringify([]));
             localStorage.setItem("cancelledCart", JSON.stringify([]));
             showToast("Yay! Seems like the bill has been paid already.", "");
-            setTimeout(() => { history.push("/*"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+            setTimeout(() => { history.push("/thankyou"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
           } else {
             makePaymentNow();
           }
@@ -209,7 +211,7 @@ function Invoice() {
                       style={{ fontSize: "12px", color: "#000" }}
                     >
                       {activeCart.customVariant}
-                      {activeCart.orderPersonMobile != '9043960876' ? (<span className="itemDot"><i class="fa fa-circle"></i>{getOrderedPerson(activeCart.orderPersonLabel, activeCart.orderPersonMobile)}</span>) : (<i></i>)}
+                      {<span className="itemDot"><i class="fa fa-circle"></i>{getOrderedPerson(activeCart.orderPersonLabel, activeCart.orderPersonMobile)}</span>}
                       
                     </span>
                   </>
@@ -298,9 +300,9 @@ function Invoice() {
             </div>
           </div>
         </div>
+        <p className="invoiceDesclaimer">Please refer to the original printed invoice<br></br>to verify the actual amount break-up</p>
       </div>
       ):null}
-      
     </div>
   );
 }

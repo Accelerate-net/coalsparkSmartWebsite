@@ -71,9 +71,69 @@ function Invoice() {
   }
 
 
-  const makePaymentNow = async (e) => {
+  const checkActiveStatusAndProceedToPayment = async (e) => {
 
     e.preventDefault();
+
+    let metaData = localStorage.getItem("metaData") ? JSON.parse(localStorage.getItem("metaData")) : {};
+    let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {};
+
+    if(metaData == {} || userData == {}){
+      showDefaultErrorPage("Order details not found");
+      return;
+    }
+
+
+    /******************************
+            CHECK ACTIVE 
+    ******************************/
+    const status_api_url = "https://accelerateengine.app/smart-menu/apis/checkstatus.php";
+    const status_api_options = {
+      params : {
+        branchCode: metaData.branchCode,
+        qrCodeReference: metaData.qrCodeReference,
+        userMobile: userData.mobile,
+        tableNumber: metaData.tableNumber,
+        peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
+      },
+      timeout: 10000
+    }
+
+    showLoading();
+    axios.get(status_api_url, status_api_options)
+    .then(function (apiResponse) {
+        let response = apiResponse.data;
+        if (response.status) {
+          let data = response.data;
+          if(data == null){
+            showDefaultErrorPage("Unable to fetch the current order status");
+            return;
+          }
+
+          let getActiveStatus = data.status;
+          if(getActiveStatus != "billed"){
+            localStorage.setItem("oldCart", JSON.stringify([]));
+            localStorage.setItem("cancelledCart", JSON.stringify([]));
+            showToast("Yay! Seems like the bill has been paid already.", "");
+            setTimeout(() => { history.push("/*"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
+          } else {
+            makePaymentNow();
+          }
+        }
+        else{
+          showDefaultErrorPage();
+          showToast("Something went wrong, please try again.", "error");
+        }
+    })
+    .catch(function (error) {
+      showDefaultErrorPage();
+      showToast("Unexpected error occured, please try again.", "error");
+    })
+  }
+
+
+
+  const makePaymentNow = async () => {
 
     let paymentData = activeStatusData ? activeStatusData.paymentData : {};
     let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {};
@@ -170,7 +230,7 @@ function Invoice() {
         <hr style={{ marginBottom: "1rem" }} />
         <div className="invoiceBillDetailsWrapper">
           <h3 style={{ color: "#e2133a", marginBottom: "20px" }}>
-            Invoice Summary
+            Invoice Summary #{activeStatusData.paymentData.systemBillNumber}
           </h3>
           <div className="invoiceBillDet">
             <div className="invoicesubTotal">
@@ -231,7 +291,7 @@ function Invoice() {
             </div>
 
             <div className="invoiceBtnWrapper">
-              <button className="invoiceBtn" onClick={makePaymentNow}>
+              <button className="invoiceBtn" onClick={checkActiveStatusAndProceedToPayment}>
                 PROCEED TO PAY <b className="finalAmountToPay">{activeStatusData.invoiceDetails.grandTotal}</b>
               </button>
             </div>

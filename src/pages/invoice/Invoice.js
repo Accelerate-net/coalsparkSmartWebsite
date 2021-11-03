@@ -15,12 +15,16 @@ function Invoice() {
 
   let activeStatusData = localStorage.getItem("activeStatusData")
     ? JSON.parse(localStorage.getItem("activeStatusData"))
-    : {};
+    : null;
+
+  //User click back button
+  if(activeStatusData === null){
+    window.location.href = "https://smart.zaitoon.restaurant";
+    return;
+  }  
 
   //Sort by ordered people
   activeStatusData.cart.sort((a, b) => a.orderPersonMobile - b.orderPersonMobile);
-
-  console.log(activeStatusData.cart)
 
   /******************** 
     COMMON FUNCTIONS 
@@ -87,6 +91,8 @@ function Invoice() {
       return;
     }
 
+    let optionalPeerCode = localStorage.getItem("peerData") ? JSON.parse(localStorage.getItem("peerData")).peerCode : 0;
+
 
     /******************************
             CHECK ACTIVE 
@@ -98,7 +104,7 @@ function Invoice() {
         qrCodeReference: metaData.qrCodeReference,
         userMobile: userData.mobile,
         tableNumber: metaData.tableNumber,
-        peerCode: 0
+        peerCode: optionalPeerCode && optionalPeerCode != null && optionalPeerCode != "" ? optionalPeerCode : 0
       },
       timeout: 10000
     }
@@ -115,8 +121,7 @@ function Invoice() {
 
           let getActiveStatus = data.status;
           if(getActiveStatus != "billed"){
-            localStorage.setItem("oldCart", JSON.stringify([]));
-            localStorage.setItem("cancelledCart", JSON.stringify([]));
+            window.localStorage.clear();
             showToast("Yay! Seems like the bill has been paid already.", "");
             setTimeout(() => { history.push("/thankyou"); }, DEFAULT_SUCCESS_REDIRECT_TIME);
           } else {

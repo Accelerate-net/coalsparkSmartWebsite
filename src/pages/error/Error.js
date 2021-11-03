@@ -11,9 +11,9 @@ function Error() {
   return (
     <div className="errorWrapper">
       <img src={errorImg} alt="error 404 | Page not Found" />
-      <h3>Oops! Something is wrong.</h3>
+      <h3>Oops! Something went wrong.</h3>
       {message ? (<p><b>Error</b> {message}</p>) : null}
-      <a href = "https://smart.zaitoon.restaurant" className = "click">Go Back</a>
+      <a href = "https://smart.zaitoon.restaurant" className = "click">Scan Again</a>
     </div>
   );
 }

@@ -521,7 +521,6 @@ function Checkout() {
       timeout: 10000
     }
 
-
     axios.get(status_api_url, status_api_options)
     .then(function (apiResponse) {
         let response = apiResponse.data;
@@ -557,8 +556,8 @@ function Checkout() {
       showToast("Failed to refresh the cart", "warning");
       ele.classList.remove("animate__rotateOut");
     })
-  }
 
+  }
 
   return (
     <>
@@ -568,7 +567,7 @@ function Checkout() {
             <ion-icon name="arrow-back-outline"></ion-icon>
           </Link>
           <h2 className="checkout__title"> Your Cart</h2>
-          <Link onClick={reloadCheckStatus} className="refreshCartIcon">
+          <Link to="/checkout" onClick={reloadCheckStatus} className="refreshCartIcon">
             <ion-icon name="refresh-outline" id="refreshCartIconId"></ion-icon>
           </Link>
         </nav>

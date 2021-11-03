@@ -179,7 +179,7 @@ function Checkout() {
 
 
   // Enter Peer Code
-  function showPeerCode(peerData) {
+  function showPeerCode(peerCodeText) {
     let ele = document.getElementById("peerCodeFormSection");
     ele.classList.remove("close");
     ele.classList.add("open");
@@ -189,11 +189,11 @@ function Checkout() {
     document.getElementById("peerCodeBox4").value = "";
     document.getElementById("peerCodeBox1").focus();
 
-    if(peerData != null && peerData.maskedNumber != null && peerData.maskedNumber != ""){
-      document.getElementById("peerCodeLabel").innerHTML = 'An order is already in progress<br>enter peer code from ' + peerData.maskedNumber;
+    if(peerCodeText != null && peerCodeText != ""){
+      document.getElementById("peerCodeLabel").innerHTML = peerCodeText;
     }
     else{
-      document.getElementById("peerCodeLabel").innerHTML = 'Enter Peer Code'
+      document.getElementById("peerCodeLabel").innerHTML = 'An order is already in progress. Enter peer code.'
     }
   }
 
@@ -362,11 +362,11 @@ function Checkout() {
           history.push(redirect_url);
         } else {
           let errorString = response.data.error;
-          let errorCheckFailed = errorString.startsWith("You can not order on this table. Another order already in progress") || errorString.startsWith("Incorrect peer code, get the 4 digit code from") || errorString.startsWith("You can not modify this table, another order already in progress from");
+          let errorCheckFailed = errorString.startsWith("An order is already in progress on this table. Please enter the peer code from") || errorString.startsWith("Incorrect peer code, get the 4 digit code from") || errorString.startsWith("You can not modify this table, another order already in progress from");
           
           if(errorCheckFailed){
             //Order failed due to no peer code passed
-            showPeerCode(peerData);
+            showPeerCode(errorString);
           } else {
             showToast("Order Failed - " + response.data.error, "error");
           }

@@ -13,7 +13,7 @@ function Error() {
       <img src={errorImg} alt="error 404 | Page not Found" />
       <h3>Oops! Something went wrong.</h3>
       {message ? (<p><b>Error</b> {message}</p>) : null}
-      <a href = "https://smart.zaitoon.restaurant" className = "click">Scan Again</a>
+      <a href = "https://smart.coalspark.com" className = "click">Scan Again</a>
     </div>
   );
 }
